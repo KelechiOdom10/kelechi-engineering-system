@@ -1,0 +1,6 @@
+interface:
+  display_name: "Kelechi Mode"
+  short_description: "Route engineering work through evidence-first playbooks"
+  default_prompt: "Use $kelechi-mode to choose the right playbook and specialist skills for this task."
+policy:
+  allow_implicit_invocation: true

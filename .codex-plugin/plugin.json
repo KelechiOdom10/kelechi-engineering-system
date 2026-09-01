@@ -1,0 +1,26 @@
+{
+  "name": "kelechi-mode",
+  "version": "0.1.2+codex.20260901173327",
+  "description": "An evidence-first engineering router tailored to Kelechi's Codex workflow.",
+  "author": {
+    "name": "Kelechi Odom"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Kelechi Mode",
+    "shortDescription": "Route complex engineering work through the right playbook and skills.",
+    "longDescription": "Kelechi Mode is an opt-in workflow router for investigation, fixes, features, refactors, performance work, reviews, design, PR babysitting, explanations, pause, and resume. It composes existing Codex and Humaans skills while preserving current authorization boundaries.",
+    "developerName": "Kelechi Odom",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use $kelechi-mode to investigate this issue without changing code.",
+      "Use $kelechi-mode to plan and implement this fix.",
+      "Use $kelechi-mode to review the current change rigorously."
+    ]
+  }
+}
