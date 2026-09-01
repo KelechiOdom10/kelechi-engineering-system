@@ -136,6 +136,18 @@ That makes prior work available at the moment it is useful without turning stale
 policy. A support engineer can start with a known pattern; they still reproduce the present
 case before acting on it.
 
+### Validation proves the change at the right boundary
+
+The workflow treats validation as part of implementation. After a change, the engineer runs the
+repository's formatter, lint, type checks, and the smallest focused test that proves the changed
+behaviour. The exact commands belong in the repository adapter because they vary by codebase.
+
+That is necessary but not always sufficient. A changed request path, UI flow, background job,
+schema, or integration also needs the real boundary exercised when practical. A mock can prove a
+unit's expectation; it cannot prove an incorrect command, generated artifact, permission gate,
+hook order, or integration contract. If a required check cannot run, the hand-off says so rather
+than calling the work verified.
+
 ## Guardrails that work at the point of action
 
 Several rules are enforced, or at least prompted, where mistakes otherwise happen:

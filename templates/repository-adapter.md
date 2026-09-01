@@ -2,7 +2,8 @@
 
 Document only the information that changes engineering decisions in this repository.
 
-- Build, lint, type-check, and focused-test commands.
+- Formatter, lint, type-check, focused-test, and broader-check commands.
+- The real boundary to exercise for service, UI, queue, schema, migration, and integration changes.
 - Scoped rules for packages or services.
 - Data-access and production-safety boundaries.
 - Deployment, review, and ownership conventions.

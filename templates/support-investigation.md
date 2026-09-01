@@ -10,7 +10,8 @@
 ## Evidence
 
 - Reproduced symptom:
-- Relevant data or request:
+- Relevant read-only production data:
+- Relevant logs, traces, or measured timings:
 - Ranked hypotheses and predictions:
 - Result of each test:
 

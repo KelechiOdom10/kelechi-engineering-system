@@ -10,6 +10,7 @@ This repository separates personal engineering practice from company-specific kn
 | Delegation policy | A general rule: use parallel read-only evidence, retain one owner for decisions and shared writes. |
 | PR-writing and review standards | Personal quality and communication preferences. |
 | Generic support-investigation skill | A reusable approach with no provider, customer, or production details. |
+| Work-validation skill | A reusable proof standard: format, lint, type-check, focused test, and real boundary. |
 | Humaans-gated hooks and standard | Personal implementations retained for reference; they do nothing outside the `humaans/humaans` repository. |
 
 ## Deliberately excluded
@@ -23,7 +24,8 @@ This repository separates personal engineering practice from company-specific kn
 ## Adapt a new repository
 
 1. Keep `skills/kelechi-mode/` unchanged unless a general lesson requires a change.
-2. Add a repository adapter with that project's commands, test paths, and safety boundaries.
+2. Add a repository adapter with that project's formatter, lint, type, focused-test, and
+   production-safety commands.
 3. Keep access procedures outside the portable core and require explicit authorisation at the
    actual external action.
 4. Add narrowly scoped hooks only after a real, recurring failure mode justifies one.

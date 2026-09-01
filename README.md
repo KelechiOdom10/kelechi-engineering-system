@@ -12,8 +12,8 @@ It contains three layers:
   boundaries.
 - **Personal standards** — review and pull-request writing standards that make changes easier to
   assess and maintain.
-- **Adapters and templates** — a portable support-investigation skill, generic templates, and a
-  Humaans-gated adapter for the practices that only make sense in that repository.
+- **Adapters and templates** — portable support investigation and work-validation skills, generic
+  templates, and a Humaans-gated adapter for the practices that only make sense in that repository.
 
 ## How Kelechi Mode works
 
@@ -40,6 +40,7 @@ simple: persistence never expands authority.
 | `skills/humaans-engineering-standard/` | Personal Humaans review layer. |
 | `skills/kelechi-pr-writing/` | Personal pull-request writing layer. |
 | `skills/support-investigation/` | Portable support-investigation workflow. |
+| `skills/work-validation/` | Formatter, lint, type, test, and real-boundary validation workflow. |
 | `hooks/` | Humaans-gated guardrails; inert outside `humaans/humaans`. |
 | `templates/` | Generic templates for support investigations and repository adapters. |
 | `docs/` | Design record and portability boundary. |
@@ -54,4 +55,5 @@ before adapting this system elsewhere.
 ## Validate
 
 Run the bundled plugin validator from the Plugin Creator skill against this repository before
-installing or publishing a change.
+installing or publishing a change. For ordinary engineering changes, use `work-validation` after
+implementation: format, lint, type-check, run focused tests, and exercise the real boundary.

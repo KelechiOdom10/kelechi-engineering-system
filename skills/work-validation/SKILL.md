@@ -1,0 +1,24 @@
+---
+name: work-validation
+description: Verify a code or configuration change before hand-off by running the repository's formatter, lint, type checks, focused tests, and relevant real boundary. Use after implementation or before a pull request; do not use as a replacement for investigation.
+---
+
+# Work validation
+
+Validation is part of the change. Read the repository instructions and use the commands they
+specify; do not substitute a similar command merely because it is familiar.
+
+1. Identify the changed boundary: formatting, static types, service behaviour, user interaction,
+   data migration, queue, permission policy, or external integration.
+2. Run the formatter for changed source files. Re-read the diff if it makes changes.
+3. Run the affected package's lint and type checks. Use the repository's supported command and
+   build configuration.
+4. Run the smallest focused automated test that proves the changed behaviour. Add broader checks
+   when the boundary, shared contract, or regression risk requires them.
+5. Exercise the real boundary where practical: the request path, UI flow, queue, schema output,
+   generated artifact, or integration contract. A passing mock alone is not enough when the
+   failure can occur outside the mock.
+6. Record each command or check, its result, and any check not run. If a required check cannot run,
+   say why and do not present the work as fully verified.
+
+Use the [validation template](../../templates/work-validation.md) for a concise hand-off record.
