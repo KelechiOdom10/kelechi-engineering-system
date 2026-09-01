@@ -6,11 +6,11 @@ Choose exactly one primary route. Add specialist skills only when their triggers
 | --- | --- | --- |
 | investigate, diagnose, root cause, inspect, `SUP-` ticket | `playbooks/investigation.md` | `support`, `humaans-context`, then `gcloud-logs`, `honeycomb-traces`, or `authorization-review` only when evidence calls for them |
 | fix, repair, bug | `playbooks/fix.md` | investigation specialists first, then `unit-test-developer`, `frontend-developer`, `rescript-developer`, `mcp-developer`, `authorization-review` |
-| feature, build, implement | `playbooks/feature.md` | domain implementation skills, `unit-test-developer`, `write-e2e-test` |
-| refactor, simplify, consolidate | `playbooks/refactor.md` | `improve-codebase-architecture`, language and test skills |
+| feature, build, implement | `playbooks/feature.md` | `domain-modeling` when the business model is unclear; `frontend-quality`, `frontend-design-direction`, or `component-api-design` for the relevant UI trigger; `backend-service-design` at a service boundary; relevant test skills |
+| refactor, simplify, consolidate | `playbooks/refactor.md` | `domain-modeling` when a boundary has drifted; language and test skills |
 | performance, slow, latency, memory | `playbooks/performance.md` | `honeycomb-traces`, `node-debugger`, `fullstack-debugger` |
-| review, TNR, interrogate, audit | `playbooks/review.md` | Humaans `.claude/commands/code-review.md` router and selected repo reviewer lenses, plus `humaans-engineering-standard` and `thermo-nuclear-review`; `authorization-review` and language specialists when triggered |
-| design, architect, model, plan | `playbooks/design.md` | `grill-me` or `grill-with-docs` only when explicitly requested; `improve-codebase-architecture` |
+| review, TNR, interrogate, audit | `playbooks/review.md` | repository review guidance, then `frontend-quality`, `component-api-design`, `backend-service-design`, or `domain-modeling` when the changed surface requires it |
+| design, architect, model, plan | `playbooks/design.md` | `domain-modeling`; `grill-me` or `grill-with-docs` only when explicitly requested |
 | explain, teach, how, why | `playbooks/explain.md` | `humaans-context` for historical context; relevant domain skills |
 | babysit, monitor PR, drive PR, fix CI | `playbooks/babysit.md` | `gh-fix-ci`, `create-pr`, `kelechi-pr-writing`, `validate-branch`, `rebase-conflicts` |
 | pause, handoff, park | `playbooks/pause.md` | `handoff` when a durable handoff is requested |

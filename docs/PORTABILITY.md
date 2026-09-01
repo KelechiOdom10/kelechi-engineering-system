@@ -11,6 +11,7 @@ This repository separates personal engineering practice from company-specific kn
 | PR-writing and review standards | Personal quality and communication preferences. |
 | Generic support-investigation skill | A reusable approach with no provider, customer, or production details. |
 | Work-validation skill | A reusable proof standard: format, lint, type-check, focused test, and real boundary. |
+| Domain, frontend, and backend skills | Reusable decision frameworks that defer exact technology and commands to the repository adapter. |
 | Humaans-gated hooks and standard | Personal implementations retained for reference; they do nothing outside the `humaans/humaans` repository. |
 
 ## Deliberately excluded

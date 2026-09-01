@@ -41,9 +41,14 @@ simple: persistence never expands authority.
 | `skills/kelechi-pr-writing/` | Personal pull-request writing layer. |
 | `skills/support-investigation/` | Portable support-investigation workflow. |
 | `skills/work-validation/` | Formatter, lint, type, test, and real-boundary validation workflow. |
+| `skills/domain-modeling/` | Business language, boundaries, invariants, and state-transition modeling. |
+| `skills/frontend-quality/` | UI state ownership, accessibility, performance, and real-browser checks. |
+| `skills/frontend-design-direction/` | Intentional visual direction for a new or major UI surface. |
+| `skills/component-api-design/` | Explicit variants and composition for a shared component with genuine API complexity. |
+| `skills/backend-service-design/` | Authority, validation, invariants, retries, observability, and contract checks. |
 | `hooks/` | Humaans-gated guardrails; inert outside `humaans/humaans`. |
 | `templates/` | Generic templates for support investigations and repository adapters. |
-| `docs/` | Design record and portability boundary. |
+| `docs/` | Design record, portability boundary, and companion-skill choices. |
 
 ## Portability boundary
 
@@ -51,6 +56,9 @@ This repository deliberately excludes customer data, credentials, production con
 company source code, internal incident notes, and private institutional memory. The Humaans
 adapter stays gated to the Humaans repository. Read [the portability guide](docs/PORTABILITY.md)
 before adapting this system elsewhere.
+
+Read [companion skills](docs/COMPANION-SKILLS.md) for the external skills that complement this
+system and the ones deliberately kept out of its core.
 
 ## Validate
 

@@ -148,6 +148,24 @@ unit's expectation; it cannot prove an incorrect command, generated artifact, pe
 hook order, or integration contract. If a required check cannot run, the hand-off says so rather
 than calling the work verified.
 
+### Frontend and backend work need different proof
+
+The portable system distinguishes a frontend change from a backend service change. Frontend work
+needs clear state ownership, accessible controls, visible error and loading states, and a real
+browser check. Backend work needs an explicit caller and authority, validated input, invariant-safe
+writes, idempotency and retry behaviour where asynchronous work exists, and useful observability.
+
+For complex product models, domain modeling comes first: define the language, owning boundary,
+state transitions, and invariants before choosing services or database tables. These practices are
+portable. Each repository adapter supplies its own framework, commands, tools, and deployment
+boundaries.
+
+For a new or substantially redesigned interface, frontend design direction defines the user task,
+visual hierarchy, and interaction character before code. For a shared component that has genuinely
+outgrown simple props, component API design uses explicit variants or composition to make valid
+states clearer. Neither pattern is a default: an existing design system takes precedence, and a
+simple component should remain simple.
+
 ## Guardrails that work at the point of action
 
 Several rules are enforced, or at least prompted, where mistakes otherwise happen:
