@@ -1,6 +1,6 @@
 ---
 name: domain-modeling
-description: Model a complex product or backend change around the business domain: clarify language, boundaries, state transitions, and invariants. Use when a new concept crosses services or the current model no longer matches the business; do not use for a local implementation detail.
+description: "Model a complex product or backend change around the business domain: clarify language, boundaries, state transitions, and invariants. Use when a new concept crosses services or the current model no longer matches the business; do not use for a local implementation detail."
 ---
 
 # Domain modeling
