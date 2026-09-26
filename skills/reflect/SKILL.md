@@ -21,7 +21,7 @@ It finds the current Claude Code or Codex session (pass `--harness`, or `--trans
 
 ## 3. Mine
 
-Read `references/lenses.md`. In one batch, spawn three read-only subagents on the strongest available model, one per lens, and wait for all three. Each gets the digest path, the plugin's `skills/` and `hooks/` paths so it can check what is already encoded, and its lens prompt.
+Read `references/lenses.md`. In one batch, spawn three read-only subagents on the strongest available model (Claude Code: `general-purpose` with model `opus`; Codex: a default agent on its strongest model), one per lens, and wait for all three. Each gets the digest path, the plugin's `skills/` and `hooks/` paths so it can check what is already encoded, and its lens prompt.
 
 ## 4. Triage
 
