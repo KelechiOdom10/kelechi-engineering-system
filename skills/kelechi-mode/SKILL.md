@@ -52,7 +52,7 @@ Read `references/working-state.md` before writing a handoff, plan, or investigat
 
 - Lead with the answer, in plain language. Explain an unavoidable technical term once, in ordinary words, so Kelechi understands the core of what changed and why.
 - Keep facts, inferences, and guesses visibly distinct.
-- Run every check you can run yourself. Hand the user only the checks that need a human.
+- Run every check you can run yourself. For a check that needs a human, start everything it needs (database, server, browser pane) so Kelechi only has to look, and keep it running. Suggest marking ready or merging only once every test-plan item is closed.
 - Cite only files, links, and output you actually read this session.
 
 ## Finish

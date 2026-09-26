@@ -23,6 +23,7 @@ specify; do not substitute a similar command merely because it is familiar.
    available browser tool or Playwright): the changed flow, its loading, empty, and error states,
    and a narrow mobile width.
 6. Record each command or check, its result, and any check not run. If a required check cannot run,
-   say why and do not present the work as fully verified.
+   say why and do not present the work as fully verified. A subagent or headless run that had no
+   browser does not make a check human-only: drive the available browser tool yourself first.
 
 Use the [validation template](../../templates/work-validation.md) for a concise hand-off record.
