@@ -8,4 +8,4 @@
 6. Add tests where `kelechi-engineering-standard` testing says risk lives.
 7. Exercise the real artifact. A UI change is driven in a real browser: the changed flow, its loading, empty, and error states, and a narrow mobile width.
 8. Run a simplification pass: inspect every new condition and concept, swap manual control flow for an established idiom where behaviour holds, delete what the verified contract does not need. Then check authorisation, stale paths, and durable docs.
-9. Run `work-validation`, then commit and open a PR within the authority table.
+9. Run `no-comments` on the change, then `work-validation`, then commit and open a PR within the authority table.

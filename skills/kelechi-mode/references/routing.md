@@ -12,6 +12,7 @@ Choose exactly one primary route. Add specialists only when their trigger applie
 | refactor, simplify, consolidate | `/kelechi:refactor` | `playbooks/refactor.md` | `domain-modeling` when a boundary has drifted; *optional* `codebase-design` |
 | interrogate, tear apart, stress test, adversarial review | `/kelechi:interrogate` | `interrogate` skill | `kelechi-engineering-standard`; the other harness's CLI for the cross-model reviewer |
 | blast radius, what could this break, small diff I don't trust | `/kelechi:blast-radius` | `blast-radius` skill | `kelechi:explorer` for consumer mapping; `interrogate` for a wide change |
+| no comments, remove the comments, before opening a PR | `/kelechi:no-comments` | `no-comments` skill | `kelechi:comment-reviewer` |
 | slow, latency, memory, performance | `/kelechi:perf` | `playbooks/performance.md` | adapter trace and profiler skills |
 | review, audit, check this diff | `/kelechi:review` | `playbooks/review.md` | `kelechi-engineering-standard`; surface skills when the diff touches them |
 | design, architect, plan, model | `/kelechi:design` | `playbooks/design.md` | `domain-modeling`; *optional* `grilling` only when asked to be grilled |
