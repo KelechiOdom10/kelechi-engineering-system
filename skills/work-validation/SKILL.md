@@ -14,7 +14,9 @@ specify; do not substitute a similar command merely because it is familiar.
 3. Run the affected package's lint and type checks. Use the repository's supported command and
    build configuration.
 4. Run the smallest focused automated test that proves the changed behaviour. Add broader checks
-   when the boundary, shared contract, or regression risk requires them.
+   when the boundary, shared contract, or regression risk requires them. A new or changed test
+   counts only after you have seen it fail: run it against the pre-change code (`git show
+   HEAD:<file>` into a temporary directory) or a one-line sabotage, and record the red result.
 5. Exercise the real boundary where practical: the request path, UI flow, queue, schema output,
    generated artifact, or integration contract. A passing mock alone is not enough when the
    failure can occur outside the mock. A UI change is always driven in a real browser (the
