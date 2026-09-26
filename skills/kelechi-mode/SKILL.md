@@ -1,6 +1,6 @@
 ---
 name: kelechi-mode
-description: Kelechi's evidence-first engineering router. Use only on an explicit cue - "Kelechi Mode", /kelechi-mode, $kelechi-mode, or a /kelechi:<route> command - to investigate, fix, build, refactor, review, design, prototype, explain, babysit, pause, resume, or autonomously drive work.
+description: Kelechi's evidence-first engineering router. Use only on an explicit cue - "Kelechi Mode", /kelechi-mode, $kelechi-mode, or a /kelechi:<route> command - to kick off, investigate, fix, build, refactor, review, design, prototype, explain, babysit, pause, resume, or autonomously drive work.
 ---
 
 # Kelechi Mode
