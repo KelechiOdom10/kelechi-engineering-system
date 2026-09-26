@@ -28,6 +28,19 @@ material without copying another project's instructions or binding the workflow 
 | Security analysis | A change affects authentication, data access, untrusted input, or sensitive flows. | Static-analysis tools and threat models are repository-specific. |
 | Developer-index research | Public repositories, issues, and documentation need primary-source research. | It brings external cost and access decisions that do not belong in a local workflow core. |
 
+## Named companions
+
+Kelechi Mode names these by skill name and uses them only when installed.
+
+| Companion | Where it plugs in |
+| --- | --- |
+| Matt Pocock's `diagnosing-bugs`, `tdd` | Fix route, after the reproduction is red |
+| Matt Pocock's `domain-modeling` (CONTEXT.md, ADRs) | Recording the decisions the local `domain-modeling` skill reaches |
+| Matt Pocock's `codebase-design`, `prototype`, `grilling` | Refactor, prototype, and design routes (`grilling` only when asked) |
+| The `better-*` interface skills | UI detail work under the frontend standard |
+
+The local skill owns the process; the companion supplies a format or technique.
+
 ## Deliberately not default
 
 - **A full multi-agent framework.** Kelechi Mode already specifies the important part: parallelise

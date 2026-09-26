@@ -1,67 +1,81 @@
 # Kelechi Engineering System
 
-An evidence-first engineering workflow by Kelechi Odom.
+An evidence-first engineering workflow by Kelechi Odom, packaged as one plugin for **Claude Code** and **Codex**.
 
-This repository is the portable home for **Kelechi Mode**: an opt-in Codex plugin that routes
-engineering work to the appropriate playbook and specialist skills while keeping diagnosis,
-verification, judgement, and authority with the engineer.
-
-It contains three layers:
-
-- **Portable core** — Kelechi Mode's routes, playbooks, principles, and model-aware delegation
-  boundaries.
-- **Personal standards** — review and pull-request writing standards that make changes easier to
-  assess and maintain.
-- **Adapters and templates** — portable support investigation and work-validation skills, generic
-  templates, and a Humaans-gated adapter for the practices that only make sense in that repository.
-
-## How Kelechi Mode works
+**Kelechi Mode** routes engineering work to a playbook. Specialist skills do the detailed work, while diagnosis, verification, judgement, and authority stay explicit.
 
 ```text
 request
-  → select a route
+  → pick a route
   → gather evidence
-  → use the appropriate specialist
-  → make the smallest coherent decision or change
+  → use the right specialist
+  → make the smallest coherent change
   → verify the real boundary
-  → communicate the result clearly
+  → report plainly
 ```
 
-The plugin covers investigation, fixes, features, refactors, performance, reviews, design,
-explanations, PR babysitting, pause, resume, and autonomous work. Its important constraint is
-simple: persistence never expands authority.
+Persistence never expands authority.
+
+## Install
+
+**Claude Code**
+
+```bash
+claude plugin marketplace add KelechiOdom10/kelechi-engineering-system
+claude plugin install kelechi@kelechi
+```
+
+On a Humaans machine, also install `kelechi-humaans@kelechi`.
+
+**Codex.** The personal marketplace at `~/.agents/plugins/marketplace.json` points `./plugins/kelechi-mode` at a checkout of this repo (a symlink). Reinstall after changes with `codex plugin add kelechi-mode@personal`.
+
+## Use
+
+| Claude Code | Codex | Route |
+| --- | --- | --- |
+| `/kelechi:investigate` | `$kelechi-mode investigate` | read-only diagnosis |
+| `/kelechi:fix` | `$kelechi-mode fix` | reproduce, root-cause, fix, verify |
+| `/kelechi:feature` | `$kelechi-mode feature` | an end-to-end verified slice |
+| `/kelechi:refactor` | `$kelechi-mode refactor` | behaviour-preserving change |
+| `/kelechi:perf` | `$kelechi-mode performance` | measure, trace, improve |
+| `/kelechi:review` | `$kelechi-mode review` | read-only rigorous review |
+| `/kelechi:design` | `$kelechi-mode design` | recommend a shape |
+| `/kelechi:prototype` | `$kelechi-mode prototype` | settle a fork by observation |
+| `/kelechi:explain` | `$kelechi-mode explain` | how and why |
+| `/kelechi:babysit` | `$kelechi-mode babysit` | drive a PR to green |
+| `/kelechi:pause`, `/kelechi:resume` | `$kelechi-mode pause`, `resume` | park and pick up work |
+| `/kelechi:autonomous` | `$kelechi-mode autonomous` | run to a terminal condition |
+
+Once entered, the mode stays on for the session.
 
 ## Repository map
 
-| Path | Purpose |
-| --- | --- |
-| `.codex-plugin/plugin.json` | Codex plugin manifest. |
-| `skills/kelechi-mode/` | The core router, routes, playbooks, principles, and custom-agent roles. |
-| `skills/humaans-engineering-standard/` | Personal Humaans review layer. |
-| `skills/kelechi-pr-writing/` | Personal pull-request writing layer. |
-| `skills/support-investigation/` | Portable support-investigation workflow. |
-| `skills/work-validation/` | Formatter, lint, type, test, and real-boundary validation workflow. |
-| `skills/domain-modeling/` | Business language, boundaries, invariants, and state-transition modeling. |
-| `skills/frontend-quality/` | UI state ownership, accessibility, performance, and real-browser checks. |
-| `skills/frontend-design-direction/` | Intentional visual direction for a new or major UI surface. |
-| `skills/component-api-design/` | Explicit variants and composition for a shared component with genuine API complexity. |
-| `skills/backend-service-design/` | Authority, validation, invariants, retries, observability, and contract checks. |
-| `hooks/` | Humaans-gated guardrails; inert outside `humaans/humaans`. |
-| `templates/` | Generic templates for support investigations and repository adapters. |
-| `docs/` | Design record, portability boundary, and companion-skill choices. |
+| Path | Purpose | Harness |
+| --- | --- | --- |
+| `.claude-plugin/` | Claude plugin manifest and the `kelechi` marketplace | Claude |
+| `.codex-plugin/` | Codex plugin manifest | Codex |
+| `skills/kelechi-mode/` | Router, routes, principles, playbooks, agent map, working-state policy | both |
+| `skills/kelechi-engineering-standard/` | Kelechi's personal standard: types, architecture, testing, frontend, comments, AI features, default stack | both |
+| `skills/*` (others) | PR writing, validation, support investigation, domain modelling, frontend, component API, backend service design | both |
+| `agents/` | `explorer` (haiku), `investigator` (sonnet), `reviewer` (opus) | Claude |
+| `codex/agents/` | The same roles as Codex agent definitions, copied to `~/.codex/agents/` | Codex |
+| `commands/` | `/kelechi:<route>` shortcuts | Claude |
+| `hooks/` | Portable guardrails, one file shared by both harnesses | both |
+| `adapters/humaans/` | Humaans adapter plugin: repository routing and review layer | both |
+| `templates/` | Domain, design brief, backend, frontend, support, validation, adapter templates | both |
+| `tests/` | `python3 tests/hooks_test.py` exercises every hook against both harnesses' payloads | n/a |
 
-## Portability boundary
+## Hooks
 
-This repository deliberately excludes customer data, credentials, production connection details,
-company source code, internal incident notes, and private institutional memory. The Humaans
-adapter stays gated to the Humaans repository. Read [the portability guide](docs/PORTABILITY.md)
-before adapting this system elsewhere.
+Each hook reads the repository's own toolchain and does nothing where it does not apply.
 
-Read [companion skills](docs/COMPANION-SKILLS.md) for the external skills that complement this
-system and the ones deliberately kept out of its core.
+- **Package manager.** Blocks a package manager that disagrees with the lockfile, and raw `vitest`, `oxlint`, `oxfmt`, or `npx` in a Vite+ repo.
+- **Titles.** Commit subjects and PR titles use Conventional Commits, carry no ticket ids, and PR titles stay under 72 characters.
+- **Attribution.** Blocks AI attribution in commits, PR bodies, and comments.
+- **Format on edit.** Runs the repository's formatter (`vp fmt`, oxfmt, Biome, or Prettier) on edited files.
+- **Comment nudge.** Flags new source comments that are not a non-obvious why.
+- **Stale state.** At session start, lists `.kelechi/` working files that are old, orphaned, merged, or consumed.
 
-## Validate
+## Portability
 
-Run the bundled plugin validator from the Plugin Creator skill against this repository before
-installing or publishing a change. For ordinary engineering changes, use `work-validation` after
-implementation: format, lint, type-check, run focused tests, and exercise the real boundary.
+Customer data, credentials, production details, and company source stay out of this repository. Company-specific practice lives in an adapter under `adapters/`. See [portability](docs/PORTABILITY.md) and [companion skills](docs/COMPANION-SKILLS.md).
