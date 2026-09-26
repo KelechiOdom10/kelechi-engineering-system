@@ -1,5 +1,5 @@
 {
-  "description": "Personal Humaans repository guardrails and post-edit checks.",
+  "description": "Kelechi Mode portable guardrails for Claude Code and Codex. Each check detects the repository's own toolchain and does nothing when it does not apply.",
   "hooks": {
     "PreToolUse": [
       {
@@ -7,34 +7,31 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$PLUGIN_ROOT/hooks/block-npm-in-repo.sh\"",
-            "timeout": 15,
-            "statusMessage": "Checking Humaans package-manager usage"
-          },
-          {
-            "type": "command",
-            "command": "bash \"$PLUGIN_ROOT/hooks/check-pr-title.sh\"",
-            "timeout": 15,
-            "statusMessage": "Checking Humaans PR title"
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/pre_bash.py\"",
+            "timeout": 15
           }
         ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "^apply_patch$",
+        "matcher": "^(Edit|Write|MultiEdit|apply_patch)$",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$PLUGIN_ROOT/hooks/check-comments.sh\"",
-            "timeout": 15,
-            "statusMessage": "Checking added source comments"
-          },
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/post_edit.py\"",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
           {
             "type": "command",
-            "command": "bash \"$PLUGIN_ROOT/hooks/format-edited-files.sh\"",
-            "timeout": 60,
-            "statusMessage": "Formatting edited Humaans files"
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT:-$PLUGIN_ROOT}/hooks/session_start.py\"",
+            "timeout": 15
           }
         ]
       }

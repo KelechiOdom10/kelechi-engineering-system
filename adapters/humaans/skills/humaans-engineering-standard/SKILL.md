@@ -5,8 +5,9 @@ description: Apply Kelechi's personal engineering bar when reviewing Humaans cha
 
 # Humaans Engineering Standard
 
-Apply this personal layer after reading the current repository instructions. It
-augments Humaans' review conventions; it does not copy or replace them.
+Apply this layer after `kelechi-engineering-standard` and the current repository
+instructions. It adds the Humaans-specific checks; it does not copy or replace the
+repository's review conventions.
 
 For a pull-request review, read `.claude/commands/code-review.md` and use its
 current hypothesis-first, inline-by-default router. Read only the

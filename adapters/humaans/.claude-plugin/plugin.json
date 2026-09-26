@@ -1,0 +1,8 @@
+{
+  "name": "kelechi-humaans",
+  "version": "0.2.0",
+  "description": "Humaans repository adapter for Kelechi Mode: the Humaans review layer and repository-specific routing.",
+  "author": {
+    "name": "Kelechi Odom"
+  }
+}

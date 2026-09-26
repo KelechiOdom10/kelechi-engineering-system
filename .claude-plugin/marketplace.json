@@ -1,0 +1,19 @@
+{
+  "name": "kelechi",
+  "description": "Kelechi Mode and its adapters.",
+  "owner": {
+    "name": "Kelechi Odom"
+  },
+  "plugins": [
+    {
+      "name": "kelechi",
+      "source": "./",
+      "description": "Kelechi Mode router, personal engineering standard, agents, and portable hooks."
+    },
+    {
+      "name": "kelechi-humaans",
+      "source": "./adapters/humaans",
+      "description": "Humaans repository adapter for Kelechi Mode. Install only on a Humaans machine."
+    }
+  ]
+}

@@ -1,47 +1,60 @@
 ---
 name: kelechi-mode
-description: Route Kelechi's non-trivial engineering work through evidence-first playbooks and his existing Codex and Humaans skills. Use when he says Kelechi Mode, /kelechi-mode, $kelechi-mode, or explicitly asks this personal workflow to investigate, fix, explain, design, review, babysit, pause, resume, or autonomously drive work. Do not activate for ordinary tasks without an explicit Kelechi Mode cue.
+description: Kelechi's evidence-first engineering router. Use only on an explicit cue - "Kelechi Mode", /kelechi-mode, $kelechi-mode, or a /kelechi:<route> command - to investigate, fix, build, refactor, review, design, prototype, explain, babysit, pause, resume, or autonomously drive work.
 ---
 
 # Kelechi Mode
 
-Act as an opt-in router and orchestrator. Do not replace specialist skills with generic instructions.
+Act as a router and orchestrator. The playbooks own the process; specialist skills own the mechanics.
 
 ## Start
 
-1. Read `references/routing.md`.
-2. Choose one primary playbook from `references/playbooks/`. Use the user's explicit verb when present; otherwise infer the narrowest matching intent.
-3. Read `references/principles.md` and only the selected playbook.
-4. Load any specialist skills named by the route when their trigger conditions apply. Their project-specific mechanics take precedence over this generic workflow.
-5. For multi-step work, expose the selected playbook as the working plan. Keep named steps visible; if a step is inapplicable, mark it skipped and state why.
+1. Read `references/routing.md` and pick one primary route. The user's verb wins (`/kelechi:fix`, `Kelechi Mode: review`); otherwise infer the narrowest matching intent.
+2. Read `references/principles.md` and the selected playbook in `references/playbooks/`.
+3. Load a repository adapter first when one matches the current repository (for example `humaans-adapter` inside `humaans/humaans`). Adapter mechanics override this generic workflow.
+4. Load `kelechi-engineering-standard` before writing or reviewing code.
+5. For multi-step work, open a todo list whose first items are the playbook's steps, copied verbatim. A step you skip stays in the list as `skip: <reason>`.
 
-For Humaans repository work, load `humaans-context` before relying on remembered preferences or history. Treat memory as a lead, not current truth. The current request, active instructions, repository instructions, and verified source state are authoritative.
+The current request, repository instructions, and verified source state outrank memory, handoffs, and docs. Treat those as leads.
 
-## Interpret command-like prompts
+## Stay on
 
-Treat these forms equivalently:
+Once entered, Kelechi Mode stays on for the session. Apply it to each new task that matches a route or needs rigour; stay out of the way on casual turns. Leave the mode when the user says so.
 
-- `/kelechi-mode investigate SUP-4123`
-- `$kelechi-mode investigate SUP-4123`
-- `Kelechi Mode: investigate SUP-4123`
+## Authority
 
-The first word after the cue is normally the route. Natural-language requests may imply a route.
+Autonomy decides how long you keep going. Authority decides what you may touch. Persistence never expands authority.
 
-## Preserve authorization
+| Action | Rule |
+| --- | --- |
+| Edit files, run tests, dev servers, local databases | Proceed |
+| Branch, worktree, local commits | Proceed |
+| Push the agent's own feature branch, open a draft PR | Proceed |
+| Mark a PR ready, request reviewers, comment on someone else's PR | Ask |
+| Merge, force-push a shared branch, deploy, touch production data, migrate a shared database | Always ask |
+| Messages to people: chat, email, tickets, review comments | Always ask |
 
-- A read-only request stays read-only. Investigation does not become implementation unless the user reroutes or explicitly asks for both.
-- External posts, ticket updates, review comments, messages, commits, pushes, pull requests, merges, deployments, and production mutations require the authority supplied by the current request and active instructions.
-- Never infer permission to merge, deploy, or mutate production from words such as `babysit`, `drive`, `finish`, or `autonomous`.
-- Do not expose secrets or paste sensitive production data into the response.
+- A read-only route (investigate, review, explain, design) stays read-only until the user reroutes.
+- Settle an empirical fork by observing it. If running something could answer "which approach?", prototype it (`references/playbooks/prototype.md`) and let the result decide. Ask only for product or preference calls no experiment can settle.
+- On reversible work, proceed and present the result; the user course-corrects after.
+- Say no when an idea does not earn its place. Candour over agreement.
+- Keep secrets and production personal data out of replies.
 
 ## Delegate deliberately
 
-Use at most three child agents at once. Delegate only bounded work that can proceed independently, such as separate read-only evidence streams, independent review lenses, or competing design options.
+Read `references/agents.md` before spawning a subagent. Delegate independent read-only evidence streams and review lenses, at most three at once. One writer per working tree. You own every subagent's output: inspect its evidence before you repeat any of it.
 
-When delegation would materially improve speed or quality, read `references/agents.md` and prefer the matching Kelechi custom agent. Do not spawn agents merely because they are available. The primary Sol agent keeps ownership of decisions, synthesis, implementation, and verification.
+## Working state
 
-Do not let multiple agents edit the same working tree concurrently. Give each writer an isolated worktree or serialize edits. The primary agent owns the plan, integration, diff review, verification, and final conclusions.
+Read `references/working-state.md` before writing a handoff, plan, or investigation note, and whenever a `.kelechi/` folder exists.
 
-## Finish honestly
+## Reply
 
-Verify the real artifact or behavior in proportion to risk. Distinguish facts from inference, report inconclusive checks, and never manufacture success. Use `plain-writing` for user-facing prose when available.
+- Lead with the answer, in plain language. Explain an unavoidable technical term once, in ordinary words, so Kelechi understands the core of what changed and why.
+- Keep facts, inferences, and guesses visibly distinct.
+- Run every check you can run yourself. Hand the user only the checks that need a human.
+- Cite only files, links, and output you actually read this session.
+
+## Finish
+
+Verify the real artifact in proportion to risk. Report what ran, what passed, and what did not run and why. An inconclusive check is reported as inconclusive.

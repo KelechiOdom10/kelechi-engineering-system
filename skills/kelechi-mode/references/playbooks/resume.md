@@ -1,7 +1,7 @@
 # Resume
 
-1. Inspect the current branch, working tree, PR or ticket state, available handoff, and relevant memory. Do not check out or mutate a remembered branch until the intended work and ownership are verified.
-2. Verify potentially stale claims against current source and external state before relying on them.
-3. Summarize the objective, completed evidence, local changes, blockers, and next executable step. Turn vague endings such as `finish it` into a provisional observable completion condition and refine it from current evidence.
-4. Re-select the appropriate primary playbook for the remaining work and continue only within the original or newly stated authority.
-5. Do not redo completed work merely because the prior context was compacted or handed off.
+1. Read the current branch, working tree, PR or ticket state, and any `.kelechi/` handoff.
+2. Check each handoff's provenance against reality. If the branch merged or the head moved, say so and re-verify every claim against current source before relying on it.
+3. Summarise the objective, verified progress, local changes, blockers, and the next executable step. Turn vague endings like "finish it" into an observable completion condition.
+4. Delete the handoff once its content is carried into the current plan.
+5. Re-select the primary playbook for the remaining work and continue within the original or newly stated authority. Keep completed work; redo only what verification shows is wrong.

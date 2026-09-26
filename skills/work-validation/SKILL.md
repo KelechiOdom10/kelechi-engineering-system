@@ -17,7 +17,9 @@ specify; do not substitute a similar command merely because it is familiar.
    when the boundary, shared contract, or regression risk requires them.
 5. Exercise the real boundary where practical: the request path, UI flow, queue, schema output,
    generated artifact, or integration contract. A passing mock alone is not enough when the
-   failure can occur outside the mock.
+   failure can occur outside the mock. A UI change is always driven in a real browser (the
+   available browser tool or Playwright): the changed flow, its loading, empty, and error states,
+   and a narrow mobile width.
 6. Record each command or check, its result, and any check not run. If a required check cannot run,
    say why and do not present the work as fully verified.
 

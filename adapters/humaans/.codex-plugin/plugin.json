@@ -1,0 +1,23 @@
+{
+  "name": "kelechi-humaans",
+  "version": "0.2.0+codex.20260926000000",
+  "description": "Humaans repository adapter for Kelechi Mode.",
+  "author": {
+    "name": "Kelechi Odom"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Kelechi Mode: Humaans adapter",
+    "shortDescription": "Humaans-specific routing and review layer for Kelechi Mode.",
+    "longDescription": "Adds the Humaans review layer and the repository-specific specialists Kelechi Mode loads when working in humaans/humaans. Inert elsewhere.",
+    "developerName": "Kelechi Odom",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Use $kelechi-mode to review this Humaans PR."
+    ]
+  }
+}

@@ -1,27 +1,30 @@
 # Routing
 
-Choose exactly one primary route. Add specialist skills only when their triggers apply.
+Choose exactly one primary route. Add specialists only when their trigger applies. A specialist marked *optional* is used when installed and skipped silently when not.
 
-| User intent | Primary playbook | Typical specialists |
-| --- | --- | --- |
-| investigate, diagnose, root cause, inspect, `SUP-` ticket | `playbooks/investigation.md` | `support`, `humaans-context`, then `gcloud-logs`, `honeycomb-traces`, or `authorization-review` only when evidence calls for them |
-| fix, repair, bug | `playbooks/fix.md` | investigation specialists first, then `unit-test-developer`, `frontend-developer`, `rescript-developer`, `mcp-developer`, `authorization-review` |
-| feature, build, implement | `playbooks/feature.md` | `domain-modeling` when the business model is unclear; `frontend-quality`, `frontend-design-direction`, or `component-api-design` for the relevant UI trigger; `backend-service-design` at a service boundary; relevant test skills |
-| refactor, simplify, consolidate | `playbooks/refactor.md` | `domain-modeling` when a boundary has drifted; language and test skills |
-| performance, slow, latency, memory | `playbooks/performance.md` | `honeycomb-traces`, `node-debugger`, `fullstack-debugger` |
-| review, TNR, interrogate, audit | `playbooks/review.md` | repository review guidance, then `frontend-quality`, `component-api-design`, `backend-service-design`, or `domain-modeling` when the changed surface requires it |
-| design, architect, model, plan | `playbooks/design.md` | `domain-modeling`; `grill-me` or `grill-with-docs` only when explicitly requested |
-| explain, teach, how, why | `playbooks/explain.md` | `humaans-context` for historical context; relevant domain skills |
-| babysit, monitor PR, drive PR, fix CI | `playbooks/babysit.md` | `gh-fix-ci`, `create-pr`, `kelechi-pr-writing`, `validate-branch`, `rebase-conflicts` |
-| pause, handoff, park | `playbooks/pause.md` | `handoff` when a durable handoff is requested |
-| resume, continue, pick up | `playbooks/resume.md` | `humaans-context`, then task-specific specialists |
-| autonomous, keep going, run until | `playbooks/autonomous.md` | route-specific specialists; authorization remains unchanged |
+| User intent | Command | Playbook | Specialists |
+| --- | --- | --- | --- |
+| investigate, diagnose, root cause, support ticket | `/kelechi:investigate` | `playbooks/investigation.md` | `support-investigation` for a customer report; adapter log, trace, and data skills |
+| fix, bug, broken | `/kelechi:fix` | `playbooks/fix.md` | investigation first; *optional* `diagnosing-bugs`, `tdd` |
+| feature, build, implement | `/kelechi:feature` | `playbooks/feature.md` | `domain-modeling` when semantics are unclear; `frontend-quality`, `frontend-design-direction`, `component-api-design`, or `backend-service-design` by surface; *optional* `better-*` UI skills |
+| refactor, simplify, consolidate | `/kelechi:refactor` | `playbooks/refactor.md` | `domain-modeling` when a boundary has drifted; *optional* `codebase-design` |
+| slow, latency, memory, performance | `/kelechi:perf` | `playbooks/performance.md` | adapter trace and profiler skills |
+| review, audit, check this diff | `/kelechi:review` | `playbooks/review.md` | `kelechi-engineering-standard`; surface skills when the diff touches them |
+| design, architect, plan, model | `/kelechi:design` | `playbooks/design.md` | `domain-modeling`; *optional* `grilling` only when asked to be grilled |
+| prototype, sketch, "which approach" | `/kelechi:prototype` | `playbooks/prototype.md` | *optional* `prototype` |
+| explain, teach, how, why | `/kelechi:explain` | `playbooks/explain.md` | adapter history and context skills |
+| babysit, drive PR, fix CI | `/kelechi:babysit` | `playbooks/babysit.md` | `kelechi-pr-writing`, `work-validation` |
+| pause, handoff, park | `/kelechi:pause` | `playbooks/pause.md` | none |
+| resume, continue, pick up | `/kelechi:resume` | `playbooks/resume.md` | route-specific |
+| autonomous, keep going, run until | `/kelechi:autonomous` | `playbooks/autonomous.md` | route-specific |
+
+Every route that changes code ends with `work-validation`. Every route that opens or updates a PR uses `kelechi-pr-writing`.
 
 ## Tie-breakers
 
-- A support ticket always begins with the investigation route, even when the eventual goal is a fix. Complete or summarize the investigation checkpoint before switching to the fix playbook.
-- The `support` skill owns production-replica procedure. `psql-dev` is only for local dev/test databases and must not be substituted for production investigation.
-- `Review and fix` is a fix route with an explicit review checkpoint. `Review` alone is read-only.
-- `Explain why` may require history; `explain how` requires current source and runtime behavior. When both matter, clearly separate them.
-- A broad refactor whose target shape is unknown begins as design. A known behavior-preserving transformation uses refactor.
-- `Babysit` must declare whether it is read-only checking or authorized driving before taking actions.
+- A support ticket always starts as an investigation, even when the goal is a fix. Finish the investigation checkpoint, then switch to fix explicitly.
+- `Review and fix` is the fix route with a review checkpoint. `Review` alone is read-only.
+- `Explain how` needs current source and runtime behaviour. `Explain why` may need history. Label which is which when both matter.
+- A refactor whose target shape is unknown starts as design. A known behaviour-preserving transformation is a refactor.
+- A design question someone could settle by running code is a prototype.
+- `Babysit` declares `check` (read-only) or `drive` before acting.

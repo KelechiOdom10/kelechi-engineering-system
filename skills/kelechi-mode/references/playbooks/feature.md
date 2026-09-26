@@ -1,11 +1,11 @@
 # Feature
 
-1. Define the user outcome, constraints, non-goals, and acceptance evidence.
-2. Map the current system and identify the owning data shape or domain boundary.
-3. If the feature crosses boundaries or has unresolved semantics, use the design playbook as a checkpoint before implementation.
-4. Before implementation, state the simplest viable shape using existing contracts, project helpers, and standard language features. Add a branch, helper, type, module, or export only when evidence shows that simpler shape is insufficient.
-5. Implement the smallest end-to-end coherent slice. Keep one writer per working tree.
-6. Use project-specific implementation and testing skills. Add unit or end-to-end coverage at the boundary that proves the behavior.
-7. Exercise the real artifact or flow, not only isolated helpers.
-8. Run a simplification pass before calling the change ready. Inspect every new condition and concept; replace manual control flow with an established idiom where behavior stays the same, and remove anything not justified by the verified contract. Then review authorization, stale paths, and documentation needs.
-9. Use commit and PR workflows only when requested or otherwise authorized.
+1. Define the user outcome, constraints, non-goals, and the evidence that will prove it works.
+2. Map the current system and name the data shape and the boundary that owns it.
+3. If the feature crosses boundaries or its semantics are unsettled, run the design playbook as a checkpoint. Settle empirical forks with a prototype.
+4. State the simplest viable shape using existing contracts, project helpers, and standard language features. Add a branch, helper, type, module, or export only when evidence shows the simpler shape falls short.
+5. Build the thinnest end-to-end slice through the real boundaries first, then widen it. One writer per working tree.
+6. Add tests where `kelechi-engineering-standard` testing says risk lives.
+7. Exercise the real artifact. A UI change is driven in a real browser: the changed flow, its loading, empty, and error states, and a narrow mobile width.
+8. Run a simplification pass: inspect every new condition and concept, swap manual control flow for an established idiom where behaviour holds, delete what the verified contract does not need. Then check authorisation, stale paths, and durable docs.
+9. Run `work-validation`, then commit and open a PR within the authority table.
