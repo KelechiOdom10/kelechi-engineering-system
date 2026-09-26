@@ -44,4 +44,6 @@ Add `## Demo` with screenshots or a recording for a visual or interaction change
 - Leave out investigation diaries, file inventories, and code pastes (unless a contract cannot be understood without one).
 - No AI attribution. If Kelechi asks for one, name the exact model.
 
+Pass the body through `gh pr create --body-file -` fed by a heredoc, or from a file in the session scratchpad; a fixed `/tmp` path collides with parallel runs.
+
 Re-read the body as someone unfamiliar with the change. If they could not explain the change after one pass, simplify.
