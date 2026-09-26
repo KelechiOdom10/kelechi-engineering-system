@@ -36,7 +36,7 @@ A lesson goes into the owning file at the step where it would have changed the o
 
 ## Applying
 
-- **Plugin.** In the `kelechi-engineering-system` checkout: a branch, one commit per lesson (`fix(<skill>): <lesson>`), the test suites (`python3 tests/hooks_test.py`, `node --test tests/check_boundaries_test.mjs`), `./scripts/reinstall.sh`, and a draft PR written with `kelechi-pr-writing`. A hook or script change carries a regression test.
+- **Plugin.** In the `kelechi-engineering-system` checkout: a branch, one commit per lesson (`fix(<skill>): <lesson>`), `./scripts/check.sh` (a budget failure means prune something weaker to make room), `./scripts/reinstall.sh`, and a draft PR written with `kelechi-pr-writing`. A hook or script change carries a regression test.
 - **Project.** A branch in that repository, one commit per lesson, its own checks green. Push and PR follow the authority table.
 - **Memory.** Write or update the entry; never duplicate an existing one.
 - **Backlog.** `gh issue create` on `kelechi-engineering-system`, only for items Kelechi approved.

@@ -69,7 +69,8 @@ Once entered, the mode stays on for the session.
 | `adapters/humaans/` | Humaans adapter plugin: repository routing and review layer | both |
 | `templates/` | Domain, design brief, backend, frontend, support, validation, adapter templates | both |
 | `scripts/reinstall.sh` | Refreshes the installed plugins in Claude Code and Codex from this checkout | both |
-| `tests/` | `python3 tests/hooks_test.py` for the hooks; `node --test tests/check_boundaries_test.mjs` for the kickoff boundary checker; `python3 tests/digest_test.py` for the reflect digest | n/a |
+| `scripts/check.sh` | Validates both plugins in both harnesses, runs every test suite, and checks token budgets. Run before every PR. | both |
+| `tests/` | Hook, digest, boundary-checker, and token-budget tests, all run by `scripts/check.sh` | n/a |
 
 ## Hooks
 
