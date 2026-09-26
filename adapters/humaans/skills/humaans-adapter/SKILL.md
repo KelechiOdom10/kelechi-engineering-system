@@ -27,3 +27,4 @@ Load `humaans-context` before relying on remembered preferences or history. Memo
 - For a PR review, read `.claude/commands/code-review.md`, state its required hypothesis, and follow its inline-by-default escalation. The selected `.claude/agents/code-reviewer-*.md` files are repository review lenses in either harness.
 - The repository uses pnpm and oxfmt; the plugin's generic hooks already enforce both.
 - PR titles never carry `FIVE-`, `SUP-`, or `HUMV-` ticket ids.
+- Cross-model review is allowed: Humaans holds both OpenAI and Anthropic subscriptions, so `interrogate` may send code to either provider.
