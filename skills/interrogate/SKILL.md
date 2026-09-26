@@ -23,7 +23,7 @@ Read `references/lenses.md`. Pick the lenses the diff's surface justifies, at mo
 
 ## 4. Spawn
 
-In one batch, run every reviewer in parallel and in the background:
+In one batch, start every reviewer in parallel, then wait until all of them have returned. Never write a verdict while a reviewer is still running; a reviewer that fails or times out is reported as missing.
 
 - Each lens: the read-only reviewer agent (`kelechi:reviewer` in Claude Code, `kelechi_reviewer` in Codex), briefed with `references/reviewer-prompt.md` filled with the intent, the pointers, and that lens.
 - Cross-model: the other harness's CLI, following `references/cross-model.md`. Skip it, and say so, when that CLI is missing or a repository adapter forbids sending code to another provider.
