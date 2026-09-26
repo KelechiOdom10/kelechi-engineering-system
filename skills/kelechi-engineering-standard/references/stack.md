@@ -8,7 +8,7 @@ Defaults for new projects. An existing repository's choices win. Every deviation
 | App framework | TanStack Start | Astro for content sites with little interactivity |
 | Rendering | Per route: prerender marketing and legal pages, SSR public dynamic pages, `ssr: false` on the authenticated app subtree | Decided per route, not per project |
 | API | Elysia with Eden Treaty for end-to-end types | Hono if the Elysia Workers adapter blocks something (record an ADR) |
-| Runtime | Cloudflare Workers via the Elysia Cloudflare adapter | A long-running Bun server for realtime connections, heavy background work, or native dependencies |
+| Runtime | Cloudflare Workers, with Elysia (`aot: false`) mounted inside TanStack Start | A long-running Bun server for realtime connections, heavy background work, or native dependencies |
 | Data | Postgres with Drizzle | Prisma only in existing Prisma projects |
 | Auth | better-auth | Discussed per project |
 | Validation | zod at every edge | none |
@@ -17,7 +17,7 @@ Defaults for new projects. An existing repository's choices win. Every deviation
 
 ## Elysia on Workers guardrails
 
-The Cloudflare adapter is experimental. Pin the Elysia version, and keep one integration test that runs through `wrangler dev`, not only `bun test`.
+Construct Elysia with `aot: false` on Workers. Its ahead-of-time compile generates code from strings, which the Workers runtime forbids: every route returns 500 with `EvalError: Code generation from strings disallowed`, under both `vite dev` and `wrangler dev` (seen with Elysia 1.4.30 inside TanStack Start). Pin the Elysia version, and re-run a `wrangler dev` request against `/api/health` on every Elysia upgrade.
 
 ## Git
 
