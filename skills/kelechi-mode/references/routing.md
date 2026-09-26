@@ -10,6 +10,7 @@ Choose exactly one primary route. Add specialists only when their trigger applie
 | feature, build, implement | `/kelechi:feature` | `playbooks/feature.md` | `domain-modeling` when semantics are unclear; `frontend-quality`, `frontend-design-direction`, `component-api-design`, or `backend-service-design` by surface; *optional* `better-*` UI skills |
 | refactor, simplify, consolidate | `/kelechi:refactor` | `playbooks/refactor.md` | `domain-modeling` when a boundary has drifted; *optional* `codebase-design` |
 | interrogate, tear apart, stress test, adversarial review | `/kelechi:interrogate` | `interrogate` skill | `kelechi-engineering-standard`; the other harness's CLI for the cross-model reviewer |
+| blast radius, what could this break, small diff I don't trust | `/kelechi:blast-radius` | `blast-radius` skill | `kelechi:explorer` for consumer mapping; `interrogate` for a wide change |
 | slow, latency, memory, performance | `/kelechi:perf` | `playbooks/performance.md` | adapter trace and profiler skills |
 | review, audit, check this diff | `/kelechi:review` | `playbooks/review.md` | `kelechi-engineering-standard`; surface skills when the diff touches them |
 | design, architect, plan, model | `/kelechi:design` | `playbooks/design.md` | `domain-modeling`; *optional* `grilling` only when asked to be grilled |
@@ -26,6 +27,7 @@ Every route that changes code ends with `work-validation`. Every route that open
 ## Tie-breakers
 
 - A support ticket always starts as an investigation, even when the goal is a fix. Finish the investigation checkpoint, then switch to fix explicitly.
+- `Blast radius` looks outside the diff for what the change breaks and proves the safety fact by running code; `review` and `interrogate` look inside the diff.
 - `Review` gives one careful verified pass. `Interrogate` assumes the change is broken and attacks it from several lenses and a second model family; use it for risky or contested changes.
 - `Review and fix` is the fix route with a review checkpoint. `Review` alone is read-only.
 - `Explain how` needs current source and runtime behaviour. `Explain why` may need history. Label which is which when both matter.
