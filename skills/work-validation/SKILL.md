@@ -17,7 +17,9 @@ specify; do not substitute a similar command merely because it is familiar.
    when the boundary, shared contract, or regression risk requires them. A new or changed test
    counts only after you have seen it fail: run it against the pre-change code (`git show
    HEAD:<file>` into a temporary directory) or a one-line sabotage, and record the red result.
-5. Exercise the real boundary where practical: the request path, UI flow, queue, schema output,
+5. Keep validation off shared state: migrations, seeds, and tests from a branch, worktree, or clone run
+   against a throwaway database (a new database name or container), never the dev database the
+   main checkout uses, and leave nothing behind in it. Exercise the real boundary where practical: the request path, UI flow, queue, schema output,
    generated artifact, or integration contract. A passing mock alone is not enough when the
    failure can occur outside the mock. A UI change is always driven in a real browser (the
    available browser tool or Playwright): the changed flow, its loading, empty, and error states,

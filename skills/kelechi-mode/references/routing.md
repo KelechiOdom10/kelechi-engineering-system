@@ -8,6 +8,7 @@ Choose exactly one primary route. Add specialists only when their trigger applie
 | investigate, diagnose, root cause, support ticket | `/kelechi:investigate` | `playbooks/investigation.md` | `support-investigation` for a customer report; adapter log, trace, and data skills |
 | fix, bug, broken | `/kelechi:fix` | `playbooks/fix.md` | investigation first; *optional* `diagnosing-bugs`, `tdd` |
 | feature, build, implement | `/kelechi:feature` | `playbooks/feature.md` | `domain-modeling` when semantics are unclear; `frontend-quality`, `frontend-design-direction`, `component-api-design`, or `backend-service-design` by surface; *optional* `better-*` UI skills |
+| architect, shape this API or module, before coding a new boundary | `/kelechi:architect` | `architect` skill | *optional* `pr-lens` for the intended-change diagram |
 | refactor, simplify, consolidate | `/kelechi:refactor` | `playbooks/refactor.md` | `domain-modeling` when a boundary has drifted; *optional* `codebase-design` |
 | interrogate, tear apart, stress test, adversarial review | `/kelechi:interrogate` | `interrogate` skill | `kelechi-engineering-standard`; the other harness's CLI for the cross-model reviewer |
 | blast radius, what could this break, small diff I don't trust | `/kelechi:blast-radius` | `blast-radius` skill | `kelechi:explorer` for consumer mapping; `interrogate` for a wide change |

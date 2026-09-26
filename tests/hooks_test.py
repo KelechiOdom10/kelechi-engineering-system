@@ -69,7 +69,16 @@ expect("heredoc conventional commit allowed", not denied(bash(pnpm, heredoc)))
 expect("heredoc bad subject blocked", denied(bash(plain, heredoc.replace("feat(web): show", "Show"))))
 expect("attribution trailer blocked",
        denied(bash(plain, heredoc.replace("npm is not used here.", "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"))))
-script_then_commit = "python3 - <<'EOF'\nimport pathlib\nEOF\ngit add -A && git commit -q -m \"feat: add reinstall\""
+push = "npx @coldtea/pr-lens-cli@latest canvas push .pr-lens/x/drawn.graph.json"
+expect("canvas push blocked by default", denied(bash(plain, push)))
+expect("canvas push through any runner blocked", denied(bash(plain, "pnpm dlx @coldtea/pr-lens-cli canvas push d.json")))
+expect("canvas push allowed with explicit opt-in", not denied(bash(plain, "KELECHI_CANVAS=yes " + push)))
+expect("opt-in text elsewhere does not count", denied(bash(plain, push + " # KELECHI_CANVAS=yes")))
+expect("pr-lens render untouched", not denied(bash(plain, "npx @coldtea/pr-lens-cli@latest render .pr-lens/graph.json")))
+humaans = repo({})
+subprocess.run(["git", "remote", "add", "origin", "git@github.com:humaans/humaans.git"], cwd=humaans, check=True)
+expect("canvas push blocked in Humaans even with opt-in", denied(bash(humaans, "KELECHI_CANVAS=yes " + push)))
+script_then_commit ="python3 - <<'EOF'\nimport pathlib\nEOF\ngit add -A && git commit -q -m \"feat: add reinstall\""
 expect("a heredoc before the commit is not its message (regression)", not denied(bash(plain, script_then_commit)))
 expect("every chained commit is checked",
        denied(bash(plain, 'git commit -q -m "feat: one" && git commit -q -m "Second thing"')))
