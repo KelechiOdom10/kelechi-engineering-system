@@ -121,10 +121,26 @@ def check_title(title, kind):
         deny(f"PR title is {len(title)} characters. Keep it under 70 and state intent, not mechanics.")
 
 
+COMMIT = re.compile(r"\bgit\s+(?:-C\s+\S+\s+)?commit\b")
+PR_WRITE = re.compile(r"\bgh\s+pr\s+(?:create|edit)\b")
+HEREDOC_MESSAGE = re.compile(r"[^\n]*?\s(?:-m|--message)[\s=]+\"\$\(cat\s*<<")
+
+
+def commit_subjects(command):
+    """Yield each `git commit` subject, reading only from that commit onwards."""
+    for match in COMMIT.finditer(command):
+        rest = command[match.start():]
+        if HEREDOC_MESSAGE.match(rest):
+            subject = heredoc_first_line(rest)
+        else:
+            subject = flag_value(rest, ["-m", "--message"])
+        if subject:
+            yield subject
+
+
 def check_vcs(command, cwd):
-    is_commit = re.search(r"\bgit\s+(-C\s+\S+\s+)?commit\b", command)
-    is_pr = re.search(r"\bgh\s+pr\s+(create|edit)\b", command)
-    if not (is_commit or is_pr or re.search(r"\bgh\s+(pr|issue)\s+comment\b", command)):
+    is_pr = PR_WRITE.search(command)
+    if not (COMMIT.search(command) or is_pr or re.search(r"\bgh\s+(pr|issue)\s+comment\b", command)):
         return
 
     bodies = [command]
@@ -140,12 +156,10 @@ def check_vcs(command, cwd):
         if any(p.search(text) for p in ATTRIBUTION):
             deny("Remove the AI attribution line. Kelechi's commits and PRs carry no AI attribution.")
 
-    if is_commit:
-        subject = heredoc_first_line(command) if "<<" in command else flag_value(command, ["-m", "--message"])
-        if subject:
-            check_title(subject, "Commit")
+    for subject in commit_subjects(command):
+        check_title(subject, "Commit")
     if is_pr:
-        title = flag_value(command, ["--title", "-t"])
+        title = flag_value(command[is_pr.start():], ["--title", "-t"])
         if title:
             check_title(title, "PR")
 

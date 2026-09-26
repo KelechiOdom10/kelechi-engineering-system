@@ -27,12 +27,15 @@ claude plugin install kelechi@kelechi
 
 On a Humaans machine, also install `kelechi-humaans@kelechi`.
 
-**Codex.** The personal marketplace at `~/.agents/plugins/marketplace.json` points `./plugins/kelechi-mode` at a checkout of this repo (a symlink). Reinstall after changes with `codex plugin add kelechi-mode@personal`.
+**Codex.** The personal marketplace at `~/.agents/plugins/marketplace.json` points `./plugins/kelechi-mode` at a checkout of this repo (a symlink).
+
+After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. It bumps the Codex cache version and restores it afterwards, so the tree stays clean.
 
 ## Use
 
 | Claude Code | Codex | Route |
 | --- | --- | --- |
+| `/kelechi:kickoff` | `$kickoff` | new product or surface: decisions, then a walking skeleton |
 | `/kelechi:investigate` | `$kelechi-mode investigate` | read-only diagnosis |
 | `/kelechi:fix` | `$kelechi-mode fix` | reproduce, root-cause, fix, verify |
 | `/kelechi:feature` | `$kelechi-mode feature` | an end-to-end verified slice |
@@ -63,7 +66,8 @@ Once entered, the mode stays on for the session.
 | `hooks/` | Portable guardrails, one file shared by both harnesses | both |
 | `adapters/humaans/` | Humaans adapter plugin: repository routing and review layer | both |
 | `templates/` | Domain, design brief, backend, frontend, support, validation, adapter templates | both |
-| `tests/` | `python3 tests/hooks_test.py` exercises every hook against both harnesses' payloads | n/a |
+| `scripts/reinstall.sh` | Refreshes the installed plugins in Claude Code and Codex from this checkout | both |
+| `tests/` | `python3 tests/hooks_test.py` for the hooks; `node --test tests/check_boundaries_test.mjs` for the kickoff boundary checker | n/a |
 
 ## Hooks
 

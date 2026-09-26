@@ -4,6 +4,7 @@ Choose exactly one primary route. Add specialists only when their trigger applie
 
 | User intent | Command | Playbook | Specialists |
 | --- | --- | --- | --- |
+| kickoff, new project, new product surface | `/kelechi:kickoff` | `kickoff` skill | `domain-modeling`, `frontend-design-direction`, `kelechi-engineering-standard` stack reference |
 | investigate, diagnose, root cause, support ticket | `/kelechi:investigate` | `playbooks/investigation.md` | `support-investigation` for a customer report; adapter log, trace, and data skills |
 | fix, bug, broken | `/kelechi:fix` | `playbooks/fix.md` | investigation first; *optional* `diagnosing-bugs`, `tdd` |
 | feature, build, implement | `/kelechi:feature` | `playbooks/feature.md` | `domain-modeling` when semantics are unclear; `frontend-quality`, `frontend-design-direction`, `component-api-design`, or `backend-service-design` by surface; *optional* `better-*` UI skills |
@@ -27,4 +28,5 @@ Every route that changes code ends with `work-validation`. Every route that open
 - `Explain how` needs current source and runtime behaviour. `Explain why` may need history. Label which is which when both matter.
 - A refactor whose target shape is unknown starts as design. A known behaviour-preserving transformation is a refactor.
 - A design question someone could settle by running code is a prototype.
+- A new product or a new surface with unsettled language and domain starts as kickoff; a new feature inside a settled domain is a feature.
 - `Babysit` declares `check` (read-only) or `drive` before acting.

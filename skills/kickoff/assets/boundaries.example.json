@@ -1,0 +1,36 @@
+{
+  "rules": {
+    "packages/core": {
+      "allow": [
+        "zod",
+        "vite-plus"
+      ]
+    },
+    "packages/db": {
+      "allow": [
+        "@app/core",
+        "drizzle-orm",
+        "drizzle-kit",
+        "postgres",
+        "zod",
+        "node:*",
+        "vite-plus"
+      ]
+    },
+    "packages/api": {
+      "deny": [
+        "@app/web",
+        "react",
+        "react-dom",
+        "postgres"
+      ]
+    },
+    "apps/web": {
+      "deny": [
+        "@app/db",
+        "drizzle-orm",
+        "postgres"
+      ]
+    }
+  }
+}
