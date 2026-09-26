@@ -44,7 +44,7 @@ Each numbered unit ends in its own Conventional Commit that leaves `check` green
 8. **Integration test.** One test that sends a real `Request` through the mounted API against a separate local test database (never the dev database) and asserts the slice's outcome.
 9. **CI.** `.github/workflows/ci.yml` from `../assets/ci.yml`.
 10. **Deploy config.** Workers config following Start's current Cloudflare guide. Run it once through `wrangler dev` and hit `/api/health`; this is the Elysia-on-Workers guardrail.
-11. **Verification skill.** `.claude/skills/verify/SKILL.md` from `../assets/verify-skill.template.md`, with a one-line pointer to it in `AGENTS.md` so Codex finds it too.
+11. **Verification skill.** Run the `verify-skill` skill in create mode against the skeleton.
 
 ## Proof
 

@@ -5,7 +5,7 @@ description: Verify a code or configuration change before hand-off by running th
 
 # Work validation
 
-Validation is part of the change. Read the repository instructions and use the commands they
+Validation is part of the change. When the repository has `.claude/skills/verify/`, use it to start and drive the app. Read the repository instructions and use the commands they
 specify; do not substitute a similar command merely because it is familiar.
 
 1. Identify the changed boundary: formatting, static types, service behaviour, user interaction,

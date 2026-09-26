@@ -51,6 +51,7 @@ After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. I
 | `/kelechi:explain` | `$kelechi-mode explain` | how and why |
 | `/kelechi:babysit` | `$kelechi-mode babysit` | drive a PR to green |
 | `/kelechi:reflect` | `$reflect` | turn a session's lessons into approved skill, hook, project, or memory edits |
+| `/kelechi:verify-skill` | `$verify-skill` | create or refresh a repo's verify skill: start safely, sign in, prove each flow |
 | `/kelechi:pause`, `/kelechi:resume` | `$kelechi-mode pause`, `resume` | park and pick up work |
 | `/kelechi:autonomous` | `$kelechi-mode autonomous` | run to a terminal condition |
 
