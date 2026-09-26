@@ -1,8 +1,9 @@
-"""PreToolUse guard for shell commands: package manager, VCS titles, AI attribution."""
+"""PreToolUse guard for shell commands: package manager, VCS titles, AI attribution, PR Lens canvas."""
 import json
 import os
 import re
 import shlex
+import subprocess
 
 from _common import cwd_of, deny, git_root, read_input
 
@@ -164,6 +165,33 @@ def check_vcs(command, cwd):
             check_title(title, "PR")
 
 
+CANVAS_PUSH = re.compile(r"pr-lens(?:-cli)?(?:@\S+)?\s+canvas\s+push\b")
+CANVAS_OPT_IN = re.compile(r"(?:^|[\s;&|(])KELECHI_CANVAS=yes\s")
+RESTRICTED_ORIGINS = re.compile(r"[:/]humaans/humaans(?:\.git)?$")
+
+
+def origin_url(root):
+    try:
+        out = subprocess.run(["git", "-C", root, "config", "--get", "remote.origin.url"], capture_output=True, text=True, timeout=5)
+    except (OSError, subprocess.TimeoutExpired):
+        return ""
+    return out.stdout.strip()
+
+
+def check_canvas(command, root):
+    if not CANVAS_PUSH.search(command):
+        return
+    if RESTRICTED_ORIGINS.search(origin_url(root)):
+        deny("PR Lens canvases are not allowed in this repository: prlens.dev is not an approved provider. Attach the rendered SVGs to the PR with `gh pr create --attach` instead.")
+    if not CANVAS_OPT_IN.search(command):
+        deny(
+            "Canvas upload is off by default: it publishes the architecture to prlens.dev behind a link that opens "
+            "without a login. Attach the rendered SVGs to the PR with `gh pr create --attach`, or hand back the local "
+            "SVG paths. Only if Kelechi explicitly asked for a canvas in this conversation, rerun the command prefixed "
+            "with KELECHI_CANVAS=yes."
+        )
+
+
 def main():
     payload = read_input()
     command = (payload.get("tool_input") or {}).get("command") or ""
@@ -172,6 +200,7 @@ def main():
     cwd = cwd_of(payload)
     check_vcs(command, cwd)
     root = git_root(cwd) or cwd
+    check_canvas(command, root)
     check_package_manager(command, root)
 
 

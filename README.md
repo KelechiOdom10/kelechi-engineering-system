@@ -81,6 +81,7 @@ Each hook reads the repository's own toolchain and does nothing where it does no
 - **Package manager.** Blocks a package manager that disagrees with the lockfile, and raw `vitest`, `oxlint`, `oxfmt`, or `npx` in a Vite+ repo.
 - **Titles.** Commit subjects and PR titles use Conventional Commits, carry no ticket ids, and PR titles stay under 72 characters.
 - **Attribution.** Blocks AI attribution in commits, PR bodies, and comments.
+- **PR Lens canvas.** Blocks uploading a diagram to prlens.dev unless Kelechi asked for a canvas (`KELECHI_CANVAS=yes`); never allowed in the Humaans repo.
 - **Format on edit.** Runs the repository's formatter (`vp fmt`, oxfmt, Biome, or Prettier) on edited files.
 - **Comment nudge.** Flags new source comments that are not a non-obvious why.
 - **Stale state.** At session start, lists `.kelechi/` working files that are old, orphaned, merged, or consumed.
