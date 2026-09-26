@@ -44,6 +44,7 @@ After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. I
 | `/kelechi:perf` | `$kelechi-mode performance` | measure, trace, improve |
 | `/kelechi:review` | `$kelechi-mode review` | read-only rigorous review |
 | `/kelechi:blast-radius` | `$blast-radius` | what a change breaks outside its diff, with the safety fact proven by running code |
+| `/kelechi:no-comments` | `$no-comments` | strip narrating comments and encode the rest as renames, types, or tests |
 | `/kelechi:interrogate` | `$interrogate` | adversarial multi-lens review, with a cross-model reviewer from the other CLI |
 | `/kelechi:design` | `$kelechi-mode design` | recommend a shape |
 | `/kelechi:prototype` | `$kelechi-mode prototype` | settle a fork by observation |
@@ -64,7 +65,7 @@ Once entered, the mode stays on for the session.
 | `skills/kelechi-mode/` | Router, routes, principles, playbooks, agent map, working-state policy | both |
 | `skills/kelechi-engineering-standard/` | Kelechi's personal standard: types, architecture, testing, frontend, comments, AI features, default stack | both |
 | `skills/*` (others) | PR writing, validation, support investigation, domain modelling, frontend, component API, backend service design | both |
-| `agents/` | `explorer` (haiku), `investigator` (sonnet), `reviewer` (opus) | Claude |
+| `agents/` | `explorer` (haiku), `investigator` (sonnet), `comment-reviewer` (sonnet), `reviewer` (opus) | Claude |
 | `codex/agents/` | The same roles as Codex agent definitions, copied to `~/.codex/agents/` | Codex |
 | `commands/` | `/kelechi:<route>` shortcuts | Claude |
 | `hooks/` | Portable guardrails, one file shared by both harnesses | both |

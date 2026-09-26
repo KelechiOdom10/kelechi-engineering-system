@@ -6,6 +6,7 @@ Three read-only roles. Spawn one only when it adds evidence or an independent le
 | --- | --- | --- | --- | --- | --- |
 | Explorer | `kelechi:explorer` | `kelechi_explorer` | haiku | mapping code, history, docs, locating owners and tests, large-file scans | edits, design decisions, unverified conclusions |
 | Investigator | `kelechi:investigator` | `kelechi_investigator` | sonnet | logs, traces, data, runtime mechanisms, ranked hypotheses | fixes, production mutation, contacting people |
+| Comment reviewer | `kelechi:comment-reviewer` | `kelechi_comment_reviewer` | sonnet | judging every comment and suppression a diff adds | editing, or judging code beyond its comments |
 | Reviewer | `kelechi:reviewer` | `kelechi_reviewer` | opus | correctness, authorisation, architecture, test-gap review | posting comments, approving, editing the branch |
 
 If a named agent is unavailable, keep the role and its boundary with a built-in agent.
