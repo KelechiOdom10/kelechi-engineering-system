@@ -69,6 +69,10 @@ expect("heredoc conventional commit allowed", not denied(bash(pnpm, heredoc)))
 expect("heredoc bad subject blocked", denied(bash(plain, heredoc.replace("feat(web): show", "Show"))))
 expect("attribution trailer blocked",
        denied(bash(plain, heredoc.replace("npm is not used here.", "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"))))
+script_then_commit = "python3 - <<'EOF'\nimport pathlib\nEOF\ngit add -A && git commit -q -m \"feat: add reinstall\""
+expect("a heredoc before the commit is not its message (regression)", not denied(bash(plain, script_then_commit)))
+expect("every chained commit is checked",
+       denied(bash(plain, 'git commit -q -m "feat: one" && git commit -q -m "Second thing"')))
 expect("amend without message allowed", not denied(bash(plain, "git commit --amend --no-edit")))
 expect("PR title with ticket blocked", denied(bash(plain, 'gh pr create --title "feat: FIVE-12 add export" --body x')))
 expect("good PR title allowed", not denied(bash(plain, 'gh pr create --title "feat(web): add export" --body "## Context"')))
