@@ -42,6 +42,7 @@ After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. I
 | `/kelechi:refactor` | `$kelechi-mode refactor` | behaviour-preserving change |
 | `/kelechi:perf` | `$kelechi-mode performance` | measure, trace, improve |
 | `/kelechi:review` | `$kelechi-mode review` | read-only rigorous review |
+| `/kelechi:blast-radius` | `$blast-radius` | what a change breaks outside its diff, with the safety fact proven by running code |
 | `/kelechi:interrogate` | `$interrogate` | adversarial multi-lens review, with a cross-model reviewer from the other CLI |
 | `/kelechi:design` | `$kelechi-mode design` | recommend a shape |
 | `/kelechi:prototype` | `$kelechi-mode prototype` | settle a fork by observation |
