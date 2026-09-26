@@ -1,7 +1,7 @@
 {
   "name": "kelechi-mode",
-  "version": "0.1.2+codex.20260901173327",
-  "description": "An evidence-first engineering router tailored to Kelechi's Codex workflow.",
+  "version": "0.2.0+codex.20260926000000",
+  "description": "An evidence-first engineering router with personal standards, shared with Claude Code.",
   "author": {
     "name": "Kelechi Odom"
   },

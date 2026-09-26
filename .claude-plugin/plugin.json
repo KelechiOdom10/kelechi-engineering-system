@@ -1,0 +1,10 @@
+{
+  "name": "kelechi",
+  "version": "0.2.0",
+  "description": "Kelechi Mode: an evidence-first engineering router with personal standards, read-only specialist agents, and portable guardrails.",
+  "author": {
+    "name": "Kelechi Odom"
+  },
+  "repository": "https://github.com/KelechiOdom10/kelechi-engineering-system",
+  "keywords": ["workflow", "engineering", "review", "debugging", "standards"]
+}
