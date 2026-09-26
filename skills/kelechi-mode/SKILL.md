@@ -30,6 +30,7 @@ Autonomy decides how long you keep going. Authority decides what you may touch. 
 | Edit files, run tests, dev servers, local databases | Proceed |
 | Branch, worktree, local commits | Proceed |
 | Push the agent's own feature branch, open a draft PR | Proceed |
+| Delete a branch already merged into the base, locally and on the remote | Proceed |
 | Mark a PR ready, request reviewers, comment on someone else's PR | Ask |
 | Merge, force-push a shared branch, deploy, touch production data, migrate a shared database | Always ask |
 | Messages to people: chat, email, tickets, review comments | Always ask |

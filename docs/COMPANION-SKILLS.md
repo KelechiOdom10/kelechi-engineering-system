@@ -38,6 +38,7 @@ Kelechi Mode names these by skill name and uses them only when installed.
 | Matt Pocock's `domain-modeling` (CONTEXT.md, ADRs) | Recording the decisions the local `domain-modeling` skill reaches |
 | Matt Pocock's `codebase-design`, `prototype`, `grilling` | Refactor, prototype, and design routes (`grilling` only when asked) |
 | The `better-*` interface skills | UI detail work under the frontend standard |
+| PR Lens `pr-lens` (and `eli5`), `npx skills add coldteadotai/pr-lens` | Diagrams for boundary-crossing PRs and `architect`'s intended shape; `eli5` for onboarding walkthroughs. Local render and GitHub attachments only; canvases on request |
 
 The local skill owns the process; the companion supplies a format or technique.
 

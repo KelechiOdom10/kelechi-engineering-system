@@ -39,6 +39,7 @@ After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. I
 | `/kelechi:investigate` | `$kelechi-mode investigate` | read-only diagnosis |
 | `/kelechi:fix` | `$kelechi-mode fix` | reproduce, root-cause, fix, verify |
 | `/kelechi:feature` | `$kelechi-mode feature` | an end-to-end verified slice |
+| `/kelechi:architect` | `$architect` | settle callers, types, and placement before coding a boundary |
 | `/kelechi:refactor` | `$kelechi-mode refactor` | behaviour-preserving change |
 | `/kelechi:perf` | `$kelechi-mode performance` | measure, trace, improve |
 | `/kelechi:review` | `$kelechi-mode review` | read-only rigorous review |

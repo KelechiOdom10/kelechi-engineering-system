@@ -34,7 +34,16 @@ Two to four sentences: the observed behaviour, its impact, and the cause, in ord
 - [x] The important regression case
 ```
 
-Add `## Demo` with screenshots or a recording for a visual or interaction change. Add risk, rollout, or before/after sections only when they help the reviewer.
+Add `## Demo` with screenshots or a recording for a visual or interaction change.
+
+## Diagram
+
+Add `## Diagram` when the change crosses a package, service, or process boundary, or adds a feature, request, or data flow. Skip it for anything smaller; a diagram on a small PR is noise.
+
+- Draw it with the `pr-lens` skill when installed: the top architecture view first, then one data-flow view if the change has a sequence worth following.
+- Attach the rendered SVGs with `gh pr create` or `gh pr edit` and `--attach` (GitHub CLI 2.99 or newer), so the images live on GitHub.
+- Never push to a PR Lens canvas unless Kelechi asks for one in this conversation; a canvas stores the architecture on prlens.dev.
+- If `architect` left an intended graph in `.kelechi/architect/`, compare it with what was built and state any drift in one line under the diagram. Add risk, rollout, or before/after sections only when they help the reviewer.
 
 ## Comprehension budget
 
