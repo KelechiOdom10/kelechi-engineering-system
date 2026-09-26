@@ -25,6 +25,8 @@ Pick a mode and say which: **create** when `.claude/skills/verify/` is missing, 
 4. **Prove it cold.** Hand only the generated skill to a fresh subagent (or a new session) and ask it to launch, run the doctor check, drive one mapped flow, capture evidence, and clean up. Everything it had to rediscover is a gap: fix the skill and repeat. Evidence must survive cleanup.
 5. **Commit** on a branch: `docs: add verify skill`.
 
+Claude Code protects `.claude/`, so an unattended session may be refused the write. Then write the files to `.kelechi/verify/` and give Kelechi one command that moves them into `.claude/skills/verify/` and commits; do not route around the refusal. When the sandbox blocks running the app (as Codex's often does), write the skill, mark it unproven, and say what could not run.
+
 ## Maintain
 
 1. Read `verified-at` in `features/README.md` and diff from that commit to `HEAD` against the files each feature lists.
