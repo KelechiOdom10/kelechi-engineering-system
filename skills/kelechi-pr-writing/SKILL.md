@@ -1,69 +1,47 @@
 ---
 name: kelechi-pr-writing
-description: Apply Kelechi's personal Humaans pull-request title and description preferences whenever creating or editing a PR, or after pushing commits to an open PR. Use alongside the repository's create-pr skill; this personal structure wins when its description-format guidance conflicts.
+description: Kelechi's pull-request title and description format. Use when creating or editing a PR, or after pushing commits that change what an open PR does.
 ---
 
-# Kelechi PR Writing
+# Kelechi PR writing
 
-Read the repository's `create-pr` skill for shared mechanics, title constraints,
-and keeping an open PR synchronized with its diff. Apply this personal format
-when its description guidance conflicts with the repository default.
-
-Use `plain-writing` before creating or updating the PR when it is available.
+If the repository has its own PR skill or template, read it for mechanics. This format wins where the description guidance conflicts.
 
 ## Title
 
-- Use Conventional Commits style.
-- Keep it under 70 characters.
-- Describe intent, not mechanics.
-- Do not put a ticket number in the title.
+- Conventional Commits, scoped in a monorepo: `fix(api): ...`.
+- Under 70 characters. States intent, not mechanics.
+- No ticket number; tickets go in the branch name or the body.
 
 ## Description
 
-The description is an orientation document, not a design archive. A reader who
-did not implement the change should understand, in one pass:
-
-1. What was wrong or needed to change?
-2. Why was it happening?
-3. What behavior changes now?
-4. How was it verified?
-
-Use this default shape:
+An orientation document, not a design archive. A reader who did not write the change should understand in one pass what was wrong or needed, why, what behaviour changes, and how it was verified.
 
 ```md
 ## Context
 
-Two to four sentences describing the observed behavior, its impact, and the
-cause in ordinary language.
+Two to four sentences: the observed behaviour, its impact, and the cause, in ordinary language.
 
 ## Solution
 
-- The important behavioral changes.
+- The important behaviour changes.
 - A key design choice or trade-off, only when it helps the reader.
 
 ## Test plan
 
-- [ ] Verification at the real boundary
-- [ ] Relevant automated tests
-- [ ] Important regression case
+- [x] Verification at the real boundary
+- [x] Relevant automated tests
+- [x] The important regression case
 ```
 
-Add `## Demo` for a visual or interaction change. Add risk, rollout, or
-before/after sections only when they materially help the reviewer.
+Add `## Demo` with screenshots or a recording for a visual or interaction change. Add risk, rollout, or before/after sections only when they help the reviewer.
 
 ## Comprehension budget
 
-- Focus on behavior and intent; the diff already shows the mechanics.
-- Keep the body roughly to one screen unless the risk genuinely requires more.
-- Explain unavoidable internal terms once, in ordinary language.
-- Do not include an investigation diary, file inventory, generated recap, or
-  repeated summary.
-- Do not paste code unless an API or data contract cannot be understood without
-  it.
-- Replace shorthand such as "load-bearing", "plumbing", or "hydrate" with the
-  concrete behavior it means.
-- Do not add AI attribution unless Kelechi explicitly requests it. If requested,
-  name the exact model rather than only the agent.
+- Behaviour and intent; the diff already shows the mechanics.
+- About one screen, unless the risk genuinely needs more.
+- Explain an unavoidable internal term once, in plain words. Replace shorthand like "load-bearing", "plumbing", or "hydrate" with the concrete behaviour.
+- Leave out investigation diaries, file inventories, and code pastes (unless a contract cannot be understood without one).
+- No AI attribution. If Kelechi asks for one, name the exact model.
 
-Re-read the final body as someone unfamiliar with the implementation. If they
-cannot explain the fundamental change after one pass, simplify it.
+Re-read the body as someone unfamiliar with the change. If they could not explain the change after one pass, simplify.

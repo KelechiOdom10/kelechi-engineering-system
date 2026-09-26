@@ -18,6 +18,7 @@ description: Build or review a frontend change for clear state ownership, access
    structure or behaviour; do not add flags that make consumers combine incompatible states.
 6. Measure before optimising. Avoid unnecessary requests, repeated derived work, unstable list keys,
    and expensive rendering in long lists; do not introduce memoisation without a demonstrated cost.
-7. Run the repository's frontend checks and exercise the changed flow in a real browser. Use the
+7. Follow the state ownership and visual defaults in `kelechi-engineering-standard` frontend
+   reference unless the repository decides otherwise. Run the repository's frontend checks and exercise the changed flow in a real browser. Use the
    [frontend-change template](../../templates/frontend-change.md) for the interaction and
    accessibility evidence.

@@ -1,8 +1,8 @@
 # Babysit
 
-1. Declare the mode: `check` is read-only monitoring; `drive` may fix authorized issues; `threads-only` coordinates existing tasks without repository changes. State the terminal predicate, such as all required checks succeeding on the latest head SHA.
-2. Inspect current branch, PR, review threads, and CI state. Do not assume an earlier snapshot is current.
-3. Triage in this order: conflicts, blocking review findings, failing checks, then description or housekeeping drift.
-4. Use `rebase-conflicts`, `gh-fix-ci`, `validate-branch`, `create-pr`, and `kelechi-pr-writing` when their triggers apply. Respect any specialist requirement to present evidence or obtain approval before implementation; drive mode does not override it.
-5. In drive mode, fix only issues within the authorized objective and verify each change. Posting replies, pushing, or editing the PR still requires current authority.
-6. Re-read the latest head and required checks before declaring success. Report what changed, what remains, and the next blocking event. Never merge or deploy unless explicitly asked and authorized.
+1. Declare the mode before acting. `check` is read-only monitoring. `drive` fixes issues inside the stated objective. State the terminal condition, such as every required check green on the latest head.
+2. Read the current branch, PR, review threads, and CI state. An earlier snapshot is stale by default.
+3. Triage in order: conflicts, blocking review findings, failing checks, description drift.
+4. Assess review-bot comments on their merits. Fix real bugs; dismiss noise with a concrete reason instead of churning code.
+5. In `drive`, fix only what the objective covers, verify each change, and push the agent's own branch. Replying to threads, marking ready, and requesting reviewers follow the authority table.
+6. Re-read the latest head and required checks before declaring success. Report what changed, what remains, and the next blocking event. Merge and deploy only on an explicit instruction.

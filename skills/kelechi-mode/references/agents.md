@@ -1,19 +1,21 @@
-# Model-aware agents
+# Agents
 
-Use these personal custom agents when delegation adds material value. If a named agent is unavailable, preserve the role and safety boundary with a built-in agent rather than blocking the task.
+Three read-only roles. Spawn one only when it adds evidence or an independent lens you would not get inline. Each harness names them differently.
 
-| Agent | Model profile | Use for | Do not use for |
-| --- | --- | --- | --- |
-| `kelechi_explorer` | GPT-5.6 Luna, medium, read-only | Codebase mapping, history, documentation, large-file scans, and locating relevant tests | Editing, final architectural decisions, or unverified conclusions |
-| `kelechi_investigator` | GPT-5.6 Terra, high, read-only | Support evidence, logs, traces, runtime mechanisms, and ranked debugging hypotheses | Implementing a fix, production mutation, or external communication |
-| `kelechi_reviewer` | GPT-5.6 Terra, high, read-only | TNR, correctness, authorization, architecture, and test-gap review | Posting review comments or modifying the branch |
+| Role | Claude Code | Codex | Model | Use for | Never |
+| --- | --- | --- | --- | --- | --- |
+| Explorer | `kelechi:explorer` | `kelechi_explorer` | haiku | mapping code, history, docs, locating owners and tests, large-file scans | edits, design decisions, unverified conclusions |
+| Investigator | `kelechi:investigator` | `kelechi_investigator` | sonnet | logs, traces, data, runtime mechanisms, ranked hypotheses | fixes, production mutation, contacting people |
+| Reviewer | `kelechi:reviewer` | `kelechi_reviewer` | opus | correctness, authorisation, architecture, test-gap review | posting comments, approving, editing the branch |
 
-## Route mapping
+If a named agent is unavailable, keep the role and its boundary with a built-in agent.
 
-- Investigation and performance: use `kelechi_investigator` for runtime evidence and `kelechi_explorer` for current code or history when those streams are independent.
-- Review: use `kelechi_reviewer`; add `kelechi_explorer` only when surrounding ownership or history needs separate mapping.
-- Design: keep recommendation and tradeoff decisions in the primary Sol agent; use `kelechi_explorer` for grounded code or documentation discovery.
-- Fix, feature, and refactor: use read-only agents only for evidence or review. The primary agent writes unless an isolated writer is explicitly needed and available.
-- Babysit: delegate read-only CI or review triage when useful; keep changes and external actions with the primary agent.
+## By route
 
-Use no more agents than the evidence streams justify. Wait for relevant results, inspect their evidence, resolve disagreement, and synthesize one conclusion. Model selection changes cost and depth; it does not change authorization.
+- **Investigate, perf:** investigator for runtime evidence and explorer for code or history, in parallel when the streams are independent.
+- **Review:** one reviewer per independent lens the diff justifies (correctness, security and authorisation, architecture and reader load, tests). Add the explorer only when ownership or history needs separate mapping.
+- **Design:** explorer for grounded discovery. Recommendations and trade-offs stay with the primary agent.
+- **Fix, feature, refactor:** read-only agents for evidence or review only. The primary agent writes.
+- **Babysit:** read-only CI and review triage. Changes and external actions stay with the primary agent.
+
+Brief each agent with file pointers and the exact question, not pasted context. Wait for results, check their evidence, resolve disagreement, and write one conclusion yourself. Model choice changes cost and depth, never authority.
