@@ -47,6 +47,7 @@ After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. I
 | `/kelechi:prototype` | `$kelechi-mode prototype` | settle a fork by observation |
 | `/kelechi:explain` | `$kelechi-mode explain` | how and why |
 | `/kelechi:babysit` | `$kelechi-mode babysit` | drive a PR to green |
+| `/kelechi:reflect` | `$reflect` | turn a session's lessons into approved skill, hook, project, or memory edits |
 | `/kelechi:pause`, `/kelechi:resume` | `$kelechi-mode pause`, `resume` | park and pick up work |
 | `/kelechi:autonomous` | `$kelechi-mode autonomous` | run to a terminal condition |
 
@@ -68,7 +69,7 @@ Once entered, the mode stays on for the session.
 | `adapters/humaans/` | Humaans adapter plugin: repository routing and review layer | both |
 | `templates/` | Domain, design brief, backend, frontend, support, validation, adapter templates | both |
 | `scripts/reinstall.sh` | Refreshes the installed plugins in Claude Code and Codex from this checkout | both |
-| `tests/` | `python3 tests/hooks_test.py` for the hooks; `node --test tests/check_boundaries_test.mjs` for the kickoff boundary checker | n/a |
+| `tests/` | `python3 tests/hooks_test.py` for the hooks; `node --test tests/check_boundaries_test.mjs` for the kickoff boundary checker; `python3 tests/digest_test.py` for the reflect digest | n/a |
 
 ## Hooks
 

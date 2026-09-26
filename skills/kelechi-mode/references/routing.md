@@ -16,6 +16,7 @@ Choose exactly one primary route. Add specialists only when their trigger applie
 | prototype, sketch, "which approach" | `/kelechi:prototype` | `playbooks/prototype.md` | *optional* `prototype` |
 | explain, teach, how, why | `/kelechi:explain` | `playbooks/explain.md` | adapter history and context skills |
 | babysit, drive PR, fix CI | `/kelechi:babysit` | `playbooks/babysit.md` | `kelechi-pr-writing`, `work-validation` |
+| reflect, what did we learn, capture lessons | `/kelechi:reflect` | `reflect` skill | the other routes' skills, as edit targets |
 | pause, handoff, park | `/kelechi:pause` | `playbooks/pause.md` | none |
 | resume, continue, pick up | `/kelechi:resume` | `playbooks/resume.md` | route-specific |
 | autonomous, keep going, run until | `/kelechi:autonomous` | `playbooks/autonomous.md` | route-specific |
