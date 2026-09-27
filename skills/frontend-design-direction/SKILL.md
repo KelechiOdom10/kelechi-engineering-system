@@ -1,6 +1,6 @@
 ---
 name: frontend-design-direction
-description: Design a new or substantially redesigned user interface with a deliberate visual direction, hierarchy, and interaction character. Use for a greenfield page, landing page, or major visual redesign; do not use when an existing design system or Figma design already determines the result.
+description: Set a deliberate visual direction and hierarchy for a new or redesigned UI. Use for greenfield pages or major redesigns, not when a design system already decides.
 ---
 
 # Frontend design direction

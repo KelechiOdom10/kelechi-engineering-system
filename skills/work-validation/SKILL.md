@@ -1,6 +1,6 @@
 ---
 name: work-validation
-description: Verify a code or configuration change before hand-off by running the repository's formatter, lint, type checks, focused tests, and relevant real boundary. Use after implementation or before a pull request; do not use as a replacement for investigation.
+description: Prove a change before hand-off - formatter, lint, types, focused tests, and the real boundary. Use after implementing or before a PR.
 ---
 
 # Work validation

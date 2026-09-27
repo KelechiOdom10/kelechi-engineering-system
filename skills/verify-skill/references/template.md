@@ -32,7 +32,7 @@ description: Prove <app> works end to end - start it in isolation, sign in, driv
 
 ## Evidence
 
-Drive the real user path, not internal helpers. Capture the action and the resulting state, and check side effects (rows written, requests sent) as well as the screen. Evidence goes to <path> and survives cleanup.
+Drive the real user path, not internal helpers. Capture the action and the resulting state, and check side effects (rows written, requests sent) as well as the screen. Before each screenshot, wait for finite animations to finish, or an entrance fade reads as a faded render. Evidence goes to <path> and survives cleanup.
 
 ## Cleanup
 

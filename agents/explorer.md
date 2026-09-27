@@ -1,6 +1,6 @@
 ---
 name: explorer
-description: Read-only codebase and history mapper for Kelechi Mode. Use to map structure, locate the code and tests that own a behaviour, scan large files, and read docs or git history, returning source-verified facts with file:line references.
+description: "Read-only code and history mapper. Use to find the code and tests that own a behaviour, or to scan files, docs, or git history, returning file:line facts."
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
 model: haiku
 ---

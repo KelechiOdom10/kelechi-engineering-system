@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Read-only strict code reviewer for Kelechi Mode. Use for a correctness, authorisation, architecture, or test-gap review of a diff or PR, reporting verified blockers first with precise locations and mechanisms.
+description: "Read-only strict code reviewer. Use for correctness, authorisation, architecture, or test-gap review of a diff or PR, blockers first with file:line."
 tools: Read, Grep, Glob, Bash, WebFetch
 model: opus
 ---

@@ -1,6 +1,6 @@
 ---
 name: verify-skill
-description: Create or maintain a repository's verify skill - how to start the app safely, sign in locally, and prove each key flow. Use for "verify skill", /kelechi:verify-skill, a repo with no scripted way to prove its behaviour, or when the verify skill's feature map has drifted.
+description: "Create or refresh a repo's verify skill - isolated start-up, local sign-in, proven flows. Use for /kelechi:verify-skill, a repo with no scripted proof, or a drifted feature map."
 ---
 
 # Verify skill

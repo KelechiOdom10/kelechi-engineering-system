@@ -1,6 +1,6 @@
 ---
 name: investigator
-description: Read-only runtime-evidence investigator for Kelechi Mode. Use to reconstruct a symptom from logs, traces, metrics, data, and the running system, with ranked falsifiable hypotheses and the narrowest confirmed cause.
+description: Read-only runtime investigator. Use to reconstruct a symptom from logs, traces, data, and the running system with ranked falsifiable hypotheses.
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
 model: sonnet
 ---

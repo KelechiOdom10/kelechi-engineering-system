@@ -7,7 +7,7 @@ Name the principle that shaped a decision when you report the decision.
 1. **Evidence before edits.** Read the current system, reproduce the symptom, or measure the baseline before changing anything.
 2. **Diagnose before fixing.** Keep facts, hypotheses, and conclusions distinct. Reproduce, then ask why until you reach the cause; fix it there, not where the symptom surfaced.
 3. **Attack the premise.** When two fixes that share one premise fail the same check, stop patching and question the premise. Adding another prompt rule, flag, or special case on top of a failing design is the signal.
-4. **Current source beats memory.** History, handoffs, and docs explain intent; they do not prove present behaviour.
+4. **Current source beats memory.** The request, repository instructions, and verified source outrank memory, handoffs, and docs; those explain intent, they do not prove present behaviour.
 
 ## Shape
 
@@ -25,7 +25,4 @@ Name the principle that shaped a decision when you report the decision.
 
 ## Operating
 
-13. **Parallelise independent evidence, never shared writes.**
-14. **The primary agent owns delegated work** and inspects it before accepting it.
-15. **Encode lessons in structure.** A rule repeated twice becomes a lint rule, type, test, script, or hook rather than more prose.
-16. **Persistence never expands authority.**
+13. **Encode lessons in structure.** A rule repeated twice becomes a lint rule, type, test, script, or hook rather than more prose.

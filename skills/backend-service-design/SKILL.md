@@ -1,6 +1,6 @@
 ---
 name: backend-service-design
-description: Design or review a backend service boundary for validated inputs, explicit authority, invariant-safe writes, reliable asynchronous work, and observable failure modes. Use for API, service, worker, queue, data-access, or integration changes; do not use for a local pure utility.
+description: Design or review a backend boundary - validated input, explicit authority, invariant-safe writes, retries, observability. Use for API, service, worker, queue, or integration changes.
 ---
 
 # Backend service design

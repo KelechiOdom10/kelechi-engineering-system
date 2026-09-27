@@ -10,8 +10,8 @@ import sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 BUDGETS = {
-    "always_on": 2500,
-    "router_core": 3000,
+    "always_on": 1800,
+    "router_core": 2700,
     "skill_file": 1300,
 }
 ROUTER_CORE = [
@@ -36,14 +36,15 @@ def frontmatter(text):
 
 
 def always_on(plugin_root):
-    """Descriptions the harness keeps in context: model-invocable skills, agents, and commands."""
+    """Frontmatter the model sees every session: skills and agents, minus user-only (disable-model-invocation) entries."""
     total = 0
     for path in glob.glob(os.path.join(ROOT, plugin_root, "skills/*/SKILL.md")) + glob.glob(
         os.path.join(ROOT, plugin_root, "agents/*.md")
     ) + glob.glob(os.path.join(ROOT, plugin_root, "commands/*.md")):
         with open(path) as f:
             meta = frontmatter(f.read())
-        total += tokens(meta)
+        if "disable-model-invocation: true" not in meta:
+            total += tokens(meta)
     return total
 
 

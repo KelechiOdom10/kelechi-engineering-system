@@ -1,6 +1,6 @@
 ---
 name: architect
-description: Settle a change's shape before writing it - how callers use it, its types, and where it lives. Use for "architect", /kelechi:architect, or before code that adds or changes a module, API, service method, or shared type.
+description: "Architect a change before writing it - callers, types, placement. Use for /kelechi:architect or before adding or changing a module, API, service method, or shared type."
 ---
 
 # Architect

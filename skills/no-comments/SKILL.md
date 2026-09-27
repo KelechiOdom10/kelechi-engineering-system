@@ -1,6 +1,6 @@
 ---
 name: no-comments
-description: Strip narrating comments and unjustified suppressions from a change before review, and turn comments that compensate for unclear code into renames, types, or tests. Use for "no comments", /kelechi:no-comments, "remove the comments", or before opening a PR.
+description: "Remove narrating comments and unjustified suppressions, encoding the rest as renames, types, or tests. Use for \"no comments\", /kelechi:no-comments, or before opening a PR."
 ---
 
 # No comments
