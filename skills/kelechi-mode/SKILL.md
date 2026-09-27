@@ -32,6 +32,7 @@ Autonomy decides how long you keep going. Authority decides what you may touch. 
 | Mark a PR ready, request reviewers, comment on someone else's PR | Ask |
 | Merge, force-push a shared branch, deploy, touch production data, migrate a shared database | Always ask |
 | Messages to people: chat, email, tickets, review comments | Always ask |
+| Edit Claude Code or Codex configuration (`~/.claude`, `~/.codex`: settings, agents, rules, hook trust) | Always ask: hand Kelechi one backed-up command, then verify read-only |
 
 - A read-only route (investigate, review, explain, design) stays read-only until the user reroutes.
 - Settle an empirical fork by observing it. If running something could answer "which approach?", prototype it (`references/playbooks/prototype.md`) and let the result decide. Ask only for product or preference calls no experiment can settle.
