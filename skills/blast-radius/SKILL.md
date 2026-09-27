@@ -1,6 +1,6 @@
 ---
 name: blast-radius
-description: Find what a change breaks outside its own diff, and prove the fact it is safe because of by running code. Use for "blast radius", /kelechi:blast-radius, "what could this break", or a small diff you do not trust.
+description: Blast radius - what a change breaks outside its diff, with its safety fact proven by running code. Use for "what could this break" or a small diff you don't trust.
 ---
 
 # Blast radius

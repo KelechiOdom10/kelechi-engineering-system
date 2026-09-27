@@ -1,6 +1,6 @@
 ---
 name: component-api-design
-description: Simplify a shared frontend component with incompatible modes, boolean-prop sprawl, or unclear consumer contracts. Use when a component has several consumers or valid structural variants; do not use for a single simple component.
+description: Simplify a shared component's API - boolean-prop sprawl, incompatible modes, unclear contracts. Use when a component has several consumers or structural variants.
 ---
 
 # Component API design

@@ -1,6 +1,6 @@
 ---
 name: comment-reviewer
-description: Read-only reviewer for Kelechi Mode's no-comments pass. Judges every comment and lint or type suppression a diff adds, returning keep, delete, or encode for each with the reason.
+description: Read-only comment judge for the no-comments pass. Returns keep, delete, or encode for each comment or suppression a diff adds.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---

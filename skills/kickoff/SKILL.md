@@ -1,6 +1,6 @@
 ---
 name: kickoff
-description: Start a new product with Kelechi's kickoff - decisions first, then a walking skeleton. Use for "kickoff", /kelechi:kickoff, starting a new project or repo, or adding a new product surface to an existing repo.
+description: "Kickoff a new product or surface - decisions first, then a walking skeleton. Use for kickoff, /kelechi:kickoff, a new repo, or a new product surface in an existing one."
 ---
 
 # Kickoff

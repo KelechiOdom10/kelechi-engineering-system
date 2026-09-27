@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: Turn a session's lessons into concrete, approved edits - to Kelechi Mode skills, hooks, and checks, to the project's own instructions, or to memory. Use for "reflect", /kelechi:reflect, "what did we learn", or after a long or painful task.
+description: "Reflect on a session and turn its lessons into approved skill, hook, project, or memory edits. Use for reflect, /kelechi:reflect, or after a long or painful task."
 ---
 
 # Reflect

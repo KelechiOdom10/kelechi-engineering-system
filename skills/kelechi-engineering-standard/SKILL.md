@@ -1,6 +1,6 @@
 ---
 name: kelechi-engineering-standard
-description: Kelechi's personal engineering bar for writing and reviewing code - type safety, architecture boundaries, testing, frontend, comments, AI features, and his default stack. Use when writing, reviewing, or planning code under Kelechi Mode, or when asked what Kelechi's standard or default stack is.
+description: Kelechi's engineering standard - types, architecture, testing, frontend, comments, AI features, default stack. Use when writing, reviewing, or planning code in Kelechi Mode, or when asked for his standard or stack.
 ---
 
 # Kelechi engineering standard

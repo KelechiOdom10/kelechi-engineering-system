@@ -1,6 +1,6 @@
 ---
 name: interrogate
-description: Adversarial multi-lens, cross-model review that tries to break a change before it ships. Use for "interrogate", /kelechi:interrogate, "tear this apart", "stress test this", or a second opinion on a risky diff or design.
+description: "Interrogate a change with adversarial multi-lens, cross-model review. Use for interrogate, /kelechi:interrogate, \"tear this apart\", or a second opinion on a risky diff."
 ---
 
 # Interrogate

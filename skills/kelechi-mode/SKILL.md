@@ -1,6 +1,6 @@
 ---
 name: kelechi-mode
-description: Kelechi's evidence-first engineering router. Use only on an explicit cue - "Kelechi Mode", /kelechi-mode, $kelechi-mode, or a /kelechi:<route> command - to kick off, investigate, fix, build, refactor, review, design, prototype, explain, babysit, pause, resume, or autonomously drive work.
+description: "Kelechi Mode, his evidence-first engineering router. Use only on an explicit cue - \"Kelechi Mode\", /kelechi-mode, $kelechi-mode, or /kelechi:<route> - to investigate, fix, build, refactor, review, design, prototype, explain, babysit, pause, resume, or run work autonomously."
 ---
 
 # Kelechi Mode
@@ -14,8 +14,6 @@ Act as a router and orchestrator. The playbooks own the process; specialist skil
 3. Load a repository adapter first when one matches the current repository (for example `humaans-adapter` inside `humaans/humaans`). Adapter mechanics override this generic workflow.
 4. Load `kelechi-engineering-standard` before writing or reviewing code.
 5. For multi-step work, open a todo list whose first items are the playbook's steps, copied verbatim. A step you skip stays in the list as `skip: <reason>`.
-
-The current request, repository instructions, and verified source state outrank memory, handoffs, and docs. Treat those as leads.
 
 ## Stay on
 
@@ -59,4 +57,4 @@ Read `references/working-state.md` before writing a handoff, plan, or investigat
 
 ## Finish
 
-Verify the real artifact in proportion to risk. Report what ran, what passed, and what did not run and why. An inconclusive check is reported as inconclusive.
+Verify with `work-validation` in proportion to risk. An inconclusive check is reported as inconclusive.

@@ -1,6 +1,6 @@
 ---
 name: kelechi-pr-writing
-description: Kelechi's pull-request title and description format. Use when creating or editing a PR, or after pushing commits that change what an open PR does.
+description: Kelechi's PR title and description format. Use when creating or editing a PR, or after pushes change what an open PR does.
 ---
 
 # Kelechi PR writing

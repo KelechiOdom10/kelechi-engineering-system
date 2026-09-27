@@ -1,11 +1,11 @@
 ---
 name: work-validation
-description: Verify a code or configuration change before hand-off by running the repository's formatter, lint, type checks, focused tests, and relevant real boundary. Use after implementation or before a pull request; do not use as a replacement for investigation.
+description: Prove a change before hand-off - formatter, lint, types, focused tests, and the real boundary. Use after implementing or before a PR.
 ---
 
 # Work validation
 
-Validation is part of the change. Read the repository instructions and use the commands they
+Validation is part of the change. When the repository has `.claude/skills/verify/`, use it to start and drive the app. Read the repository instructions and use the commands they
 specify; do not substitute a similar command merely because it is familiar.
 
 1. Identify the changed boundary: formatting, static types, service behaviour, user interaction,

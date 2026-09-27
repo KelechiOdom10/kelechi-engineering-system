@@ -1,6 +1,6 @@
 ---
 name: frontend-quality
-description: Build or review a frontend change for clear state ownership, accessible interaction, responsive rendering, and real-browser verification. Use for component, form, page, or UI-flow changes; do not use for a purely visual asset task.
+description: Build or review UI for state ownership, accessibility, responsive rendering, and real-browser proof. Use for component, form, page, or flow changes.
 ---
 
 # Frontend quality

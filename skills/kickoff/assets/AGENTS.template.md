@@ -25,4 +25,4 @@ Dependencies point inward. `packages/core` is the domain and imports only zod. `
 - `docs/domain.md`: identities, lifecycles, invariants.
 - `docs/design.md`: visual direction and state rules.
 - `docs/adr/`: decisions that depart from the defaults.
-- Verifying behaviour: `.claude/skills/verify/SKILL.md`.
+- Proving behaviour: `.claude/skills/verify/SKILL.md`.

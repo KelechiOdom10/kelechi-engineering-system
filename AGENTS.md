@@ -13,5 +13,6 @@ Kelechi Mode: one plugin read by both Claude Code (`.claude-plugin/`) and Codex 
 2. Run the skill headless on a throwaway target in both harnesses (`claude -p`, and `codex exec ... < /dev/null`). Review-type skills get planted bugs to find.
 3. Check the run's claims against the files it produced, not its report.
 4. Fold fixes in as their own commit, then `./scripts/check.sh` and `./scripts/reinstall.sh`.
+5. When a skill or agent description changes, reinstall, then run `python3 tests/trigger_eval.py` (real model calls, about a minute) and add a case for any new skill to `tests/trigger_cases.json`.
 
 A budget failure in `check.sh` means prune something weaker, or raise the budget in the same PR with a reason.

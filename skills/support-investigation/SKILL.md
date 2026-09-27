@@ -1,6 +1,6 @@
 ---
 name: support-investigation
-description: Investigate a customer support issue from the reported symptom through evidence, a clear verdict, and a reader-ready update. Use for support tickets or customer escalations; do not use it to implement a fix.
+description: Investigate a customer support report through evidence to a verdict and a reader-ready update, without fixing it. Use for support tickets and escalations.
 ---
 
 # Support investigation
