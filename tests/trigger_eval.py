@@ -30,9 +30,12 @@ def skills_fired(prompt, model, cwd):
             event = json.loads(line)
         except json.JSONDecodeError:
             continue
-        if event.get("type") == "result" and (event.get("is_error") or "Failed to authenticate" in str(event.get("result"))):
+        if event.get("type") == "result" and event.get("subtype") != "error_max_turns" and (event.get("is_error") or "Failed to authenticate" in str(event.get("result"))):
             raise HarnessError(str(event.get("result"))[:200])
-        for block in (event.get("message") or {}).get("content") or []:
+        message = event.get("message")
+        if not isinstance(message, dict):
+            continue
+        for block in message.get("content") or []:
             if isinstance(block, dict) and block.get("type") == "tool_use" and block.get("name") == "Skill":
                 fired.append(block.get("input", {}).get("skill"))
     return fired
