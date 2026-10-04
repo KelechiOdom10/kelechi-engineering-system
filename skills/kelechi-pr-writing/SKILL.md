@@ -34,6 +34,8 @@ Two to four sentences: the observed behaviour, its impact, and the cause, in ord
 - [x] The important regression case
 ```
 
+When the PR completes a GitHub issue, end the body with `Closes #N`, one line per issue, so merging closes it; use `Refs #N` for partial progress. Never in the title.
+
 Add `## Demo` with screenshots or a recording for a visual or interaction change.
 
 ## Diagram
