@@ -20,6 +20,7 @@ Read every reference whose trigger the work touches. Each is short.
 | [naming-and-comments](references/naming-and-comments.md) | new names, renamed concepts, source comments |
 | [ai-features](references/ai-features.md) | LLM calls, prompts, tools, agents inside the product |
 | [stack](references/stack.md) | starting a project, choosing a library, commits and PRs |
+| [structural-review](references/structural-review.md) | reviewing a diff's structure, abstractions, or file size; a "thermo-nuclear" review |
 
 ## Review bar
 

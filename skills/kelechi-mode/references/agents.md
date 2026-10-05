@@ -14,7 +14,7 @@ If a named agent is unavailable, keep the role and its boundary with a built-in 
 ## By route
 
 - **Investigate, perf:** investigator for runtime evidence and explorer for code or history, in parallel when the streams are independent.
-- **Review:** one reviewer per independent lens the diff justifies (correctness, security and authorisation, architecture and reader load, tests). Add the explorer only when ownership or history needs separate mapping.
+- **Review:** one reviewer per independent lens the diff justifies (correctness, security and authorisation, architecture and structure, tests). Add the explorer only when ownership or history needs separate mapping.
 - **Design:** explorer for grounded discovery. Recommendations and trade-offs stay with the primary agent.
 - **Fix, feature, refactor:** read-only agents for evidence or review only. The primary agent writes.
 - **Babysit:** read-only CI and review triage. Changes and external actions stay with the primary agent.
