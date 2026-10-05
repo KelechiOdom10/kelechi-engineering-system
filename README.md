@@ -67,7 +67,7 @@ Once entered, the mode stays on for the session.
 | `skills/kelechi-engineering-standard/` | Kelechi's personal standard: types, architecture, testing, frontend, comments, AI features, default stack | both |
 | `skills/*` (others) | PR writing, validation, support investigation, domain modelling, frontend, component API, backend service design | both |
 | `agents/` | `explorer` (haiku), `investigator` (sonnet), `comment-reviewer` (sonnet), `reviewer` (opus) | Claude |
-| `codex/agents/` | The same roles as Codex agent definitions, copied to `~/.codex/agents/` | Codex |
+| `codex/agents/` | The same roles as Codex agent definitions, copied into every Codex home's `agents/` by `scripts/reinstall.sh` | Codex |
 | `commands/` | `/kelechi:<route>` shortcuts | Claude |
 | `hooks/` | Portable guardrails, one file shared by both harnesses | both |
 | `adapters/humaans/` | Humaans adapter plugin: repository routing and review layer | both |
