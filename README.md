@@ -72,7 +72,7 @@ Once entered, the mode stays on for the session.
 | `hooks/` | Portable guardrails, one file shared by both harnesses | both |
 | `adapters/humaans/` | Humaans adapter plugin: repository routing and review layer | both |
 | `templates/` | Domain, design brief, backend, frontend, support, validation, adapter templates | both |
-| `scripts/reinstall.sh` | Refreshes the installed plugins in Claude Code and Codex from this checkout | both |
+| `scripts/reinstall.sh` | Refreshes the installed plugins in Claude Code and Codex from this checkout, and links `~/.agents/skills` into every Claude home | both |
 | `scripts/check.sh` | Validates both plugins in both harnesses, runs every test suite, and checks token budgets. Run before every PR. | both |
 | `tests/` | Hook, digest, boundary-checker, and token-budget tests, all run by `scripts/check.sh` | n/a |
 
