@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Refresh the installed plugins in every local Claude Code and Codex home from this checkout.
-# Homes default to ~/.claude* and ~/.codex* directories; override with space-separated
+# Refresh the installed plugins in every local Claude Code and Codex home from this checkout,
+# and link every standalone skill in ~/.agents/skills into each Claude home (Codex reads that
+# directory itself). Homes default to ~/.claude* and ~/.codex* directories; override with space-separated
 # KELECHI_CLAUDE_HOMES or KELECHI_CODEX_HOMES.
 set -euo pipefail
 
@@ -40,6 +41,26 @@ PY
   done
 else
   echo "codex not found; skipping Codex"
+fi
+
+shared_skills=~/.agents/skills
+if [ -d "$shared_skills" ]; then
+  for home in "${claude_homes[@]}"; do
+    mkdir -p "$home/skills"
+    for link in "$home"/skills/*; do
+      if [ -L "$link" ] && [ ! -e "$link" ] && [[ $(readlink "$link") == *.agents/skills/* ]]; then
+        rm "$link"
+      fi
+    done
+    for skill in "$shared_skills"/*/; do
+      skill=${skill%/}
+      target="$home/skills/$(basename "$skill")"
+      if [ -f "$skill/SKILL.md" ] && [ ! -e "$target" ] && [ ! -L "$target" ]; then
+        ln -s "$skill" "$target"
+        echo "Linked skill $(basename "$skill") into $home"
+      fi
+    done
+  done
 fi
 
 if command -v claude >/dev/null; then

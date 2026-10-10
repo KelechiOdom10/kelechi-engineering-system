@@ -5,7 +5,7 @@ Kelechi Mode: one plugin read by both Claude Code (`.claude-plugin/`) and Codex 
 ## Commands
 
 - `./scripts/check.sh`: validates both plugins in both harnesses, runs every test suite, and checks token budgets. Green before every PR.
-- `./scripts/reinstall.sh`: refreshes the installed plugin in every local Claude Code and Codex home (`~/.claude*`, `~/.codex*`) from this checkout, and copies the Codex agents.
+- `./scripts/reinstall.sh`: refreshes the installed plugin in every local Claude Code and Codex home (`~/.claude*`, `~/.codex*`) from this checkout, copies the Codex agents, and links every standalone skill in `~/.agents/skills` into each Claude home.
 
 ## Changing a skill
 
