@@ -85,6 +85,14 @@ expect("sdk prompt source labelled", "**U** (via sdk) Context packet" in long_re
 expect("harness meta message omitted", "pasted.png" not in long_request)
 expect("long typed request keeps its end", "ship it" in long_request)
 
+typed = digest([
+    {"type": "user", "message": {"content": "# Goal\n" + "Make the digest keep what I typed. " * 25 + "\n## Constraints\nKEEP-THIS-MIDDLE " + "no new dependencies. " * 15 + "\n## Ask\nship it"}},
+    {"type": "user", "message": {"content": "Why does this fail?\n```python\n" + "x = compute()\n" * 400 + "# then print it\nprint(x)\n```\nIt raises on the last line. KEEP-AFTER-FENCE"}},
+])
+expect("typed message under the tail budget kept whole", "KEEP-THIS-MIDDLE" in typed and "elided" not in typed.split("**U** Why")[0])
+expect("code comment is not a heading boundary", "x = compute() print(x)" in typed.replace("``` ", "") or "x = compute() # then print it" in typed)
+expect("text after a long code block kept", "KEEP-AFTER-FENCE" in typed and "Why does this fail?" in typed)
+
 codex_context = digest([
     {"type": "session_meta", "payload": {"cwd": "/repo"}},
     {"type": "response_item", "payload": {"type": "message", "role": "user", "content": [{"text": "<environment_context>\n<cwd>/repo</cwd>\n</environment_context>\nWhy is the build slow?"}]}},
@@ -116,6 +124,9 @@ errors = digest([
     codex_output(exec_output({"exit_code": 0, "output": WARNING + "Wrote digest.md"})),
     codex_output(WARNING + "done\n"),
     codex_output("Command blocked by PreToolUse hook: wrong package manager"),
+    codex_output(exec_output({"metadata": {"exit_code": 2}, "output": "real stderr line"})),
+    codex_output(exec_output({"isError": True, "error": {"type": "invalid_request"}, "content": [{"type": "text", "text": "bad request body"}]})),
+    codex_output(exec_output({"label": "doc", "document": {"content": json.dumps({"error": "quoted old failure"})}})),
 ])
 expect("nested isError past the first 600 chars recorded", "Workers cannot start new work" in errors)
 expect("structured error code recorded", "turn_inactive: This write was rejected" in errors)
@@ -125,7 +136,10 @@ expect("quoted historical failure is not an error", "Earlier dispatch" not in er
 expect("rejected field value is not an error", "overageStatus" not in errors)
 expect("harmless sandbox warning is not an error", "Wrote digest.md" not in errors and "done" not in errors.split("errors and blocks")[1])
 expect("plain-text hook block still recorded", "**E** Command blocked by PreToolUse hook" in errors)
-expect("error counts", "errors and blocks: 5" in errors)
+expect("exit code reads its sibling output", "exit 2: real stderr line" in errors)
+expect("isError kept when its error object has no code", "bad request body" in errors)
+expect("JSON quoted inside a document body is not parsed", "quoted old failure" not in errors)
+expect("error counts", "errors and blocks: 7" in errors)
 
 claude_errors = digest([
     {"type": "user", "message": {"content": [{"type": "tool_result", "content": [{"type": "text", "text": json.dumps({"head": {"path": "decisions.md"}, "document": {"content": "x" * 50 + " the last run failed: permission denied"}})}]}]}},
@@ -160,6 +174,10 @@ for lesson in ledger:
     re.compile(lesson["detect"]["pattern"])
 case_names = {c["name"] for c in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "behaviour_cases.json")))}
 expect("ledger evals name real behaviour cases", all(l["eval"] in case_names for l in ledger if l["eval"]))
+broken = tempfile.mktemp(suffix=".jsonl")
+write_jsonl(broken, [{"id": "bad-regex", "lesson": "x", "detect": {"kind": "user", "pattern": "(unclosed"}}, {"id": "no-detector", "lesson": "y", "detect": None}])
+broken_digest = digest([{"type": "user", "message": {"content": "hi"}}], "--lessons", broken)
+expect("unreadable lessons reported, digest still written", "**U** hi" in broken_digest and "bad-regex: unreadable detector" in broken_digest and "no-detector: unreadable detector" in broken_digest)
 expect("bundled ledger is read by default", "scope-narrowed (#1)" in digest([{"type": "user", "message": {"content": "Your brief is lacking what I sent."}}]))
 
 config_dir = tempfile.mkdtemp()

@@ -25,9 +25,9 @@ HARMLESS = re.compile(r"^.*warning: confstr\(\) failed with code 5.*$\n?", re.M)
 REMINDER = re.compile(r"<system-reminder>.*?</system-reminder>", re.S)
 LEADING_XML = re.compile(r"\A\s*<([A-Za-z_][\w-]*)[^>]*>.*?</\1>\s*", re.S)
 HEADING = re.compile(r"^#{1,6} .*$", re.M)
-SHORT_REQUEST = 1200
+FENCE = re.compile(r"^```.*?^```", re.M | re.S)
 REQUEST_TAIL = 4000
-MAX = {"user": SHORT_REQUEST + REQUEST_TAIL, "assistant": 700, "tool": 220, "error": 500}
+MAX = {"user": REQUEST_TAIL + 300, "assistant": 700, "tool": 220, "error": 500}
 
 
 def clip(text, limit):
@@ -38,18 +38,19 @@ def clip(text, limit):
 def keep_request(text):
     """Harnesses prepend long context to a user turn; the request typed after it is what matters.
 
-    Keeps the first line, which names who or what sent the message, and the end: the section
-    after the last markdown heading when it fits, otherwise the last REQUEST_TAIL characters.
+    A message that fits REQUEST_TAIL is kept whole. A longer one keeps its first line, which names
+    who or what sent it, and its end: the section after its last markdown heading outside a code
+    fence when that fits, otherwise the last REQUEST_TAIL characters.
     """
     text = text.strip()
-    if len(text) <= SHORT_REQUEST:
+    if len(text) <= REQUEST_TAIL:
         return text
     first = text.split("\n", 1)[0][:200]
-    headings = list(HEADING.finditer(text))
-    start = headings[-1].end() if headings and len(text) - headings[-1].end() <= REQUEST_TAIL else len(text) - REQUEST_TAIL
+    fenced = [m.span() for m in FENCE.finditer(text)]
+    ends = [h.end() for h in HEADING.finditer(text) if not any(a <= h.start() < b for a, b in fenced)]
+    last = ends[-1] if ends else 0
+    start = last if len(text) - last <= REQUEST_TAIL and text[last:].strip() else len(text) - REQUEST_TAIL
     start = max(start, len(first))
-    if not text[start:].strip():
-        start = max(len(first), len(text) - REQUEST_TAIL)
     return f"{first} [... {start - len(first)} chars of leading context elided ...] {text[start:].strip()}"
 
 
@@ -68,37 +69,43 @@ def parsed(text):
     return text
 
 
-def structured_failures(node):
+def structured_failures(node, parse=True, sibling_output=""):
     """Failures a tool reported as data: isError, an error object, or a non-zero exit code.
 
-    Only keys are trusted. A document body that quotes an old failure is a string value, never a flag.
+    JSON is read from the result itself and from its text parts. Any other string value, such as a
+    document body that quotes an old failure, stays text and is never read as a flag.
     """
     if isinstance(node, str):
-        node = parsed(node)
+        node = parsed(node) if parse else node
         if isinstance(node, str):
             return
     if isinstance(node, list):
         for item in node:
-            yield from structured_failures(item)
+            yield from structured_failures(item, parse, sibling_output)
         return
     if not isinstance(node, dict):
         return
+    own = []
     error = node.get("error")
     if isinstance(error, dict) and (error.get("code") or error.get("message")):
         details = error.get("details") if isinstance(error.get("details"), dict) else {}
         cause = f" ({details['message']})" if details.get("message") else ""
         flags = " (retryable)" if error.get("retryable") else ""
-        yield f"{error.get('code') or 'error'}: {error.get('message', '')}{cause}{flags}".strip()
+        own.append(f"{error.get('code') or 'error'}: {error.get('message', '')}{cause}{flags}".strip())
     elif isinstance(error, str) and error.strip():
-        yield f"error: {error}"
+        own.append(f"error: {error}")
+    output = str(node.get("output") or node.get("stderr") or sibling_output or "")
     exit_code = node.get("exit_code", node.get("exitCode"))
     if isinstance(exit_code, int) and exit_code != 0:
-        output = HARMLESS.sub("", str(node.get("output") or node.get("stderr") or "")).strip()
-        yield f"exit {exit_code}: {output[-(MAX['error'] - 40):]}"
-    nested = [f for value in node.values() if isinstance(value, (dict, list, str)) for f in structured_failures(value)]
-    yield from nested
-    if (node.get("isError") is True or node.get("is_error") is True) and not nested and not isinstance(error, dict):
-        yield text_of(node.get("content")) or "isError"
+        output = HARMLESS.sub("", output).strip()
+        own.append(f"exit {exit_code}: {output[-(MAX['error'] - 40):]}")
+    nested = [
+        f for key, value in node.items() if isinstance(value, (dict, list, str))
+        for f in structured_failures(value, key == "text", output)
+    ]
+    if (node.get("isError") is True or node.get("is_error") is True) and not own and not nested:
+        own.append(text_of(node.get("content")) or "isError")
+    yield from own + nested
 
 
 def failure(output, signal=SIGNAL):
@@ -168,10 +175,10 @@ def claude_events(lines):
                 continue
             for block in content or []:
                 if block.get("type") == "tool_result":
-                    content = block.get("content")
-                    reason = failure(content, BLOCK)
+                    result = block.get("content")
+                    reason = failure(result, BLOCK)
                     if block.get("is_error") or reason:
-                        yield "error", reason or text_of(content)
+                        yield "error", reason or text_of(result)
                 elif block.get("type") == "text":
                     text = REMINDER.sub("", block.get("text", "")).strip()
                     if text:
@@ -206,16 +213,22 @@ def codex_events(lines):
 
 
 def recurrences(events, lessons_path):
+    """One line per lesson whose detector matches an event of its kind; a broken lesson says so."""
     if not os.path.isfile(lessons_path):
         return []
-    with open(lessons_path) as f:
-        lessons = [json.loads(l) for l in f if l.strip()]
     found = []
-    for lesson in lessons:
-        detect = re.compile(lesson["detect"]["pattern"])
-        hits = [i for i, (kind, text) in enumerate(events, 1) if kind == lesson["detect"]["kind"] and detect.search(text)]
-        if hits:
-            found.append(f"- {lesson['id']} ({', '.join(f'#{i}' for i in hits)}): {lesson['lesson']}")
+    with open(lessons_path) as f:
+        for line in filter(str.strip, f):
+            lesson = None
+            try:
+                lesson = json.loads(line)
+                kind, detect = lesson["detect"]["kind"], re.compile(lesson["detect"]["pattern"])
+            except (json.JSONDecodeError, KeyError, TypeError, re.error) as error:
+                found.append(f"- {lesson.get('id', '?') if isinstance(lesson, dict) else '?'}: unreadable detector ({error})")
+                continue
+            hits = [i for i, (k, text) in enumerate(events, 1) if k == kind and detect.search(text)]
+            if hits:
+                found.append(f"- {lesson['id']} ({', '.join(f'#{i}' for i in hits)}): {lesson['lesson']}")
     return found
 
 
