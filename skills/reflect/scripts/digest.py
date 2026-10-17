@@ -14,17 +14,45 @@ import os
 import re
 import sys
 
-MAX = {"user": 1200, "assistant": 700, "tool": 220, "error": 500}
 SIGNAL = re.compile(
     r"hook error|blocked by|denied|permission|exit code [1-9]|traceback|error:|failed|not found|timed out|hung",
     re.I,
 )
 REMINDER = re.compile(r"<system-reminder>.*?</system-reminder>", re.S)
+LEADING_XML = re.compile(r"\A\s*<([A-Za-z_][\w-]*)[^>]*>.*?</\1>\s*", re.S)
+HEADING = re.compile(r"^#{1,6} .*$", re.M)
+SHORT_REQUEST = 1200
+REQUEST_TAIL = 4000
+MAX = {"user": SHORT_REQUEST + REQUEST_TAIL, "assistant": 700, "tool": 220, "error": 500}
 
 
 def clip(text, limit):
     text = re.sub(r"\s+", " ", text or "").strip()
     return text if len(text) <= limit else text[:limit] + " [...]"
+
+
+def keep_request(text):
+    """Harnesses prepend long context to a user turn; the request typed after it is what matters.
+
+    Keeps the first line, which names who or what sent the message, and the end: the section
+    after the last markdown heading when it fits, otherwise the last REQUEST_TAIL characters.
+    """
+    text = text.strip()
+    if len(text) <= SHORT_REQUEST:
+        return text
+    first = text.split("\n", 1)[0][:200]
+    headings = list(HEADING.finditer(text))
+    start = headings[-1].end() if headings and len(text) - headings[-1].end() <= REQUEST_TAIL else len(text) - REQUEST_TAIL
+    start = max(start, len(first))
+    if not text[start:].strip():
+        start = max(len(first), len(text) - REQUEST_TAIL)
+    return f"{first} [... {start - len(first)} chars of leading context elided ...] {text[start:].strip()}"
+
+
+def strip_leading_xml(text):
+    while match := LEADING_XML.match(text):
+        text = text[match.end():]
+    return text
 
 
 def find_claude():
@@ -70,10 +98,13 @@ def claude_events(lines):
         kind, message = line.get("type"), line.get("message") or {}
         content = message.get("content")
         if kind == "user":
+            if line.get("isMeta"):
+                continue
+            via = f"(via {line['promptSource']}) " if line.get("promptSource") else ""
             if isinstance(content, str):
                 text = REMINDER.sub("", content).strip()
                 if text:
-                    yield "user", text
+                    yield "user", via + keep_request(text)
                 continue
             for block in content or []:
                 if block.get("type") == "tool_result":
@@ -83,7 +114,7 @@ def claude_events(lines):
                 elif block.get("type") == "text":
                     text = REMINDER.sub("", block.get("text", "")).strip()
                     if text:
-                        yield "user", text
+                        yield "user", via + keep_request(text)
         elif kind == "assistant":
             for block in content or []:
                 if block.get("type") == "text" and block.get("text", "").strip():
@@ -100,8 +131,10 @@ def codex_events(lines):
         kind = payload.get("type")
         if kind == "message" and payload.get("role") in ("user", "assistant"):
             text = text_of(payload.get("content"))
-            if payload["role"] == "user" and text.lstrip().startswith("<"):
-                continue
+            if payload["role"] == "user":
+                text = keep_request(strip_leading_xml(text))
+                if not text:
+                    continue
             yield payload["role"], text
         elif kind in ("function_call", "custom_tool_call"):
             yield "tool", f"{payload.get('name')}: {payload.get('arguments') or payload.get('input')}"

@@ -70,6 +70,30 @@ expect("codex tool call recorded", "**T** exec_command" in codex)
 expect("codex hook block recorded", "**E** Command blocked by PreToolUse hook" in codex)
 expect("codex source labelled", "(Codex)" in codex)
 
+context = "## Instructions\n" + "Standing context the harness injects on every turn. " * 200
+long_request = digest([
+    {"type": "user", "promptSource": "sdk", "message": {"content": "Context packet (injected by the host)\n\n" + context + "\n\n## Tasks\n\n\nyes start the plan"}},
+    {"type": "user", "isMeta": True, "message": {"content": "[Image: source: /tmp/pasted.png]"}},
+    {"type": "user", "message": {"content": "# Notes\n" + "a typed request with its own headings. " * 60 + "\n## Ask\nship it"}},
+])
+expect("human request at the end of a long message kept", "yes start the plan" in long_request)
+expect("first line kept so provenance stays visible", "Context packet (injected by the host)" in long_request)
+expect("elided context is labelled", "chars of leading context elided" in long_request)
+expect("injected context not repeated", long_request.count("Standing context") < 5)
+expect("sdk prompt source labelled", "**U** (via sdk) Context packet" in long_request)
+expect("harness meta message omitted", "pasted.png" not in long_request)
+expect("long typed request keeps its end", "ship it" in long_request)
+
+codex_context = digest([
+    {"type": "session_meta", "payload": {"cwd": "/repo"}},
+    {"type": "response_item", "payload": {"type": "message", "role": "user", "content": [{"text": "<environment_context>\n<cwd>/repo</cwd>\n</environment_context>\nWhy is the build slow?"}]}},
+    {"type": "response_item", "payload": {"type": "message", "role": "user", "content": [{"text": "Relay from another agent: please start the build\n\n" + context + "\n\n## Tasks\n\n\nso cook then"}]}},
+])
+expect("codex request after leading XML context kept", "**U** Why is the build slow?" in codex_context)
+expect("codex leading XML context stripped", "<cwd>" not in codex_context)
+expect("codex request at the end of a long message kept", "so cook then" in codex_context)
+expect("relay header kept as provenance", "Relay from another agent" in codex_context)
+
 config_dir = tempfile.mkdtemp()
 os.makedirs(os.path.join(config_dir, "projects", "-repo"))
 write_jsonl(os.path.join(config_dir, "projects", "-repo", "session-1.jsonl"), [{"type": "user", "message": {"content": "Found via the config dir"}}])
