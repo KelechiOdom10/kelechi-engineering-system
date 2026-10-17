@@ -40,7 +40,7 @@ Present the result in the format in `references/routing.md`: Accepted (each with
 
 For each approved item, follow its destination's procedure in `references/routing.md`: plugin edits on a branch with one commit per lesson, tests, `scripts/reinstall.sh`, and a draft PR; project edits on a branch in that repository; memory written directly; backlog issues created only because Kelechi approved them in step 5.
 
-A plugin instruction change also gets one triggering and one nearby non-triggering case in `tests/behaviour_cases.json`, run old against new with `python3 tests/behaviour_eval.py --only <name>`. Report the result as run; a case not run is not a pass. Append every accepted lesson to `lessons.jsonl` with a detector, so the next digest shows whether it came back.
+A plugin instruction change also gets one triggering and one nearby non-triggering case in `tests/behaviour_cases.json`, run old against new with `python3 tests/behaviour_eval.py --only <trigger> <non-trigger>`. Report the result as run; a case not run is not a pass. Append every accepted lesson to `lessons.jsonl` with a detector, so the next digest shows whether it came back.
 
 ## 7. Report
 
