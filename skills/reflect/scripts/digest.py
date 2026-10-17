@@ -18,6 +18,9 @@ SIGNAL = re.compile(
     r"hook error|blocked by|denied|permission|exit code [1-9]|traceback|error:|failed|not found|timed out|hung",
     re.I,
 )
+# Claude Code flags failed tool results with is_error, so its text only needs scanning for hook blocks.
+BLOCK = re.compile(r"hook error|blocked by|denied|permission", re.I)
+HARMLESS = re.compile(r"^.*warning: confstr\(\) failed with code 5.*$\n?", re.M)
 REMINDER = re.compile(r"<system-reminder>.*?</system-reminder>", re.S)
 LEADING_XML = re.compile(r"\A\s*<([A-Za-z_][\w-]*)[^>]*>.*?</\1>\s*", re.S)
 HEADING = re.compile(r"^#{1,6} .*$", re.M)
@@ -53,6 +56,62 @@ def strip_leading_xml(text):
     while match := LEADING_XML.match(text):
         text = text[match.end():]
     return text
+
+
+def parsed(text):
+    if text.lstrip()[:1] in ("{", "["):
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError:
+            pass
+    return text
+
+
+def structured_failures(node):
+    """Failures a tool reported as data: isError, an error object, or a non-zero exit code.
+
+    Only keys are trusted. A document body that quotes an old failure is a string value, never a flag.
+    """
+    if isinstance(node, str):
+        node = parsed(node)
+        if isinstance(node, str):
+            return
+    if isinstance(node, list):
+        for item in node:
+            yield from structured_failures(item)
+        return
+    if not isinstance(node, dict):
+        return
+    error = node.get("error")
+    if isinstance(error, dict) and (error.get("code") or error.get("message")):
+        details = error.get("details") if isinstance(error.get("details"), dict) else {}
+        cause = f" ({details['message']})" if details.get("message") else ""
+        flags = " (retryable)" if error.get("retryable") else ""
+        yield f"{error.get('code') or 'error'}: {error.get('message', '')}{cause}{flags}".strip()
+    elif isinstance(error, str) and error.strip():
+        yield f"error: {error}"
+    exit_code = node.get("exit_code", node.get("exitCode"))
+    if isinstance(exit_code, int) and exit_code != 0:
+        output = HARMLESS.sub("", str(node.get("output") or node.get("stderr") or "")).strip()
+        yield f"exit {exit_code}: {output[-(MAX['error'] - 40):]}"
+    nested = [f for value in node.values() if isinstance(value, (dict, list, str)) for f in structured_failures(value)]
+    yield from nested
+    if (node.get("isError") is True or node.get("is_error") is True) and not nested and not isinstance(error, dict):
+        yield text_of(node.get("content")) or "isError"
+
+
+def failure(output, signal=SIGNAL):
+    """One line describing what failed in a tool result, or None when it succeeded."""
+    found = list(dict.fromkeys(structured_failures(output)))
+    if found:
+        return "; ".join(found)
+    parts = output if isinstance(output, list) else [output]
+    plain = " ".join(
+        p for p in (part.get("text", "") if isinstance(part, dict) else part for part in parts)
+        if isinstance(p, str) and isinstance(parsed(p), str)
+    )
+    plain = HARMLESS.sub("", plain).strip()
+    return plain if signal.search(plain[:600]) else None
 
 
 def find_claude():
@@ -108,9 +167,10 @@ def claude_events(lines):
                 continue
             for block in content or []:
                 if block.get("type") == "tool_result":
-                    output = text_of(block.get("content"))
-                    if block.get("is_error") or SIGNAL.search(output[:400]):
-                        yield "error", output
+                    content = block.get("content")
+                    reason = failure(content, BLOCK)
+                    if block.get("is_error") or reason:
+                        yield "error", reason or text_of(content)
                 elif block.get("type") == "text":
                     text = REMINDER.sub("", block.get("text", "")).strip()
                     if text:
@@ -139,10 +199,9 @@ def codex_events(lines):
         elif kind in ("function_call", "custom_tool_call"):
             yield "tool", f"{payload.get('name')}: {payload.get('arguments') or payload.get('input')}"
         elif kind in ("function_call_output", "custom_tool_call_output"):
-            output = payload.get("output")
-            output = output if isinstance(output, str) else json.dumps(output)
-            if SIGNAL.search(output[:600]):
-                yield "error", output
+            reason = failure(payload.get("output"))
+            if reason:
+                yield "error", reason
 
 
 def main():
