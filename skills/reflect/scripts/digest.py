@@ -223,12 +223,13 @@ def recurrences(events, lessons_path):
             try:
                 lesson = json.loads(line)
                 kind, detect = lesson["detect"]["kind"], re.compile(lesson["detect"]["pattern"])
+                name, text = lesson["id"], lesson["lesson"]
             except (json.JSONDecodeError, KeyError, TypeError, re.error) as error:
                 found.append(f"- {lesson.get('id', '?') if isinstance(lesson, dict) else '?'}: unreadable detector ({error})")
                 continue
-            hits = [i for i, (k, text) in enumerate(events, 1) if k == kind and detect.search(text)]
+            hits = [i for i, (k, event) in enumerate(events, 1) if k == kind and detect.search(event)]
             if hits:
-                found.append(f"- {lesson['id']} ({', '.join(f'#{i}' for i in hits)}): {lesson['lesson']}")
+                found.append(f"- {name} ({', '.join(f'#{i}' for i in hits)}): {text}")
     return found
 
 

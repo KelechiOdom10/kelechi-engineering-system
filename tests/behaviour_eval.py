@@ -6,7 +6,8 @@ python3 tests/behaviour_eval.py --check                                         
 Each case in behaviour_cases.json injects the named skill files into the system prompt, once as they are at
 --base and once as they are in the working tree, with every installed skill and MCP server switched off. Its
 assertions are regular expressions over the reply, so a pass is decided by this script, not by a model.
-A case whose files do not exist at --base runs the old side with no instructions.
+A case whose files do not exist at --base runs the old side with no instructions. A case whose files are
+unchanged is a guard: its old run measures the model's variance, so a difference is not counted as a regression.
 """
 import argparse
 import concurrent.futures
@@ -78,9 +79,9 @@ def reply(case, base, model, cwd):
         raise HarnessError((out.stderr or out.stdout)[:200])
     if result.get("is_error") and result.get("subtype") != "error_max_turns":
         raise HarnessError(str(result.get("result"))[:200])
-    if not result.get("result"):
+    if not result.get("result") and result.get("subtype") != "error_max_turns":
         raise HarnessError(f"{case['name']}: empty reply ({result.get('subtype')})")
-    return result["result"]
+    return result.get("result") or "[no reply: the model reached for a tool]"
 
 
 def score(case, text):
@@ -129,9 +130,11 @@ def main():
     for case in cases:
         old_ok, _, _ = results[(case["name"], "old")]
         new_ok, why, _ = results[(case["name"], "new")]
+        same = instructions(case["files"], args.base) == instructions(case["files"], None)
         failures += not new_ok
-        regressions += old_ok and not new_ok
-        print(f"{'PASS' if new_ok else 'FAIL'}  old {'pass' if old_ok else 'fail'}  {case['name']:40} {'; '.join(why)[:120]}")
+        regressions += old_ok and not new_ok and not same
+        old = "same text" if same else f"old {'pass' if old_ok else 'fail'}"
+        print(f"{'PASS' if new_ok else 'FAIL'}  {old:9}  {case['name']:40} {'; '.join(why)[:120]}")
     if args.out:
         with open(args.out, "w") as f:
             for (name, side), (ok, why, text) in results.items():

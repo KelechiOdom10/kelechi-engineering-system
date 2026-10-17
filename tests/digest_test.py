@@ -175,9 +175,9 @@ for lesson in ledger:
 case_names = {c["name"] for c in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "behaviour_cases.json")))}
 expect("ledger evals name real behaviour cases", all(l["eval"] in case_names for l in ledger if l["eval"]))
 broken = tempfile.mktemp(suffix=".jsonl")
-write_jsonl(broken, [{"id": "bad-regex", "lesson": "x", "detect": {"kind": "user", "pattern": "(unclosed"}}, {"id": "no-detector", "lesson": "y", "detect": None}])
+write_jsonl(broken, [{"id": "bad-regex", "lesson": "x", "detect": {"kind": "user", "pattern": "(unclosed"}}, {"id": "no-detector", "lesson": "y", "detect": None}, {"lesson": "no id", "detect": {"kind": "user", "pattern": "hi"}}])
 broken_digest = digest([{"type": "user", "message": {"content": "hi"}}], "--lessons", broken)
-expect("unreadable lessons reported, digest still written", "**U** hi" in broken_digest and "bad-regex: unreadable detector" in broken_digest and "no-detector: unreadable detector" in broken_digest)
+expect("unreadable lessons reported, digest still written", "**U** hi" in broken_digest and "bad-regex: unreadable detector" in broken_digest and "no-detector: unreadable detector" in broken_digest and "?: unreadable detector ('id')" in broken_digest)
 expect("bundled ledger is read by default", "scope-narrowed (#1)" in digest([{"type": "user", "message": {"content": "Your brief is lacking what I sent."}}]))
 
 config_dir = tempfile.mkdtemp()
