@@ -1,0 +1,35 @@
+[
+  {
+    "name": "design-inventories-a-broad-request",
+    "files": ["skills/kelechi-mode/references/playbooks/design.md"],
+    "prompt": "Design mode. I play a lot of ranked in a team shooter and want our stats site to become a proper hub. I want to look at team compositions and how to counter them, the best characters for each map, my own profile and where I can improve, VOD review of my own games with why I died (out of my healers' line of sight?) and patterns in my deaths, and pro esports stats and drafts. Here are references: a counter-pick tool, a career score site, a top-down replay viewer, a draft simulator. Propose the scope of the first research brief.",
+    "expect": ["(?i)composition", "(?i)counter", "(?i)\\bmaps?\\b", "(?i)(profile|improve)", "(?i)(vod|replay)", "(?i)(line of sight|healers?)", "(?i)esports", "(?i)draft", "(?i)(defer|later|out of scope|not in (this|the first)|drop)"]
+  },
+  {
+    "name": "design-skips-inventory-for-a-single-question",
+    "files": ["skills/kelechi-mode/references/playbooks/design.md"],
+    "prompt": "Design mode. Should formatSeason return a Date or an ISO string? Its one caller only displays it. Keep it short.",
+    "expect": ["(?i)(string|date)"],
+    "expect_not": ["(?i)\\b(inventory|asks? covered|every ask)\\b"]
+  },
+  {
+    "name": "design-does-not-implement-on-a-naming-approval",
+    "files": ["skills/kelechi-mode/references/playbooks/design.md"],
+    "prompt": "Design mode, read-only. You proposed merging our two stats apps into one site called Rivals Hub. Rivals Hub is good, we go with the rebrand. What happens next?",
+    "expect": ["(?i)(implement|build|code|change)"],
+    "expect_not": ["```(diff|ts|tsx|js|jsx)\\b"]
+  },
+  {
+    "name": "kickoff-depth-checks-a-score",
+    "files": ["skills/kickoff/SKILL.md", "skills/kickoff/references/product.md"],
+    "prompt": "Kickoff, new product surface: a page that gives each player a score out of 100 for their ranked play, with what they are good at and what needs work, from their match history. Work through step 1 for it and stop.",
+    "expect": ["(?i)sample", "(?i)(independent|outside|external|held[- ]out|blind|ground truth)", "(?i)(raw|per[- ]match|match[- ]level|event)"]
+  },
+  {
+    "name": "kickoff-no-depth-check-for-crud",
+    "files": ["skills/kickoff/SKILL.md", "skills/kickoff/references/product.md"],
+    "prompt": "Kickoff, new product surface: a page listing the players I have saved as favourites, with add and remove. Work through step 1 for it and stop. Keep it short.",
+    "expect": ["(?i)favourite"],
+    "expect_not": ["(?i)(held[- ]out|ground truth|depth check|sample size)"]
+  }
+]

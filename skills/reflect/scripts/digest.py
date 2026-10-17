@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Condense a Claude Code or Codex session transcript into a reviewable digest.
 
-Usage: digest.py [--harness claude|codex] [--transcript PATH] [--cwd DIR] [--out FILE]
+Usage: digest.py [--harness claude|codex] [--transcript PATH] [--cwd DIR] [--lessons FILE] [--out FILE]
 Without --transcript, finds the current session. Claude Code: CLAUDE_CODE_SESSION_ID, under
 CLAUDE_CONFIG_DIR (default ~/.claude).
 Codex: the newest rollout whose session cwd is --cwd (default: the current directory).
 --harness defaults to claude when CLAUDE_CODE_SESSION_ID is set, otherwise codex.
+--lessons defaults to the reflect skill's lessons.jsonl; each lesson whose detector matches is listed at the end.
 """
 import argparse
 import glob
@@ -204,11 +205,26 @@ def codex_events(lines):
                 yield "error", reason
 
 
+def recurrences(events, lessons_path):
+    if not os.path.isfile(lessons_path):
+        return []
+    with open(lessons_path) as f:
+        lessons = [json.loads(l) for l in f if l.strip()]
+    found = []
+    for lesson in lessons:
+        detect = re.compile(lesson["detect"]["pattern"])
+        hits = [i for i, (kind, text) in enumerate(events, 1) if kind == lesson["detect"]["kind"] and detect.search(text)]
+        if hits:
+            found.append(f"- {lesson['id']} ({', '.join(f'#{i}' for i in hits)}): {lesson['lesson']}")
+    return found
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--harness", choices=["claude", "codex"])
     parser.add_argument("--transcript")
     parser.add_argument("--cwd", default=os.getcwd())
+    parser.add_argument("--lessons", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lessons.jsonl"))
     parser.add_argument("--out")
     args = parser.parse_args()
 
@@ -231,6 +247,9 @@ def main():
     label = {"user": "U", "assistant": "A", "tool": "T", "error": "E"}
     for i, (kind, text) in enumerate(events, 1):
         out.append(f"{i}. **{label[kind]}** {clip(text, MAX[kind])}")
+    seen = recurrences(events, args.lessons)
+    out.append("\n## Known lessons seen again\n")
+    out.append("\n".join(seen) if seen else "No known lesson recurred.")
     digest = "\n".join(out) + "\n"
     if args.out:
         os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)

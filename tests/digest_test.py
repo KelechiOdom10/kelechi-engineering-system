@@ -1,6 +1,7 @@
 """Checks the reflect digest against small Claude Code and Codex transcripts. python3 tests/digest_test.py"""
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -137,6 +138,29 @@ expect("claude structured error recorded", "**E** caller_turn_inactive: write re
 expect("claude sandbox warning is not an error", "ok" not in claude_errors.split("errors and blocks")[1])
 expect("claude successful output mentioning failures is not an error", "12 passed" not in claude_errors)
 expect("claude error count", "errors and blocks: 1" in claude_errors)
+
+lessons = tempfile.mktemp(suffix=".jsonl")
+write_jsonl(lessons, [
+    {"id": "scope-narrowed", "date": "2026-10-17", "lesson": "Inventory every ask before scoping.", "destination": "design.md", "detect": {"kind": "user", "pattern": "(?i)left out|lacking"}},
+    {"id": "never-matches", "date": "2026-10-17", "lesson": "Unrelated.", "destination": "x", "detect": {"kind": "error", "pattern": "zzz"}},
+])
+recurrence = digest([
+    {"type": "user", "message": {"content": "You left out half of what I sent."}},
+    {"type": "assistant", "message": {"content": [{"type": "text", "text": "Something was lacking, sorry."}]}},
+], "--lessons", lessons)
+expect("recurring lesson reported with its evidence", "scope-narrowed (#1): Inventory every ask before scoping." in recurrence)
+expect("detector only reads its own kind", "(#2)" not in recurrence)
+expect("unmatched lesson not reported", "never-matches" not in recurrence)
+LEDGER = os.path.join(os.path.dirname(SCRIPT), "..", "lessons.jsonl")
+with open(LEDGER) as f:
+    ledger = [json.loads(line) for line in f if line.strip()]
+expect("ledger lessons have unique ids", len({l["id"] for l in ledger}) == len(ledger))
+for lesson in ledger:
+    expect(f"ledger {lesson['id']} is complete", {"id", "date", "lesson", "destination", "detect", "eval"} <= set(lesson) and lesson["detect"]["kind"] in ("user", "assistant", "tool", "error"))
+    re.compile(lesson["detect"]["pattern"])
+case_names = {c["name"] for c in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "behaviour_cases.json")))}
+expect("ledger evals name real behaviour cases", all(l["eval"] in case_names for l in ledger if l["eval"]))
+expect("bundled ledger is read by default", "scope-narrowed (#1)" in digest([{"type": "user", "message": {"content": "Your brief is lacking what I sent."}}]))
 
 config_dir = tempfile.mkdtemp()
 os.makedirs(os.path.join(config_dir, "projects", "-repo"))
