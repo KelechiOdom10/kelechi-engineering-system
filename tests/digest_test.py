@@ -9,15 +9,23 @@ SCRIPT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "skills"
 failures = []
 
 
-def digest(lines, *extra):
-    path = tempfile.mktemp(suffix=".jsonl")
+def write_jsonl(path, lines):
     with open(path, "w") as f:
         f.write("\n".join(json.dumps(line) for line in lines))
-    env = {k: v for k, v in os.environ.items() if k != "CLAUDE_CODE_SESSION_ID"}
-    out = subprocess.run([sys.executable, SCRIPT, "--transcript", path, *extra], capture_output=True, text=True, env=env)
+
+
+def run(args, env):
+    out = subprocess.run([sys.executable, SCRIPT, *args], capture_output=True, text=True, env=env)
     if out.returncode != 0:
         failures.append(f"digest crashed: {out.stderr.strip()}")
     return out.stdout
+
+
+def digest(lines, *extra):
+    path = tempfile.mktemp(suffix=".jsonl")
+    write_jsonl(path, lines)
+    env = {k: v for k, v in os.environ.items() if k != "CLAUDE_CODE_SESSION_ID"}
+    return run(["--transcript", path, *extra], env)
 
 
 def expect(name, condition):
@@ -61,6 +69,12 @@ expect("codex developer and injected context dropped", "system rules" not in cod
 expect("codex tool call recorded", "**T** exec_command" in codex)
 expect("codex hook block recorded", "**E** Command blocked by PreToolUse hook" in codex)
 expect("codex source labelled", "(Codex)" in codex)
+
+config_dir = tempfile.mkdtemp()
+os.makedirs(os.path.join(config_dir, "projects", "-repo"))
+write_jsonl(os.path.join(config_dir, "projects", "-repo", "session-1.jsonl"), [{"type": "user", "message": {"content": "Found via the config dir"}}])
+env = {**os.environ, "CLAUDE_CONFIG_DIR": config_dir, "CLAUDE_CODE_SESSION_ID": "session-1"}
+expect("claude session found under CLAUDE_CONFIG_DIR", "**U** Found via the config dir" in run(["--harness", "claude"], env))
 
 if failures:
     print("FAIL\n- " + "\n- ".join(failures))

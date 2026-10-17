@@ -2,7 +2,8 @@
 """Condense a Claude Code or Codex session transcript into a reviewable digest.
 
 Usage: digest.py [--harness claude|codex] [--transcript PATH] [--cwd DIR] [--out FILE]
-Without --transcript, finds the current session. Claude Code: CLAUDE_CODE_SESSION_ID.
+Without --transcript, finds the current session. Claude Code: CLAUDE_CODE_SESSION_ID, under
+CLAUDE_CONFIG_DIR (default ~/.claude).
 Codex: the newest rollout whose session cwd is --cwd (default: the current directory).
 --harness defaults to claude when CLAUDE_CODE_SESSION_ID is set, otherwise codex.
 """
@@ -30,7 +31,8 @@ def find_claude():
     session = os.environ.get("CLAUDE_CODE_SESSION_ID")
     if not session:
         return None
-    matches = glob.glob(os.path.expanduser(f"~/.claude/projects/*/{session}.jsonl"))
+    home = os.environ.get("CLAUDE_CONFIG_DIR") or "~/.claude"
+    matches = glob.glob(os.path.join(os.path.expanduser(home), "projects", "*", f"{session}.jsonl"))
     return matches[0] if matches else None
 
 
