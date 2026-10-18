@@ -11,6 +11,7 @@ Ask what is still open from this set. Recommend an answer for each, grounded in 
 - **Principles.** Propose 3-7, each a short imperative with a reason ("Remember first, polish later: capture must be fast"). Principles settle future trade-offs; a principle nobody would argue against is filler.
 - **Must not become.** The products, patterns, or feelings this must not resemble.
 - **Success signal.** What observable behaviour would show it works for the first user?
+- **Depth check**, for a product that scores, ranks, explains, or recommends. Take each question it answers through: what a leading practitioner does (read their primary material when unsure), the rawest evidence it needs, the method, what the available data actually supports, and a check of correctness other than the model or Kelechi. Mark claims the data cannot support. A competitor's demo shows a workflow, not equal data access or accuracy.
 
 ## Step 2 frontier
 

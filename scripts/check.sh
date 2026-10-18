@@ -19,5 +19,6 @@ fi
 
 python3 tests/hooks_test.py
 python3 tests/digest_test.py
+python3 tests/behaviour_eval.py --check
 node --test tests/check_boundaries_test.mjs
 python3 tests/budget_test.py
