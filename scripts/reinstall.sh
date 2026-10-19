@@ -33,7 +33,7 @@ PY
     echo "Codex: $home"
     CODEX_HOME="$home" codex plugin add kelechi-mode@personal
     codex_plugins=$(CODEX_HOME="$home" codex plugin list 2>/dev/null || true)
-    if grep -q "^kelechi-humaans@personal .*installed" <<<"$codex_plugins"; then
+    if grep -q "^kelechi-humaans@personal " <<<"$codex_plugins"; then
       CODEX_HOME="$home" codex plugin add kelechi-humaans@personal
     fi
     mkdir -p "$home/agents"
