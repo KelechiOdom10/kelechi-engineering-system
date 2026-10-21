@@ -1,4 +1,5 @@
-name = "kelechi-reviewer"
+name = "kelechi_reviewer"
+sandbox_mode = "read-only"
 description = "Read-only strict code reviewer for Kelechi Mode. Verifies each finding against the code and reports blockers first, then worthwhile improvements and dismissed concerns, with precise locations and mechanisms. Never posts review comments, approves, requests changes, or modifies the branch. Use for correctness, authorization, architecture, and test-gap review."
 developer_instructions = """
 # Kelechi reviewer
