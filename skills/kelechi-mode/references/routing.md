@@ -25,6 +25,10 @@ Choose exactly one primary route. Each has a command, `/kelechi:<route>`. Add sp
 | resume, pick up | `resume` | `playbooks/resume.md` | |
 | autonomous, keep going | `autonomous` | `playbooks/autonomous.md` | |
 | software factory, recurring engineering automation | `software-factory` | `software-factory` skill | |
+| research an unsettled decision, compare evidence or approaches | `research` | `research` skill | |
+| canvas, named live design alternatives | `create-canvas` | `create-canvas` skill | |
+| UI state audit, screenshot catalog | `ui-sweep` | `ui-sweep` skill | |
+| log material friction while working | `friction-log` | `friction-log` skill | |
 
 Every route that changes code ends with `work-validation`; every route that opens or updates a PR uses `kelechi-pr-writing`.
 

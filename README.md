@@ -25,6 +25,11 @@ verified proposals while keeping exploratory priorities separate from delivery a
 The [PR completion helper](docs/pr-completion.md) adds a review-source ledger and fresh,
 exact-commit CI assessment to the existing babysit route.
 
+For the saved workflows, use [research](skills/research/SKILL.md) for an unsettled decision,
+[create-canvas](skills/create-canvas/SKILL.md) for preserved live design alternatives,
+[ui-sweep](skills/ui-sweep/SKILL.md) for inspected state catalogs, and
+[friction-log](skills/friction-log/SKILL.md) for failures captured while working.
+
 ## Install
 
 **Claude Code**
@@ -102,3 +107,5 @@ Each hook reads the repository's own toolchain and does nothing where it does no
 ## Portability
 
 Customer data, credentials, production details, and company source stay out of this repository. Company-specific practice lives in an adapter under `adapters/`. See [portability](docs/PORTABILITY.md) and [companion skills](docs/COMPANION-SKILLS.md).
+
+See the [daily engineering workflow](docs/daily-workflow.md) for when to use each capability and what evidence to expect.

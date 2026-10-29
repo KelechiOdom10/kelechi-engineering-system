@@ -54,5 +54,37 @@
   {
     "prompt": "What's the difference between a map and a set in JavaScript?",
     "expect_not": "kelechi:kelechi-mode"
+  },
+  {
+    "prompt": "Research the tradeoffs of replacing our existing query parser. Inspect the current code and compare alternatives, including keeping it.",
+    "expect": "kelechi:research"
+  },
+  {
+    "prompt": "Create a canvas of named live component alternatives, preserving my existing variants.",
+    "expect": "kelechi:create-canvas"
+  },
+  {
+    "prompt": "Sweep this web feature across its UI states and retain an inspected screenshot catalog.",
+    "expect": "kelechi:ui-sweep"
+  },
+  {
+    "prompt": "Log the developer friction as we hit setup failures, with evidence and concrete follow-up actions.",
+    "expect": "kelechi:friction-log"
+  },
+  {
+    "prompt": "Apply the already chosen one-line typo fix in README. No investigation is needed.",
+    "expect_not": "kelechi:research"
+  },
+  {
+    "prompt": "Explain this CSS selector. I do not need a design workbench.",
+    "expect_not": "kelechi:create-canvas"
+  },
+  {
+    "prompt": "What is the status code for a missing HTTP resource?",
+    "expect_not": "kelechi:ui-sweep"
+  },
+  {
+    "prompt": "List three keyboard shortcuts in my editor.",
+    "expect_not": "kelechi:friction-log"
   }
 ]
