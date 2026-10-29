@@ -49,6 +49,13 @@ def always_on(plugin_root):
 
 
 failures = []
+for path in glob.glob(os.path.join(ROOT, "commands/*.md")):
+    name = os.path.splitext(os.path.basename(path))[0]
+    if os.path.isfile(os.path.join(ROOT, "skills", name, "SKILL.md")):
+        meta = frontmatter(open(path).read())
+        if "disable-model-invocation: true" not in meta:
+            failures.append(f"commands/{name}.md shadows skills/{name}/SKILL.md; make the command user-only")
+
 measured = {"always_on": always_on("."), "router_core": sum(tokens(read(p)) for p in ROUTER_CORE)}
 for name in ("always_on", "router_core"):
     if measured[name] > BUDGETS[name]:
