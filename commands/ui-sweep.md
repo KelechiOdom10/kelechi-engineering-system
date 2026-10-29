@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: Inspect a web feature and retain its screenshot-state catalog
 argument-hint: Feature or PR
 ---
