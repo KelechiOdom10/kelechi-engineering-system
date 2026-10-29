@@ -20,6 +20,8 @@ For repeatable engineering work, use the [software-factory skill](skills/softwar
 and [delivery collector](docs/delivery.md). Tasks get explicit triggers, shared-state event deduplication,
 sequential check receipts and independent findings tied to current source. Readiness means ready
 for human review; protected CI and repository policy still own merge authority.
+The [seeded research loop](docs/research-loop.md) feeds this workflow with focused,
+verified proposals while keeping exploratory priorities separate from delivery acceptance.
 
 ## Install
 

@@ -13,6 +13,8 @@ Use [the task example](../../examples/delivery-task.json). Establish the trigger
 
 Choose a task with an existing verification recipe. For unfamiliar or unsettled work, use investigation or design first. For visual work, choose the task, reference and direction before implementing; preserve meaningful component alternatives in the existing showcase. Browser interaction checks and visual critique prove different facts.
 
+For seeded discovery, use [the research loop](../../docs/research-loop.md) and its small editable frontier. Research may revise leads and priorities within fixed bounds. A validated discovery becomes a separate delivery task; do not treat a source store, citation count or successful collector run as proof that research is true.
+
 ## Run one event
 
 1. Use `delivery.py init` to claim the task/event. Reuse the printed run path to continue; a duplicate claim in the same store stops another owner. Default state is ignored `.kelechi/delivery` in this checkout. For multiple checkouts, pass the same host-writable `--state-dir` to each and grant that directory through the host. Do not bypass a sandbox to write evidence.
