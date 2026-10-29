@@ -10,6 +10,8 @@ specify; do not substitute a similar command merely because it is familiar.
 
 1. Identify the changed boundary: formatting, static types, service behaviour, user interaction,
    data migration, queue, permission policy, or external integration.
+   Reconcile the user's requested deliverables and explicit commitments against actual artifacts.
+   Mark each complete, partial or blocked; completing a prerequisite does not close the requested outcome.
 2. Run the formatter for changed source files. Re-read the diff if it makes changes.
 3. Run the affected package's lint and type checks. Use the repository's supported command and
    build configuration.

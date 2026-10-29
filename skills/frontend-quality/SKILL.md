@@ -22,3 +22,6 @@ description: Build or review UI for state ownership, accessibility, responsive r
    reference unless the repository decides otherwise. Run the repository's frontend checks and exercise the changed flow in a real browser. Use the
    [frontend-change template](../../templates/frontend-change.md) for the interaction and
    accessibility evidence.
+
+For a feature-wide state audit or retained screenshot catalog, use `ui-sweep`. Use `create-canvas`
+when the user needs preserved live alternatives before selecting the implementation.

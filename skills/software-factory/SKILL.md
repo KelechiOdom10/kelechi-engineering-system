@@ -13,7 +13,7 @@ Use [the task example](../../examples/delivery-task.json). Establish the trigger
 
 Choose a task with an existing verification recipe. For unfamiliar or unsettled work, use investigation or design first. For visual work, choose the task, reference and direction before implementing; preserve meaningful component alternatives in the existing showcase. Browser interaction checks and visual critique prove different facts.
 
-For seeded discovery, use [the research loop](../../docs/research-loop.md) and its small editable frontier. Research may revise leads and priorities within fixed bounds. A validated discovery becomes a separate delivery task; do not treat a source store, citation count or successful collector run as proof that research is true.
+For unsettled choices, use `research` and [the research loop](../../docs/research-loop.md). For live visual alternatives use `create-canvas`, then `ui-sweep` for actual state evidence. Research may revise leads within fixed bounds; a validated discovery becomes a separate delivery task. A successful collector run does not prove research is true.
 
 ## Run one event
 
@@ -28,3 +28,5 @@ Three check attempts and three review rounds are a starting budget, configurable
 ## Improve the task
 
 Record friction as expected behavior, actual failure and evidence. Group recurrences and prefer a fixture, type, script or check over another prompt paragraph. Keep traces separate from verified reusable lessons. Add tasks only after the first works; schedule them only when requested. Historical review evaluation and live outcomes determine whether to expand autonomy, not successful task counts.
+
+Use `friction-log` during work to retain material failures and interventions; later reflection consumes verified patterns instead of reconstructing them from memory.
