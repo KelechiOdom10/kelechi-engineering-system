@@ -22,6 +22,8 @@ sequential check receipts and independent findings tied to current source. Readi
 for human review; protected CI and repository policy still own merge authority.
 The [seeded research loop](docs/research-loop.md) feeds this workflow with focused,
 verified proposals while keeping exploratory priorities separate from delivery acceptance.
+The [PR completion helper](docs/pr-completion.md) adds a review-source ledger and fresh,
+exact-commit CI assessment to the existing babysit route.
 
 ## Install
 
