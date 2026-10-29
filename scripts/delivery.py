@@ -13,10 +13,20 @@ import subprocess
 import sys
 import time
 from typing import Iterator
+from types import FrameType
 
 
 class DeliveryError(Exception):
     pass
+
+
+class Interrupted(Exception):
+    def __init__(self, signum: int) -> None:
+        self.signum = signum
+
+
+def interrupt(signum: int, frame: FrameType | None) -> None:
+    raise Interrupted(signum)
 
 
 def obj(value: object, fields: set[str], required: set[str] | None = None) -> dict[str, object]:
@@ -64,8 +74,26 @@ def read_json(path: Path) -> object:
 
 def write_json(path: Path, value: object) -> None:
     with path.open('xb') as output:
-        os.chmod(path, 0o600)
+        os.fchmod(output.fileno(), 0o600)
         output.write(encoded(value))
+        output.flush()
+        os.fsync(output.fileno())
+    sync_directory(path.parent)
+
+
+def sync_directory(path: Path) -> None:
+    descriptor = os.open(path, os.O_RDONLY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def finish_json(path: Path, value: object) -> None:
+    temporary = path.with_suffix('.pending')
+    write_json(temporary, value)
+    temporary.replace(path)
+    sync_directory(path.parent)
 
 
 def git(repo: Path, *args: str) -> str:
@@ -167,7 +195,7 @@ class Run:
 
 def load_run(directory: Path) -> Run:
     data = obj(read_json(directory / 'run.json'), {'version', 'repo', 'base', 'owner', 'key', 'task_digest'})
-    if type(data['version']) is not int or data['version'] != 1:
+    if type(data['version']) is not int or data['version'] != 2:
         raise DeliveryError('Unsupported run version')
     repo = Path(text(data['repo'])).resolve()
     if git(repo, 'rev-parse', '--show-toplevel') != str(repo):
@@ -204,28 +232,30 @@ def init(args: argparse.Namespace) -> None:
         raise DeliveryError(f'Task/event already claimed: {directory}') from None
     task_data = encoded(asdict(task))
     write_json(directory / 'task.json', asdict(task))
-    write_json(directory / 'run.json', {'version': 1, 'repo': str(repo), 'base': base, 'owner': owner,
+    write_json(directory / 'run.json', {'version': 2, 'repo': str(repo), 'base': base, 'owner': owner,
                                       'key': args.key, 'task_digest': digest(task_data)})
     (directory / 'checks').mkdir(mode=0o700)
+    for check in task.checks:
+        (directory / 'checks' / check.id).mkdir(mode=0o700)
     (directory / 'reviews').mkdir(mode=0o700)
     (directory / '.lock').touch(mode=0o600)
     print(directory)
 
 
-def event_id() -> str:
-    return str(time.time_ns())
-
-
 def execute(run: Run, check: Check) -> bool:
-    receipts = list((run.directory / 'checks').glob(f'{check.id}-*.json'))
+    directory = run.directory / 'checks' / check.id
+    receipts = list(directory.glob('*.json'))
     if len(receipts) >= run.task.max_check_attempts:
         raise DeliveryError(f'Check {check.id} exhausted its attempt budget; reassess with the owner')
     source = revision(run.repo)
-    stamp = f'{check.id}-{event_id()}'
-    log = run.directory / 'checks' / f'{stamp}.log'
+    log = directory / f'{len(receipts) + 1:04d}.log'
     started = time.time()
     timed_out = False
     cwd = within(run.repo, check.cwd)
+    receipt = {'check': check.id, 'argv': check.argv, 'cwd': check.cwd, 'phase': 'started',
+               'started': started, 'finished': None, 'exit_code': None, 'timed_out': False,
+               'revision': source, 'after_revision': None, 'log': log.name, 'log_digest': None}
+    write_json(log.with_suffix('.json'), receipt)
     with log.open('xb') as output:
         os.chmod(log, 0o600)
         try:
@@ -245,10 +275,9 @@ def execute(run: Run, check: Check) -> bool:
                     pass
                 exit_code = process.wait()
     after = revision(run.repo)
-    write_json(log.with_suffix('.json'), {'check': check.id, 'argv': check.argv, 'cwd': check.cwd,
-                                        'started': started, 'finished': time.time(), 'exit_code': exit_code,
-                                        'timed_out': timed_out, 'revision': source, 'after_revision': after,
-                                        'log': log.name, 'log_digest': digest(log.read_bytes())})
+    receipt |= {'phase': 'finished', 'finished': time.time(), 'exit_code': exit_code, 'timed_out': timed_out,
+                'after_revision': after, 'log_digest': digest(log.read_bytes())}
+    finish_json(log.with_suffix('.json'), receipt)
     return exit_code == 0 and not timed_out and source == after
 
 
@@ -302,7 +331,8 @@ def record_review(args: argparse.Namespace) -> None:
             previous = prior.get(finding['id'])
             if previous and previous['severity'] == 'blocking' and finding['severity'] != 'blocking' and finding['disposition'] == 'open':
                 raise DeliveryError('An open blocker needs an explicit resolution, not a severity downgrade')
-        write_json(run.directory / 'reviews' / f'{event_id()}.json', data)
+        index = len(list((run.directory / 'reviews').glob('*.json'))) + 1
+        write_json(run.directory / 'reviews' / f'{index:04d}.json', data)
 
 
 def status(run: Run) -> dict:
@@ -310,15 +340,17 @@ def status(run: Run) -> dict:
     blockers = []
     attempts = {}
     for check in run.task.checks:
-        receipts = sorted((run.directory / 'checks').glob(f'{check.id}-*.json'))
+        receipts = sorted((run.directory / 'checks' / check.id).glob('*.json'))
         attempts[check.id] = {'used': len(receipts), 'limit': run.task.max_check_attempts}
         if not receipts:
             blockers.append(f'Check {check.id} missing')
             continue
-        data = obj(read_json(receipts[-1]), {'check', 'argv', 'cwd', 'started', 'finished', 'exit_code', 'timed_out',
+        data = obj(read_json(receipts[-1]), {'check', 'argv', 'cwd', 'phase', 'started', 'finished', 'exit_code', 'timed_out',
                                            'revision', 'after_revision', 'log', 'log_digest'})
         if data['check'] != check.id or data['argv'] != check.argv or data['cwd'] != check.cwd:
             blockers.append(f'Check {check.id} receipt does not match task')
+        if data['phase'] != 'finished':
+            blockers.append(f'Check {check.id} started but did not finish')
         if type(data['exit_code']) is not int or data['exit_code'] != 0 or data['timed_out'] is not False:
             blockers.append(f'Check {check.id} failed')
         if data['revision'] != current or data['after_revision'] != current:
@@ -354,6 +386,8 @@ def status(run: Run) -> dict:
 
 
 def main() -> int:
+    for signum in (signal.SIGINT, signal.SIGTERM):
+        signal.signal(signum, interrupt)
     parser = argparse.ArgumentParser(description='Collect revision-bound delivery evidence; readiness never grants merge authority.')
     commands = parser.add_subparsers(dest='command', required=True)
     start = commands.add_parser('init', help='Claim one task/event across this repository’s worktrees')
@@ -389,6 +423,9 @@ def main() -> int:
     except (DeliveryError, OSError, ValueError, subprocess.CalledProcessError) as error:
         print(f'delivery: {error}', file=sys.stderr)
         return 1
+    except Interrupted as error:
+        print('delivery: interrupted; any started check remains incomplete', file=sys.stderr)
+        return 128 + error.signum
     return 0
 
 

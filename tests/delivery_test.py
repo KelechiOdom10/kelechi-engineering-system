@@ -1,6 +1,8 @@
 import json
+import os
 from pathlib import Path
 import subprocess
+import signal
 import sys
 import tempfile
 import time
@@ -80,7 +82,7 @@ class DeliveryTest(unittest.TestCase):
         self.review(run)
         self.cli('ready', run)
         self.assertEqual(self.status(run)['state'], 'ready-for-human-review')
-        receipt = json.loads(next((run / 'checks').glob('*.json')).read_text())
+        receipt = json.loads(next((run / 'checks').rglob('*.json')).read_text())
         self.assertEqual(receipt['exit_code'], 0)
         self.assertEqual(receipt['argv'], self.task['checks'][0]['argv'])
 
@@ -126,7 +128,7 @@ class DeliveryTest(unittest.TestCase):
         run = self.start()
         self.cli('run', run)
         self.review(run)
-        next((run / 'checks').glob('*.log')).write_text('forged')
+        next((run / 'checks').rglob('*.log')).write_text('forged')
         self.cli('ready', run, ok=False)
 
     def test_repeated_event_is_claimed_across_worktrees(self) -> None:
@@ -193,7 +195,7 @@ class DeliveryTest(unittest.TestCase):
         self.task['checks'][0]['timeout_seconds'] = 0.1
         run = self.start()
         self.cli('run', run, ok=False)
-        receipt = json.loads(next((run / 'checks').glob('*.json')).read_text())
+        receipt = json.loads(next((run / 'checks').rglob('*.json')).read_text())
         self.assertTrue(receipt['timed_out'])
         time.sleep(0.5)
         self.assertFalse(marker.exists())
@@ -231,6 +233,62 @@ class DeliveryTest(unittest.TestCase):
         self.task['pretend_approved'] = True
         self.task_file.write_text(json.dumps(self.task))
         self.cli('init', self.task_file, '--repo', self.repo, '--base', 'HEAD', '--key', 'bad', '--owner', 'owner', ok=False)
+
+    def test_check_name_prefixes_do_not_share_receipts_or_budget(self) -> None:
+        self.task['max_check_attempts'] = 1
+        second = dict(self.task['checks'][0])
+        second['id'] = 'value-server'
+        self.task['checks'].append(second)
+        run = self.start()
+        self.cli('run', run)
+        self.review(run)
+        self.cli('ready', run)
+        self.assertEqual(self.status(run)['budget']['checks'], {'value': {'used': 1, 'limit': 1}, 'value-server': {'used': 1, 'limit': 1}})
+
+    def test_interrupting_a_rerun_invalidates_prior_pass_and_consumes_an_attempt(self) -> None:
+        self.interrupted_rerun(signal.SIGINT)
+
+    def test_terminated_rerun_is_incomplete_and_stops_its_child(self) -> None:
+        self.interrupted_rerun(signal.SIGTERM)
+
+    def interrupted_rerun(self, signum: int) -> None:
+        marker = self.root / 'check-started'
+        slow = self.root / 'slow'
+        finished = self.root / 'check-finished'
+        code = f"from pathlib import Path; import os, time; Path({str(marker)!r}).write_text(str(os.getpid())); time.sleep(0.5 if Path({str(slow)!r}).exists() else 0); Path({str(finished)!r}).write_text('finished'); time.sleep(30 if Path({str(slow)!r}).exists() else 0)"
+        self.task['checks'][0]['argv'] = [sys.executable, '-c', code]
+        self.task['checks'][0]['timeout_seconds'] = 60
+        run = self.start()
+        self.cli('run', run)
+        self.review(run)
+        self.cli('ready', run)
+        marker.unlink()
+        finished.unlink()
+        slow.touch()
+        process = subprocess.Popen([sys.executable, str(CLI), 'run', str(run)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        child_pid = None
+        try:
+            deadline = time.monotonic() + 5
+            while not marker.exists() and time.monotonic() < deadline:
+                time.sleep(0.01)
+            self.assertTrue(marker.exists(), 'Check never started')
+            child_pid = int(marker.read_text())
+            process.send_signal(signum)
+            process.wait(timeout=5)
+            self.assertNotEqual(process.returncode, 0)
+            self.cli('ready', run, ok=False)
+            self.assertEqual(self.status(run)['budget']['checks']['value']['used'], 2)
+            time.sleep(0.6)
+            self.assertFalse(finished.exists(), 'Interrupted command continued running')
+        finally:
+            if process.poll() is None:
+                process.kill()
+                process.wait()
+            if child_pid:
+                try:
+                    os.killpg(child_pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
 
 
 if __name__ == '__main__':
