@@ -18,9 +18,10 @@ class HarnessError(Exception):
 CASES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "trigger_cases.json")
 
 
-def skills_fired(prompt, model, cwd):
+def skills_fired(prompt, model, cwd, plugin_dir):
     out = subprocess.run(
-        ["claude", "-p", prompt, "--model", model, "--max-turns", "2", "--allowedTools", "Skill",
+        ["claude", "-p", prompt, "--model", model, "--max-turns", "2", "--tools", "Skill", "--allowedTools", "Skill",
+         "--plugin-dir", plugin_dir, "--strict-mcp-config", "--no-session-persistence", "--max-budget-usd", "2",
          "--output-format", "stream-json", "--verbose"],
         cwd=cwd, capture_output=True, text=True, timeout=300, stdin=subprocess.DEVNULL,
     )
@@ -45,18 +46,19 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="opus")
     parser.add_argument("--parallel", type=int, default=4)
+    parser.add_argument("--plugin-dir", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     args = parser.parse_args()
     cases = json.load(open(CASES))
     cwd = tempfile.mkdtemp(prefix="trigger-eval-")
     subprocess.run(["git", "init", "-q"], cwd=cwd, check=True)
 
     try:
-        skills_fired(cases[0]["prompt"], args.model, cwd)
+        skills_fired(cases[0]["prompt"], args.model, cwd, args.plugin_dir)
     except HarnessError as error:
         sys.exit(f"Harness error, no case scored: {error}")
     with concurrent.futures.ThreadPoolExecutor(args.parallel) as pool:
         try:
-            results = list(pool.map(lambda c: skills_fired(c["prompt"], args.model, cwd), cases))
+            results = list(pool.map(lambda c: skills_fired(c["prompt"], args.model, cwd, args.plugin_dir), cases))
         except HarnessError as error:
             sys.exit(f"Harness error, no case scored: {error}")
 

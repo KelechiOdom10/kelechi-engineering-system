@@ -28,4 +28,9 @@ specify; do not substitute a similar command merely because it is familiar.
    say why and do not present the work as fully verified. A subagent or headless run that had no
    browser does not make a check human-only: drive the available browser tool yourself first.
 
+For a factory task or consequential multi-step change, use the [delivery collector](../../docs/delivery.md)
+to bind actual results and independent review to the final source. A code change invalidates prior
+proof. Report implementation finished, review finished and required proof complete separately;
+only the last permits a ready-for-human-review claim. A draft push can remain incomplete.
+
 Use the [validation template](../../templates/work-validation.md) for a concise hand-off record.

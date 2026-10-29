@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "id": "delivery-change",
+  "goal": "Make delivery readiness depend on actual current evidence",
+  "acceptance": [
+    "Failed, stale or missing proof prevents readiness",
+    "An unresolved blocking finding survives later omission",
+    "The same event cannot start a second owner in another worktree"
+  ],
+  "trigger": "An explicitly requested change to delivery tooling",
+  "writes": [
+    "scripts/delivery.py",
+    "tests/delivery_test.py",
+    "docs/delivery.md"
+  ],
+  "human_return": "Review the behavior change, independent findings and remaining limits; authorize any merge separately",
+  "stop_conditions": [
+    "Unexpected source changes",
+    "Required authority is absent",
+    "Check or review budget exhausted"
+  ],
+  "max_check_attempts": 3,
+  "max_review_rounds": 3,
+  "checks": [
+    {
+      "id": "delivery-regressions",
+      "argv": ["python3", "tests/delivery_test.py"],
+      "cwd": ".",
+      "timeout_seconds": 120
+    }
+  ]
+}

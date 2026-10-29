@@ -16,6 +16,11 @@ request
 
 Persistence never expands authority.
 
+For repeatable engineering work, use the [software-factory skill](skills/software-factory/SKILL.md)
+and [delivery collector](docs/delivery.md). Tasks get explicit triggers, shared-state event deduplication,
+sequential check receipts and independent findings tied to current source. Readiness means ready
+for human review; protected CI and repository policy still own merge authority.
+
 ## Install
 
 **Claude Code**
@@ -54,6 +59,7 @@ After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. I
 | `/kelechi:verify-skill` | `$verify-skill` | create or refresh a repo's verify skill: start safely, sign in, prove each flow |
 | `/kelechi:pause`, `/kelechi:resume` | `$kelechi-mode pause`, `resume` | park and pick up work |
 | `/kelechi:autonomous` | `$kelechi-mode autonomous` | run to a terminal condition |
+| `/kelechi:factory` | `$software-factory` | define or run a bounded, repeatable engineering task |
 
 Once entered, the mode stays on for the session.
 

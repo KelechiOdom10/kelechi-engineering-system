@@ -24,6 +24,7 @@ Choose exactly one primary route. Each has a command, `/kelechi:<route>`. Add sp
 | pause, handoff | `pause` | `playbooks/pause.md` | |
 | resume, pick up | `resume` | `playbooks/resume.md` | |
 | autonomous, keep going | `autonomous` | `playbooks/autonomous.md` | |
+| software factory, recurring engineering automation | `software-factory` | `software-factory` skill | |
 
 Every route that changes code ends with `work-validation`; every route that opens or updates a PR uses `kelechi-pr-writing`.
 

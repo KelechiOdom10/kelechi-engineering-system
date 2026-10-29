@@ -1,15 +1,58 @@
 [
-  {"prompt": "Kelechi Mode: why is the quota banner showing the wrong count?", "expect": "kelechi:kelechi-mode"},
-  {"prompt": "What could this change break? I renamed the output format of the season helper.", "expect": "kelechi:blast-radius"},
-  {"prompt": "Tear this diff apart before I merge it.", "expect": "kelechi:interrogate"},
-  {"prompt": "Clean up the comments in my change before I open the PR.", "expect": "kelechi:no-comments"},
-  {"prompt": "This repo has no scripted way to start it and prove it works. Set that up for agents.", "expect": "kelechi:verify-skill"},
-  {"prompt": "Let's kick off a new side project: a habit tracker.", "expect": "kelechi:kickoff"},
-  {"prompt": "Before I write it, help me shape the API for a new notifications module.", "expect": "kelechi:architect"},
-  {"prompt": "That was a painful session. Reflect on it and capture what we learned.", "expect": "kelechi:reflect"},
-  {"prompt": "Write the PR description for this branch.", "expect": "kelechi:kelechi-pr-writing"},
-  {"prompt": "What is Kelechi's default stack for a new project?", "expect": "kelechi:kelechi-engineering-standard"},
-  {"prompt": "Customer says their payslip total is wrong. Ticket SUP-123. Find out why.", "expect": "kelechi:support-investigation"},
-  {"prompt": "Fix the typo in the README heading.", "expect_not": "kelechi:kelechi-mode"},
-  {"prompt": "What's the difference between a map and a set in JavaScript?", "expect_not": "kelechi:kelechi-mode"}
+  {
+    "prompt": "Set up a software factory task for recurring engineering work with explicit triggers and verification.",
+    "expect": "kelechi:software-factory"
+  },
+  {
+    "prompt": "Kelechi Mode: why is the quota banner showing the wrong count?",
+    "expect": "kelechi:kelechi-mode"
+  },
+  {
+    "prompt": "What could this change break? I renamed the output format of the season helper.",
+    "expect": "kelechi:blast-radius"
+  },
+  {
+    "prompt": "Tear this diff apart before I merge it.",
+    "expect": "kelechi:interrogate"
+  },
+  {
+    "prompt": "Clean up the comments in my change before I open the PR.",
+    "expect": "kelechi:no-comments"
+  },
+  {
+    "prompt": "This repo has no scripted way to start it and prove it works. Set that up for agents.",
+    "expect": "kelechi:verify-skill"
+  },
+  {
+    "prompt": "Let's kick off a new side project: a habit tracker.",
+    "expect": "kelechi:kickoff"
+  },
+  {
+    "prompt": "Before I write it, help me shape the API for a new notifications module.",
+    "expect": "kelechi:architect"
+  },
+  {
+    "prompt": "That was a painful session. Reflect on it and capture what we learned.",
+    "expect": "kelechi:reflect"
+  },
+  {
+    "prompt": "Write the PR description for this branch.",
+    "expect": "kelechi:kelechi-pr-writing"
+  },
+  {
+    "prompt": "What is Kelechi's default stack for a new project?",
+    "expect": "kelechi:kelechi-engineering-standard"
+  },
+  {
+    "prompt": "A customer says our new invoicing tool calculates totals incorrectly. Investigate the report without fixing it.",
+    "expect": "kelechi:support-investigation"
+  },
+  {
+    "prompt": "Fix the typo in the README heading.",
+    "expect_not": "kelechi:kelechi-mode"
+  },
+  {
+    "prompt": "What's the difference between a map and a set in JavaScript?",
+    "expect_not": "kelechi:kelechi-mode"
+  }
 ]
