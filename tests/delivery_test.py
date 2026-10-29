@@ -251,6 +251,17 @@ class DeliveryTest(unittest.TestCase):
     def test_terminated_rerun_is_incomplete_and_stops_its_child(self) -> None:
         self.interrupted_rerun(signal.SIGTERM)
 
+    def test_terminal_hangup_stops_the_child_and_keeps_the_attempt_incomplete(self) -> None:
+        self.interrupted_rerun(signal.SIGHUP)
+
+    def test_case_alias_check_ids_are_rejected_before_claiming(self) -> None:
+        second = dict(self.task['checks'][0])
+        second['id'] = 'Value'
+        self.task['checks'].append(second)
+        self.task_file.write_text(json.dumps(self.task))
+        self.cli('init', self.task_file, '--repo', self.repo, '--base', 'HEAD', '--key', 'case-alias', '--owner', 'owner', ok=False)
+        self.assertFalse((self.repo / '.kelechi' / 'delivery').exists())
+
     def interrupted_rerun(self, signum: int) -> None:
         marker = self.root / 'check-started'
         slow = self.root / 'slow'

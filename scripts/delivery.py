@@ -171,8 +171,8 @@ def parse_task(value: object, repo: Path) -> Task:
         cwd = text(check['cwd'])
         within(repo, cwd)
         checks.append(Check(identifier(check['id']), strings(check['argv']), cwd, timeout))
-    if len({check.id for check in checks}) != len(checks):
-        raise DeliveryError('Check identifiers must be unique')
+    if len({check.id.casefold() for check in checks}) != len(checks):
+        raise DeliveryError('Check identifiers must be unique ignoring case')
     writes = data['writes']
     if not isinstance(writes, list):
         raise DeliveryError('writes must be a list; use [] for read-only work')
@@ -386,7 +386,7 @@ def status(run: Run) -> dict:
 
 
 def main() -> int:
-    for signum in (signal.SIGINT, signal.SIGTERM):
+    for signum in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP):
         signal.signal(signum, interrupt)
     parser = argparse.ArgumentParser(description='Collect revision-bound delivery evidence; readiness never grants merge authority.')
     commands = parser.add_subparsers(dest='command', required=True)
