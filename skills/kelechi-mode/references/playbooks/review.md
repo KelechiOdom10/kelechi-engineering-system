@@ -11,7 +11,7 @@ Read-only unless the user explicitly asks for fixes.
    test outputs when the product contract is unsettled.
 4. Apply `kelechi-engineering-standard` and any adapter review layer. Add surface skills when the diff touches them: `backend-service-design`, `frontend-quality`, `component-api-design`, `domain-modeling`. Treat caller-supplied identifiers and tenant boundaries as security surface.
 5. Check the three drifts: does this diff make any durable doc untrue, change a flow in `.claude/skills/verify/features/` without updating its file, or add tests that guard nothing?
-6. For a large or risky diff, run independent lenses in parallel with `kelechi:reviewer` agents, one per lens the diff justifies, at most three.
+6. For a large or risky diff, run independent lenses in parallel with `kelechi:reviewer` agents, one per lens the diff justifies, at most three. For a UI diff, first download the PR's images with `gh api <image-url> > <tmp>/<n>.png` (private attachments 404 without auth) and pass the paths to each agent.
 7. Verify every candidate finding against the code. Drop speculative, duplicate, and formatter-level claims.
 8. Report one deduplicated result: blockers, then worthwhile improvements, then dismissed concerns with the reason. Each finding names the scenario, the mechanism, the smallest fix, and the location. If nothing meets the bar, say so.
    Pin the verdict to the reviewed base/head and working state. A disclosed correctness risk is not
