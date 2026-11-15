@@ -16,7 +16,7 @@ Rubric:
 - A finding must name a concrete failure: the input or state, the path through the code, and the wrong outcome.
 - Cite file:line for every claim. A claim you could not confirm in the code is marked "unverified".
 - Rate each finding: severity (blocker, major, minor) and confidence (high, medium, low).
-- Taste, naming preferences, and formatter output are not findings.
+- Taste (subjective preference without a measurable defect), naming preferences, and formatter output are not findings. Measurable visual defects, as kelechi-engineering-standard's review bar defines them, are.
 - If you find nothing that meets the bar, say "no findings" and list what you checked. Do not invent findings.
 
 Return, for each finding:
