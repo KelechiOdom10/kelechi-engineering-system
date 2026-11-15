@@ -7,11 +7,14 @@ description: Set a deliberate visual direction and hierarchy for a new or redesi
 
 1. State the user's job, the primary action, the audience, and the existing brand or product
    constraints. Read the current design system before choosing a visual direction.
-2. Choose one direction that supports the task: information-dense, editorial, calm, playful,
+2. Load `ui-skills` for overall direction, within the repository's stack and brand constraints. Choose one direction that supports the task: information-dense, editorial, calm, playful,
    technical, or another concrete description. Explain the choice in terms of the user and product,
    not current fashion.
 3. Establish hierarchy before decoration. Decide the primary content, action, reading order, spacing
-   rhythm, type scale, colour roles, and responsive layout.
+   rhythm, type scale, colour roles, and responsive layout. Apply `better-colors` when setting
+   tokens and `better-typography` when setting the type scale. For a new design system, define
+   each control size's height, padding, font size and icon size; render buttons, inputs and
+   selects side by side per size in both themes to verify that scale and icon clearance.
 4. Use the system's existing tokens, components, and assets where they fit. Create a new pattern only
    when the current system cannot express the required task or interaction.
 5. Design interaction states with the visual system: loading, empty, error, focus, hover, disabled,

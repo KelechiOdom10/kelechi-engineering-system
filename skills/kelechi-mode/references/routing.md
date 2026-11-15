@@ -7,7 +7,7 @@ Choose exactly one primary route. Each has a command, `/kelechi:<route>`. Add sp
 | kickoff, new project or product surface | `kickoff` | `kickoff` skill | |
 | investigate, diagnose, root cause, support ticket | `investigate` | `playbooks/investigation.md` | `support-investigation` for a customer report; adapter log, trace, and data skills |
 | fix, bug, broken | `fix` | `playbooks/fix.md` | investigation first; *optional* `diagnosing-bugs`, `tdd` |
-| feature, build, implement | `feature` | `playbooks/feature.md` | `domain-modeling` when semantics are unclear; `frontend-quality`, `frontend-design-direction`, `component-api-design`, or `backend-service-design` by surface; *optional* `better-*` UI skills |
+| feature, build, implement | `feature` | `playbooks/feature.md` | `domain-modeling` when semantics are unclear; `frontend-quality`, `frontend-design-direction`, `component-api-design`, or `backend-service-design` by surface; `better-*` UI checks via `frontend-quality` |
 | shape an API, module, or shared type before coding | `architect` | `architect` skill | |
 | refactor, simplify, consolidate | `refactor` | `playbooks/refactor.md` | `domain-modeling` when a boundary drifted; *optional* `codebase-design` |
 | slow, latency, memory | `perf` | `playbooks/performance.md` | adapter trace and profiler skills |

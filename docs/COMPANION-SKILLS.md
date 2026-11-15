@@ -30,14 +30,17 @@ material without copying another project's instructions or binding the workflow 
 
 ## Named companions
 
-Kelechi Mode names these by skill name and uses them only when installed.
+Kelechi Mode names these by skill name. UI routes require the checks below; unavailable skills are reported as coverage gaps. Other companions apply when installed.
 
 | Companion | Where it plugs in |
 | --- | --- |
 | Matt Pocock's `diagnosing-bugs`, `tdd` | Fix route, after the reproduction is red |
 | Matt Pocock's `domain-modeling` (CONTEXT.md, ADRs) | Recording the decisions the local `domain-modeling` skill reaches |
 | Matt Pocock's `codebase-design`, `prototype`, `grilling` | Refactor, prototype, and design routes (`grilling` only when asked) |
-| The `better-*` interface skills | UI detail work under the frontend standard |
+| `better-layout`, `better-typography`, `better-colors`, `better-ui`, `better-accessibility`, `better-writing` | `frontend-quality` applies relevant owners while building; `ui-sweep` applies them through `better-interface` |
+| `better-interface` | `frontend-quality` handoff and Reviewer inspect changed screens in screenshots/rendered stories; `ui-sweep` consolidates domain findings |
+| `better-colors`, `better-typography`, `ui-skills` | `frontend-design-direction` sets tokens, type and overall direction, including a side-by-side control size check for new systems |
+| `interface-review` | User-invoked change-scope review handing affected screens to `better-interface`; automatic Reviewer uses `better-interface` with screen scope |
 | PR Lens `pr-lens` (and `eli5`), `npx skills add coldteadotai/pr-lens` | Diagrams for boundary-crossing PRs and `architect`'s intended shape; `eli5` for onboarding walkthroughs. Local render and GitHub attachments only; canvases on request |
 
 The local skill owns the process; the companion supplies a format or technique.

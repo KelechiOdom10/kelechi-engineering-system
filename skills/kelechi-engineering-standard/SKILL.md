@@ -28,6 +28,6 @@ Read every reference whose trigger the work touches. Each is short.
 - Fix the unsafe source boundary instead of suppressing the error it causes.
 - No new debt in changed code. Require nearby legacy cleanup only when it shares the invariant or makes the change safe.
 - Formatter and linter output is not semantic review, unless a check is disabled, bypassed, or misleadingly green.
-- Taste is not a blocker. Say so and move on.
+- Taste is subjective preference without a measurable defect; never a blocker. Visual defects are measurable inconsistencies or failures: report them with severity. Examples: same-size controls with different heights or font sizes; off-scale spacing; crowded or misaligned icons; failing contrast; tokens outside their role; status/accent hue collisions; unrelated hues within a ramp.
 
 Report verified findings by impact: scenario, mechanism, smallest correction, location. Then improvements, residual risks, dismissed concerns. When nothing meets the bar, say so plainly.

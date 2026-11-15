@@ -28,7 +28,7 @@ For greenfield work, when no design system decides otherwise:
 - Tailwind v4 with semantic tokens; shadcn / Base UI primitives; one accent colour on neutral bases.
 - No emojis in UI, copy, or alt text; use an icon set.
 - No pure black. `min-h-[100dvh]` instead of `h-screen`. Mobile-first; every route works on a phone.
-- Reach for the installed `better-*` skills (layout, typography, colour, accessibility, UI polish) for detail work rather than improvising.
+- Apply the `better-*` domain skills while building; `frontend-quality` owns the `better-interface` screenshot review before handoff.
 
 ## Proof
 
