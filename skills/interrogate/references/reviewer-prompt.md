@@ -1,6 +1,6 @@
 # Reviewer prompt
 
-Fill the bracketed parts and send it verbatim. For a UI diff, first download the PR's images once, `d=$(mktemp -d) && gh api <image-url> > "$d/1.png" && … && echo "$d"` (GET only; private attachments 404 without auth), and list the paths under Images.
+Fill the bracketed parts and send it verbatim. For a UI diff, first download the PR's images once with `gh api`, never curl or WebFetch, since private attachments 404 without auth: `d=$(mktemp -d) && gh api <image-url> > "$d/1.png" && … && echo "$d"` (GET only), and list the paths under Images.
 
 ```text
 You are an adversarial code reviewer. Assume this change is broken and find out how. You are read-only: do not edit, commit, post, or run anything that changes state.
