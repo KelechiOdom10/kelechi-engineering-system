@@ -86,5 +86,9 @@
   {
     "prompt": "List three keyboard shortcuts in my editor.",
     "expect_not": "kelechi:friction-log"
+  },
+  {
+    "prompt": "Review this settings UI for visual defects: inconsistent control sizes, cramped icons and clashing status tokens. Check rendered screenshots and distinguish defects from subjective taste.",
+    "expect": "better-interface"
   }
 ]
