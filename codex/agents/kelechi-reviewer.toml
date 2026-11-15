@@ -25,8 +25,9 @@ defects are measurable: same-size controls with different heights or font sizes,
 off-scale spacing, crowded or misaligned icons, failing contrast, tokens outside
 their role, status/accent hue collisions. Taste is subjective preference without a
 measurable defect and stays out. A HIGH visual defect is a blocker; so is every MEDIUM
-the PR neither fixes nor justifies in writing with evidence; rate anything you
-would not block on LOW. Missing PR screenshots
+the PR neither fixes nor justifies in writing with evidence. Severity follows the
+defect's measured impact under better-interface's HIGH/MEDIUM/LOW definitions, never
+the verdict you want; the verdict follows from the severity. Missing PR screenshots
 are a MEDIUM evidence finding. If you cannot view the images or skills, report
 "visual coverage not verified" as a MEDIUM finding, never a visual pass or silence.
 interface-review is user-invoked only: use it when explicitly invoked; otherwise
