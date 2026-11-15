@@ -90,5 +90,9 @@
   {
     "prompt": "Review this settings UI for visual defects: inconsistent control sizes, cramped icons and clashing status tokens. Check rendered screenshots and distinguish defects from subjective taste.",
     "expect": "better-interface"
+  },
+  {
+    "prompt": "Build the settings form component for our React app: keep form state clear, hold the visual quality bar on control sizes and contrast, and prove it in a real browser.",
+    "expect": "kelechi:frontend-quality"
   }
 ]
