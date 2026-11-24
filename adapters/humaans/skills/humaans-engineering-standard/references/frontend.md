@@ -1,14 +1,16 @@
 # Frontend standard
 
 Apply this to changed UI behavior after reading the relevant project frontend
-reviewer guidance. Use `frontend-developer` for project mechanics.
+reviewer guidance. Use `humaans-frontend-developer` for project mechanics.
 
 ## Design system and reuse
 
-- Search both Celeste primitives and application-level shared components before
+- Search both Celeste primitives (`app/client/src/celeste/components/`) and
+  application-level shared components (`app/client/src/components/`) before
   introducing a new primitive or duplicating an established interaction.
 - Use semantic colour, spacing, typography, radius, shadow, duration, and
-  z-index tokens. A raw value needs a concrete reason, such as brand artwork,
+  z-index tokens from `packages/ui/tokens/`, through the helpers in
+  `app/client/src/celeste/styles/`. A raw value needs a concrete reason, such as brand artwork,
   data visualization, a third-party asset, or a missing token that should be
   addressed explicitly.
 - Reuse shared pure logic when server and client behavior must agree. Do not
