@@ -14,17 +14,18 @@ Load `humaans-context` before relying on remembered preferences or history. Memo
 | Route | Humaans specialists |
 | --- | --- |
 | Investigate | `support` for any `SUP-` ticket (it owns the production-replica procedure), `humaans-context`; then `gcloud-logs`, `honeycomb-traces`, or `authorization-review` only when the evidence calls for them |
-| Fix | investigation specialists first, then `unit-test-developer`, `frontend-developer`, `rescript-developer`, `mcp-developer`, `authorization-review` |
+| Fix | investigation specialists first, then `unit-test-developer`, `humaans-frontend-developer`, `mcp-developer`, `authorization-review` |
 | Feature | the relevant developer and test skills |
 | Performance | `honeycomb-traces`, `node-debugger`, `fullstack-debugger` |
-| Review | `.claude/commands/code-review.md` router, `humaans-engineering-standard`, and `thermo-nuclear-review` when available |
-| Babysit | `gh-fix-ci`, `create-pr`, `validate-branch`, `rebase-conflicts`, with `kelechi-pr-writing` |
+| Review | `.claude/commands/code-review.md` router, `humaans-engineering-standard`, and `thermo-nuclear-review` when available; [review-concerns.md](references/review-concerns.md) for lens briefs |
+| Babysit | `gh-fix-ci`, `create-pr`, `rebase-conflicts`, with `kelechi-pr-writing` |
 | Explain, resume | `humaans-context` for history and prior work |
 
 ## Rules
 
 - `psql-dev` is for local dev and test databases only. Production investigation always goes through `support`.
-- For a PR review, read `.claude/commands/code-review.md`, state its required hypothesis, and follow its inline-by-default escalation. The selected `.claude/agents/code-reviewer-*.md` files are repository review lenses in either harness.
+- For a PR review, read `.claude/commands/code-review.md`, state its required hypothesis, and follow its inline-by-default escalation. The selected `.claude/agents/code-reviewer-*.md` files are repository review lenses in either harness. When review or `interrogate` runs parallel lenses, brief each from [review-concerns.md](references/review-concerns.md).
+- When a change alters a contract other code uses, read [dependents-map.md](references/dependents-map.md) before calling the change safe, in review, fix, and `blast-radius` alike.
 - The repository uses pnpm and oxfmt; the plugin's generic hooks already enforce both.
 - PR titles never carry `FIVE-`, `SUP-`, or `HUMV-` ticket ids.
 - PR Lens diagrams attach to PRs through GitHub only. Never push to a PR Lens canvas: prlens.dev is not an approved provider.

@@ -33,7 +33,7 @@ reports from each lens.
   unless the check is disabled, bypassed, or misleadingly green.
 
 Always read [references/type-safety.md](references/type-safety.md) for relevant
-TypeScript, ReScript, schema, generated-type, and suppression changes.
+TypeScript, schema, generated-type, and suppression changes.
 
 When the diff changes UI rendering, styling, interaction, or page wiring, read
 [references/frontend.md](references/frontend.md).
