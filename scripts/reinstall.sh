@@ -16,7 +16,33 @@ read -r -a codex_homes <<<"${KELECHI_CODEX_HOMES:-$(homes ~/.codex ~/.codex[-_]*
 restore() { git -C "$repo" checkout -- "${codex_manifests[@]}"; }
 trap restore EXIT
 
+# Codex installs from the paths its personal marketplace lists; point them at this checkout.
+link_codex_marketplace() {
+  local marketplace=~/.agents/plugins/marketplace.json
+  [ -f "$marketplace" ] || return 0
+  python3 - "$marketplace" "$repo" <<'PY'
+import json, os, sys
+path, repo = sys.argv[1], sys.argv[2]
+root = os.path.dirname(os.path.dirname(os.path.dirname(path)))
+targets = {"kelechi-mode": repo, "kelechi-humaans": os.path.join(repo, "adapters/humaans")}
+for plugin in json.load(open(path))["plugins"]:
+    target = targets.get(plugin["name"])
+    if not target:
+        continue
+    link = os.path.normpath(os.path.join(root, plugin["source"]["path"]))
+    if os.path.lexists(link) and not os.path.islink(link):
+        sys.exit(f"{link} is a directory, not a symlink; move it aside so Codex installs from {target}")
+    if os.path.realpath(link) != os.path.realpath(target):
+        if os.path.islink(link):
+            os.remove(link)
+        os.makedirs(os.path.dirname(link), exist_ok=True)
+        os.symlink(target, link)
+        print(f"Codex marketplace: {link} -> {target}")
+PY
+}
+
 if command -v codex >/dev/null; then
+  link_codex_marketplace
   for manifest in "${codex_manifests[@]}"; do
     python3 - "$manifest" "$stamp" <<'PY'
 import json, sys
@@ -67,14 +93,33 @@ if command -v claude >/dev/null; then
   for home in "${claude_homes[@]}"; do
     echo "Claude Code: $home"
     claude_plugins=$(CLAUDE_CONFIG_DIR="$home" claude plugin list 2>/dev/null || true)
+    installed=()
     for plugin in kelechi kelechi-humaans; do
       if grep -q "❯ $plugin@kelechi\$" <<<"$claude_plugins"; then
-        CLAUDE_CONFIG_DIR="$home" claude plugin uninstall "$plugin@kelechi" >/dev/null
-        CLAUDE_CONFIG_DIR="$home" claude plugin install "$plugin@kelechi"
+        installed+=("$plugin")
       fi
+    done
+    # The kelechi marketplace must read this checkout, not GitHub, or the refresh installs main.
+    marketplaces=$(CLAUDE_CONFIG_DIR="$home" claude plugin marketplace list 2>/dev/null || true)
+    if grep -A1 "❯ kelechi\$" <<<"$marketplaces" | grep -qF "$repo"; then
+      CLAUDE_CONFIG_DIR="$home" claude plugin marketplace update kelechi >/dev/null
+    else
+      CLAUDE_CONFIG_DIR="$home" claude plugin marketplace remove kelechi >/dev/null 2>&1 || true
+      CLAUDE_CONFIG_DIR="$home" claude plugin marketplace add "$repo" >/dev/null
+      echo "Claude Code marketplace kelechi -> $repo"
+    fi
+    for plugin in ${installed[@]+"${installed[@]}"}; do
+      CLAUDE_CONFIG_DIR="$home" claude plugin uninstall "$plugin@kelechi" >/dev/null 2>&1 || true
+      CLAUDE_CONFIG_DIR="$home" claude plugin install "$plugin@kelechi"
     done
   done
   echo "Start a new Claude Code session to load the refresh."
 else
   echo "claude not found; skipping Claude Code"
+fi
+
+branch=$(git -C "$repo" rev-parse --abbrev-ref HEAD)
+echo "Installed from $repo at $branch $(git -C "$repo" rev-parse --short HEAD)"
+if [ "$branch" != main ] || [ -n "$(git -C "$repo" status --porcelain -- . ":!${codex_manifests[0]}" ":!${codex_manifests[1]}")" ]; then
+  echo "Warning: this is not a clean main; rerun from main once the change merges."
 fi
