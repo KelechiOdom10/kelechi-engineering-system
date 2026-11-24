@@ -19,7 +19,7 @@ Write one paragraph stating what the change is meant to do and for whom, from th
 
 ## 3. Lenses
 
-Read `references/lenses.md`. Pick the lenses the diff's surface justifies, at most three, then add the **cross-model** reviewer.
+Read `references/lenses.md`, and the lens briefs of any matching repository adapter. Pick the lenses the diff's surface justifies, at most three, then add the **cross-model** reviewer.
 
 ## 4. Spawn
 

@@ -12,7 +12,9 @@ The diff is at [path to diff.patch]. Read it in full, then read these owning fil
 
 Images: [local screenshot paths from the PR, or "none"]. View each one before judging any visual claim.
 
-Your lens: [lens name and its "hunt for" line from lenses.md, or "the whole rubric" for the cross-model reviewer]
+Your lens: [lens name and its "hunt for" line from lenses.md or the adapter's brief for it, or "the whole rubric" for the cross-model reviewer]
+Read first: [the files the adapter's brief names for this lens, and the scoped guidance files for the changed paths, or "none"]
+Other lenses: [the remaining lens names]. A finding that belongs to one of them gets one line naming that lens, not a full write-up.
 
 Rubric:
 - A finding must name a concrete failure: the input or state, the path through the code, and the wrong outcome.
