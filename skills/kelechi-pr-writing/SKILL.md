@@ -42,10 +42,12 @@ Add `## Demo` with screenshots or a recording for a visual or interaction change
 
 Add `## Diagram` when the change crosses a package, service, or process boundary, or adds a feature, request, or data flow. Skip it for anything smaller; a diagram on a small PR is noise.
 
+- First check whether the PR holds concerns that could be reviewed separately. A diagram explains a coherent change; it does not justify an oversized one, so split before drawing.
 - Draw it with the `pr-lens` skill when installed: the top architecture view first, then one data-flow view if the change has a sequence worth following.
 - Attach the rendered SVGs with `gh pr create` or `gh pr edit` and `--attach` (GitHub CLI 2.99 or newer), so the images live on GitHub.
 - Never push to a PR Lens canvas unless Kelechi asks for one in this conversation; a canvas stores the architecture on prlens.dev.
 - PR Lens adds `.pr-lens/` to `.gitignore` the first time it renders; commit that line with the first PR that carries a diagram.
+- When a later push changes the behaviour a diagram shows, redraw it and replace the old images in the same `gh pr edit`.
 - If `architect` left an intended graph in `.kelechi/architect/`, compare it with what was built and state any drift in one line under the diagram. Add risk, rollout, or before/after sections only when they help the reviewer.
 
 ## Comprehension budget
