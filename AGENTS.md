@@ -5,7 +5,7 @@ Kelechi Mode: one plugin read by both Claude Code (`.claude-plugin/`) and Codex 
 ## Commands
 
 - `./scripts/check.sh`: validates both plugins in both harnesses, runs every test suite, and checks token budgets. Green before every PR.
-- `./scripts/reinstall.sh`: refreshes the installed plugin in every local Claude Code and Codex home (`~/.claude*`, `~/.codex*`) from this checkout, copies the Codex agents, and links every standalone skill in `~/.agents/skills` into each Claude home.
+- `./scripts/reinstall.sh`: refreshes the installed plugin in every local Claude Code and Codex home (`~/.claude*`, `~/.codex*`) from this checkout, copies the Codex agents, links every standalone skill in `~/.agents/skills` into each Claude home, links this checkout's skills and commands into `~/.config/opencode`, and lists the skill folders in `~/.gemini/config/skills.json` for Antigravity.
 
 ## Changing a skill
 
