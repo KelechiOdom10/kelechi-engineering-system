@@ -85,6 +85,7 @@ if [ -d "$opencode_config" ]; then
     fi
   done
   for skill in "${skills[@]%/}"; do
+    [ -d "$skill" ] || continue
     name=$(basename "$skill")
     stale="$opencode_config/skill/$name"
     if [ -d "$stale" ] && [ ! -L "$stale" ]; then
@@ -99,7 +100,11 @@ if [ -d "$opencode_config" ]; then
     fi
     ln -sfn "$skill" "$target"
   done
-  ln -sfn "$repo/commands" "$opencode_config/commands/kelechi"
+  if [ -e "$opencode_config/commands/kelechi" ] && [ ! -L "$opencode_config/commands/kelechi" ]; then
+    echo "Skipping commands: $opencode_config/commands/kelechi is not a link"
+  else
+    ln -sfn "$repo/commands" "$opencode_config/commands/kelechi"
+  fi
 fi
 
 antigravity_config=${KELECHI_ANTIGRAVITY_CONFIG:-~/.gemini/config}
