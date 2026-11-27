@@ -43,7 +43,7 @@ On a Humaans machine, also install `kelechi-humaans@kelechi`.
 
 **Codex.** The personal marketplace at `~/.agents/plugins/marketplace.json` points `./plugins/kelechi-mode` at a checkout of this repo (a symlink). On a Humaans machine, add a `kelechi-humaans` entry pointing `./plugins/kelechi-humaans` at the checkout's `adapters/humaans`; `reinstall.sh` installs the adapter whenever the marketplace lists it.
 
-After changing the plugin, run `./scripts/reinstall.sh` to refresh both tools. It bumps the Codex cache version and restores it afterwards, so the tree stays clean.
+After changing the plugin, run `./scripts/reinstall.sh` from the checkout you want installed. It points Claude Code's `kelechi` marketplace and the Codex marketplace links at that checkout, reinstalls both, and prints the branch and commit it installed, with a warning when that is not a clean `main`. It bumps the Codex cache version and restores it afterwards, so the tree stays clean.
 
 ## Use
 
